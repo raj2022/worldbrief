@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import hashlib
 from dataclasses import dataclass, field, asdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from urllib.parse import urlparse, urlunparse, parse_qsl, urlencode
 
 # Query params that only track clicks; stripped so the same article dedupes.
@@ -21,6 +21,8 @@ def canonical_url(url: str) -> str:
 def domain_of(url: str) -> str:
     return urlparse(url).netloc.lower().removeprefix("www.")
 
+
+FUTURE_LEEWAY = timedelta(minutes=15)
 
 @dataclass
 class Article:
@@ -41,7 +43,11 @@ class Article:
 
     @property
     def when(self) -> datetime | None:
-        """Best guess at when this appeared: publisher date, else first seen."""
+        """Best guess at when this appeared: publisher date, else first seen.
+        Some feeds label local time as UTC, so a date well after we first saw
+        the item can't be right."""
+        if self.published and self.first_seen and self.published > self.first_seen + FUTURE_LEEWAY:
+            return self.first_seen
         return self.published or self.first_seen
 
     @classmethod

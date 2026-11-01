@@ -9,11 +9,25 @@ from ..plugin import SourcePlugin, register
 from ..text import clean
 
 
+# Date styles that feedparser doesn't recognize, seen in real feeds.
+_DATE_FORMATS = (
+    "%A, %B %d, %Y - %H:%M",   # Friday, October 23, 2026 - 18:13
+    "%a, %m/%d/%Y - %H:%M",    # Fri, 10/23/2026 - 13:00
+    "%b %d, %Y",               # Oct 30, 2026
+)
+
+
 def _parse_date(entry) -> datetime | None:
     for key in ("published_parsed", "updated_parsed"):
         t = entry.get(key)
         if t:
             return datetime.fromtimestamp(calendar.timegm(t), tz=timezone.utc)
+    text = (entry.get("published") or entry.get("updated") or "").strip()
+    for fmt in _DATE_FORMATS:
+        try:
+            return datetime.strptime(text, fmt).replace(tzinfo=timezone.utc)
+        except ValueError:
+            continue
     return None
 
 

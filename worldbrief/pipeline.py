@@ -16,6 +16,7 @@ from .catalog import Catalog
 from .cluster import cluster
 from .models import Article, canonical_url
 from .paywall import PaywallFilter
+from .quality import drop_junk
 from .store import ArticleStore
 
 log = logging.getLogger(__name__)
@@ -27,6 +28,10 @@ ARTICLES_PER_STORY = 5         # articles per story in section files (?full=1 ha
 BREAKING_MIN_SOURCES = 3       # independent outlets needed to call it breaking
 BREAKING_WINDOW_HOURS = 3
 NO_BREAKING_SECTIONS = {"opinion", "science", "culture"}
+MORNING_MAX_STORIES = 15       # more than a screen, because the app filters by section
+MORNING_PER_SECTION = 8
+MORNING_MIN_STORIES = 3        # fewer than this waits for the next refresh
+DEFAULT_MORNING_HOURS = (11,)  # UTC hours an edition comes out: 6am New York in winter
 
 
 @dataclass
@@ -87,7 +92,11 @@ def dedupe(articles: list[Article]) -> list[Article]:
     seen: dict[tuple[str, str], Article] = {}
     for a in articles:
         key = (a.category, canonical_url(a.url))
-        if key not in seen or (not seen[key].summary and a.summary):
+        old = seen.get(key)
+        # A sport's own feed and the main sport feed often carry the same link.
+        # Prefer the specific topic, so it doesn't depend on which loaded first.
+        if (old is None or (not old.summary and a.summary)
+                or (old.topic == "general" and a.topic not in ("", "general"))):
             seen[key] = a
     return list(seen.values())
 
@@ -110,6 +119,7 @@ def build_digest(articles: list[Article], results: list[SourceResult],
     total = len(articles)
     articles = dedupe(articles)
     articles, paywalled = paywall.apply(articles)
+    articles, junk = drop_junk(articles)
     articles = [a for a in articles
                 if a.when is None or a.when >= now - timedelta(hours=age_limit(a.category))]
 
@@ -165,6 +175,7 @@ def build_digest(articles: list[Article], results: list[SourceResult],
             "fetched": total,
             "after_dedupe_and_paywall": len(articles),
             "paywalled_dropped": len(paywalled),
+            "junk_dropped": len(junk),
             "stories": len(stories),
             "sources_ok": sum(r.ok for r in results),
             "sources_failed": sum(not r.ok for r in results),
@@ -180,16 +191,17 @@ def _atomic_write(path: Path, data: dict) -> None:
     os.replace(tmp, path)  # readers never see a half-written file
 
 
+def _capped_story(st: dict) -> dict:
+    return {**st, "articles": st["articles"][:ARTICLES_PER_STORY]}
+
+
 def _capped_section(sec: dict) -> dict:
     """Copy of a section with each story's articles capped. Stories keep their
     full source_count, and the digest itself is left uncapped."""
-    def cap(st: dict) -> dict:
-        return {**st, "articles": st["articles"][:ARTICLES_PER_STORY]}
-
-    capped = {**sec, "top": [cap(st) for st in sec["top"]],
-              "latest": [cap(st) for st in sec["latest"]]}
+    capped = {**sec, "top": [_capped_story(st) for st in sec["top"]],
+              "latest": [_capped_story(st) for st in sec["latest"]]}
     for key in ("by_topic", "by_region"):
-        capped[key] = {k: [cap(st) for st in v] for k, v in sec[key].items()}
+        capped[key] = {k: [_capped_story(st) for st in v] for k, v in sec[key].items()}
     return capped
 
 
@@ -199,7 +211,8 @@ def write_split(digest: dict, out_dir: Path) -> list[Path]:
 
         out_dir/index.json                 catalog + breaking + top headlines per section
         out_dir/sections/<id>.json         one section, articles capped per story
-        out_dir/sections/<id>.full.json    the same section, uncapped (?full=1)
+        out_dir/sections/<id>.full.json    the same section, uncapped
+        out_dir/health.json                last refresh time and failing sources
     """
     out_dir = Path(out_dir)
     (out_dir / "sections").mkdir(parents=True, exist_ok=True)
@@ -217,7 +230,63 @@ def write_split(digest: dict, out_dir: Path) -> list[Path]:
     p = out_dir / "index.json"
     _atomic_write(p, index)
     written.append(p)
+    p = out_dir / "health.json"
+    _atomic_write(p, health(digest))
+    written.append(p)
     return written
+
+
+def health(digest: dict | None) -> dict:
+    d = digest or {}
+    return {
+        "ok": digest is not None,
+        "generated_at": d.get("generated_at"),
+        "stats": d.get("stats"),
+        "failed_sources": [r["name"] for r in d.get("source_health", []) if not r["ok"]],
+    }
+
+
+def morning_due(last: datetime | None, now: datetime, hours: tuple[int, ...]) -> bool:
+    """True if an edition time has passed since the last edition."""
+    today = [now.replace(hour=h, minute=0, second=0, microsecond=0) for h in hours]
+    slots = today + [s - timedelta(days=1) for s in today]
+    latest_slot = max(s for s in slots if s <= now)
+    return last is None or last < latest_slot
+
+
+def write_morning(digest: dict, out_dir: Path, state_dir: Path, hours: tuple[int, ...],
+                  now: datetime) -> bool:
+    """Publish the Morning brief: the highest-ranked stories that have a brief.
+    It's a snapshot, so it reads like one edition rather than shifting with every
+    refresh. The edition is kept in `state_dir`, because out_dir may be rebuilt
+    from nothing on each run, and copied to out_dir every time. Returns True if
+    this run made a new edition."""
+    saved = Path(state_dir) / ".morning.json"
+    try:
+        edition = json.loads(saved.read_text())
+        last = datetime.fromisoformat(edition["generated_at"])
+    except (OSError, ValueError, KeyError, TypeError):
+        edition, last = None, None
+
+    created = False
+    if morning_due(last, now, hours):
+        stories = []
+        for sec in digest["sections"].values():
+            stories += [st for st in sec["top"] if st.get("brief")][:MORNING_PER_SECTION]
+        # Too few means the API was down at edition time, so try again next refresh.
+        if len(stories) >= MORNING_MIN_STORIES:
+            stories.sort(key=lambda st: st["score"], reverse=True)
+            edition = {
+                "edition": now.date().isoformat(),
+                "generated_at": now.isoformat(),
+                "stories": [_capped_story(st) for st in stories[:MORNING_MAX_STORIES]],
+            }
+            saved.parent.mkdir(parents=True, exist_ok=True)
+            _atomic_write(saved, edition)
+            created = True
+    if edition:
+        _atomic_write(Path(out_dir) / "morning.json", edition)
+    return created
 
 
 class Refresher:
@@ -226,12 +295,15 @@ class Refresher:
 
     def __init__(self, sources_path: Path = DEFAULT_SOURCES, out_dir: Path = Path("dist"),
                  store_path: Path | None = None, paywall_path: Path | None = None,
-                 only: set[str] | None = None):
+                 only: set[str] | None = None, briefer=None,
+                 morning_hours: tuple[int, ...] = DEFAULT_MORNING_HOURS):
         self.catalog = Catalog.from_file()
         self.plugins = load_sources(sources_path, self.catalog, only)
         self.paywall = PaywallFilter.from_file(paywall_path) if paywall_path else PaywallFilter.from_file()
         self.out_dir = Path(out_dir)
         self.store = ArticleStore(store_path if store_path else self.out_dir / ".store.json")
+        self.briefer = briefer         # None leaves briefs off; see briefs.py
+        self.morning_hours = morning_hours
         self.last: dict | None = None
 
     def refresh(self, now: datetime | None = None) -> dict:
@@ -248,7 +320,14 @@ class Refresher:
         digest = build_digest(self.store.all(), results, self.paywall, self.catalog, now=now)
         digest["stats"]["new_this_refresh"] = new
         digest["sources"] = [p.info() for p in self.plugins]
+        if self.briefer:
+            try:
+                digest["stats"]["briefs"] = self.briefer.update(digest, now)
+            except Exception:  # noqa: BLE001 — the news still has to go out
+                log.exception("briefs failed; publishing without new ones")
         write_split(digest, self.out_dir)
+        if self.briefer:
+            write_morning(digest, self.out_dir, self.briefer.path.parent, self.morning_hours, now)
         self.last = digest
         return digest
 

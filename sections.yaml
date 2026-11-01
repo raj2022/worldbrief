@@ -63,8 +63,16 @@ sections:
   - id: health
     title: Health & Medicine
     symbol: cross.case
-    description: Public health, medical research and health policy
+    description: Public health, medical research, fitness, nutrition and mental health
     default: false
+    # Fitness and nutrition pieces stay useful for days, and those feeds post less often.
+    max_age_hours: 168
+    subtopics:
+      - {id: news,      title: Health News}
+      - {id: research,  title: Medical Research}
+      - {id: fitness,   title: Fitness & Wellbeing}
+      - {id: nutrition, title: Nutrition}
+      - {id: mental,    title: Mental Health}
 
   - id: climate
     title: Climate & Environment
@@ -75,8 +83,20 @@ sections:
   - id: sports
     title: Sports
     symbol: sportscourt
-    description: Football, cricket, tennis, F1, US sports and more
+    description: Cricket, kabaddi, football, tennis, F1, US sports and more
     default: false
+    # Smaller sports post every day or two, so a short window would empty them.
+    max_age_hours: 72
+    subtopics:
+      - {id: general,   title: Top Sports}
+      - {id: cricket,   title: Cricket}
+      - {id: kabaddi,   title: Kabaddi}
+      - {id: football,  title: Football}
+      - {id: tennis,    title: Tennis}
+      - {id: motorsport, title: F1 & Motorsport}
+      - {id: us,        title: Basketball & US Sports}
+      - {id: olympic,   title: Olympics & Athletics}
+      - {id: rugby_golf, title: Rugby & Golf}
 
   - id: culture
     title: Culture & Arts

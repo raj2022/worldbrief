@@ -1,6 +1,7 @@
 """Live mode: rolling store, latest/breaking lists, conditional GETs, server."""
 import gzip
 import json
+import socket
 import threading
 import urllib.error
 import urllib.request
@@ -11,6 +12,7 @@ from pathlib import Path
 from unittest import mock
 
 from worldbrief import httpcache, pipeline
+from worldbrief.__main__ import main
 from worldbrief.catalog import Catalog
 from worldbrief.models import Article
 from worldbrief.paywall import PaywallFilter
@@ -159,6 +161,24 @@ def test_server_serves_files_with_etag(tmp_path):
         httpd.shutdown()
 
 
+def test_morning_endpoint(tmp_path):
+    out = tmp_path / "dist"
+    out.mkdir()
+    refresher = mock.Mock(out_dir=out, last=None, briefer=None)
+    httpd = ThreadingHTTPServer(("127.0.0.1", 0), make_handler(out, refresher, 0, 60))
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    url = f"http://127.0.0.1:{httpd.server_port}/morning.json"
+    try:
+        assert status(url) == 404                  # briefs off
+        refresher.briefer = object()
+        assert status(url) == 503                  # first edition not out yet
+        (out / "morning.json").write_text('{"edition": "2026-11-01", "stories": []}')
+        with urllib.request.urlopen(url) as r:
+            assert json.loads(r.read())["edition"] == "2026-11-01" and r.headers["ETag"]
+    finally:
+        httpd.shutdown()
+
+
 def many_outlets(n=7):
     """One story covered by n outlets; outlet 0 is the newest report."""
     return [art("Brazil runoff vote tight presidential election", f"https://o{i}/1", f"Outlet {i}", 1 + i)
@@ -255,4 +275,101 @@ def test_full_param_returns_uncapped_section(tmp_path):
         assert status(base + "/sections/world.json?full=1", {"If-None-Match": capped_etag}) == 200
         assert len(fetch("/sections/world.json?full=0")[0]["top"][0]["articles"]) == 5
         assert fetch("/index.json?full=1")[1] == fetch("/index.json")[1]       # sections only
-        assert status(base + "/sections/world.full.json") == 404               # only via ?full=1
+        assert status(base + "/sections/world.full.json") == 200   # as on static hosting
+
+
+def test_short_titles_need_three_shared_words_to_merge():
+    arts = [art("Make healthcare affordable for all people everywhere", "https://a/1", "A", 3),
+            art("Healthcare for all", "https://b/1", "B", 2),
+            art("[ LETTERS ]", "https://c/1", "C", 2),
+            art("Trump letter lawsuit dismissed by judge in Miami", "https://d/1", "D", 3)]
+    d = pipeline.build_digest(arts, [], PW, CAT, now=NOW)
+    assert all(s["source_count"] == 1 for s in d["sections"]["world"]["top"])
+
+
+def test_near_identical_headlines_still_merge():
+    arts = [art("Judge dismisses Trump lawsuit against newspaper", "https://a/1", "A", 3),
+            art("Judge dismisses Trump lawsuit over newspaper story", "https://b/1", "B", 2)]
+    d = pipeline.build_digest(arts, [], PW, CAT, now=NOW)
+    assert d["sections"]["world"]["top"][0]["source_count"] == 2
+
+
+def test_junk_is_dropped_but_real_stories_stay():
+    junk = [("Watch: Heidi Klum as giant severed hand", "https://bbc/news/videos/x"),
+            ("LIVE: Rugby League World Cup: Tonga v Samoa", "https://rnz/1"),
+            ("Democrats hold rally - live updates", "https://hill/2"),
+            ("A normal title", "https://guardian/sport/live/2026/oct/31/x"),
+            ("Photos: Youth-led rallies sweep Germany", "https://aj/3"),
+            ("Protests continue – video", "https://g/4"),
+            ("Latest news bulletin | November 1st, 2026 – Morning", "https://e/5"),
+            ("[ LETTERS ]", "https://t/6"),
+            ("Open Thread", "https://r/7"),
+            ("Tottenham vs Crystal Palace LIVE streaming, TV channel, kick-off", "https://k/8"),
+            ("How to watch the Asian Champions Trophy final", "https://k/9")]
+    real = [("Live music returns to Lagos after long ban", "https://a/live-music"),
+            ("Liverpool beat Arsenal to go top of the league", "https://a/football/liverpool"),
+            ("The podcast boom has a problem", "https://a/opinion/podcast-boom")]
+    arts = [art(t, u, str(i)) for i, (t, u) in enumerate(junk + real)]
+    d = pipeline.build_digest(arts, [], PW, CAT, now=NOW)
+    assert d["stats"]["junk_dropped"] == len(junk)
+    assert len(d["sections"]["world"]["top"]) == len(real)
+
+
+def test_specific_topic_beats_general_for_the_same_link():
+    a = art("India beat Australia in thriller", "https://x/1", "BBC Sport", category="sports", topic="general")
+    b = art("India beat Australia in thriller", "https://x/1", "BBC Cricket", category="sports", topic="cricket")
+    for order in ([a, b], [b, a]):
+        assert pipeline.dedupe(order)[0].topic == "cricket"
+
+
+def test_future_dates_fall_back_to_first_seen():
+    a = art("Story", "https://x/1", hours_ago=-2)
+    a.first_seen = NOW
+    assert a.when == NOW
+    a.published = NOW + timedelta(minutes=5)     # small clock differences are fine
+    assert a.when == a.published
+
+
+def test_rss_parses_date_styles_feedparser_misses():
+    from worldbrief.plugins.rss import _parse_date
+    for text, day in (("Friday, October 23, 2026 - 18:13", 23), ("Fri, 10/23/2026 - 13:00", 23),
+                      ("Oct 30, 2026", 30)):
+        assert _parse_date({"published": text}).day == day
+    assert _parse_date({"published": "someday"}) is None
+
+
+def test_server_drops_stalled_clients(tmp_path):
+    handler = make_handler(tmp_path, mock.Mock(out_dir=tmp_path, last=None), 0, 60)
+    assert handler.timeout > 0
+    handler.timeout = 0.2
+    httpd = ThreadingHTTPServer(("127.0.0.1", 0), handler)
+    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+    try:
+        with socket.create_connection(("127.0.0.1", httpd.server_port), timeout=3) as s:
+            s.sendall(b"GET /health HTTP/1.1\r\n")  # never finishes the request
+            assert s.recv(1024) == b""
+    finally:
+        httpd.shutdown()
+        httpd.server_close()
+
+
+def test_run_keeps_store_out_of_published_files(tmp_path):
+    out, store = tmp_path / "dist", tmp_path / ".cache" / "store.json"
+    bad = mock.Mock(ok=False)
+    bad.name = "Dead Feed"
+    with mock.patch.object(pipeline, "fetch_all", return_value=([], [bad])):
+        assert main(["run", "--out-dir", str(out), "--store", str(store)]) == 0
+    assert store.exists()
+    assert not list(out.glob(".*"))
+    assert "Dead Feed" in (out / "health.json").read_text()
+    health = json.loads((out / "health.json").read_text())
+    assert health["ok"] and health["generated_at"] and health["failed_sources"] == ["Dead Feed"]
+    assert (out / "sections" / "world.full.json").exists()
+
+
+def test_server_serves_full_files_by_path(tmp_path):
+    (tmp_path / "sections").mkdir()
+    (tmp_path / "sections" / "world.full.json").write_text("{}")
+    with running_server(tmp_path, {}) as base:
+        with urllib.request.urlopen(base + "/sections/world.full.json") as r:
+            assert r.status == 200

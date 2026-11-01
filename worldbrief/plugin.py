@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import importlib
 import logging
+import os
 import pkgutil
 from abc import ABC, abstractmethod
 from typing import Any
@@ -23,7 +24,9 @@ from .models import Article
 
 log = logging.getLogger(__name__)
 
-USER_AGENT = "WorldBrief/0.1 (+free news aggregator; contact: set-your-email)"
+# Publishers use the contact to reach you. Set WORLDBRIEF_CONTACT where the server runs.
+CONTACT = os.environ.get("WORLDBRIEF_CONTACT", "set-your-email")
+USER_AGENT = f"WorldBrief/0.1 (+free news aggregator; contact: {CONTACT})"
 
 _REGISTRY: dict[str, type["SourcePlugin"]] = {}
 

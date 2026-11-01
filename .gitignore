@@ -6,6 +6,7 @@ __pycache__/
 
 # Generated digest and rolling store
 dist/
+.cache/
 
 # macOS
 .DS_Store

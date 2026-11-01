@@ -1,0 +1,59 @@
+name: Refresh news
+
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"   # off the busy :00 mark
+  workflow_dispatch:
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # Each run saves a new cache and restores the newest one, so stories
+      # persist between runs.
+      - uses: actions/cache@v6
+        with:
+          path: .cache
+          key: store-${{ github.run_id }}
+          restore-keys: store-
+
+      - run: python -m worldbrief run --out-dir dist --store .cache/store.json
+        env:
+          WORLDBRIEF_CONTACT: ${{ vars.WORLDBRIEF_CONTACT || format('https://github.com/{0}', github.repository) }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - run: touch dist/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5

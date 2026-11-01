@@ -1,0 +1,34 @@
+app = "worldbrief-raj2022"
+primary_region = "ord"
+
+[build]
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  # The refresh loop runs inside the server, so it has to stay on.
+  auto_stop_machines = "off"
+  auto_start_machines = true
+  min_machines_running = 1
+
+  # Fly's default is 25 connections, which is too few for a public app.
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 150
+    hard_limit = 200
+
+  [[http_service.checks]]
+    method = "GET"
+    path = "/health"
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "30s"
+
+# Holds the rolling store. Without it a restart would forget older stories.
+[mounts]
+  source = "worldbrief_data"
+  destination = "/data"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"

@@ -66,7 +66,7 @@ sources:
   - {type: rss, name: +972 Magazine,      url: "https://www.972mag.com/feed/", category: world, region: middle_east, note: "Independent, left; Israeli and Palestinian journalists."}
   - {type: rss, name: Naharnet,           url: "http://www.naharnet.com/tags/middle-east/en/feed.atom", category: world, region: middle_east, note: "Private (Lebanon)."}
   - {type: rss, name: IranWire,           url: "https://iranwire.com/en/feed/", category: world, region: middle_east, note: "Independent, run by Iranian journalists in exile."}
-  - {type: rss, name: bianet English,     url: "https://bianet.org/english/rss", category: world, region: middle_east, note: "Independent (Turkey)."}
+  - {type: rss, name: bianet English,     url: "https://bianet.org/english/rss", category: world, region: middle_east, enabled: false, note: "Independent (Turkey). DISABLED: site returns 403 to the WorldBrief User-Agent, homepage included (Nov 2026)."}
   - {type: rss, name: Turkish Minute,     url: "https://www.turkishminute.com/feed/", category: world, region: middle_east, note: "Exile-run; critical of the Turkish government."}
   - {type: rss, name: Rudaw,              url: "https://www.rudaw.net/rss/english", category: world, region: middle_east, enabled: false, note: "Kurdistan Region of Iraq; linked to the ruling KDP. DISABLED: No public feed found on the site (checked Nov 2026)."}
   - {type: rss, name: Enab Baladi,        url: "https://english.enabbaladi.net/feed/", category: world, region: middle_east, enabled: false, note: "Independent (Syria). DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
@@ -78,7 +78,7 @@ sources:
   - {type: rss, name: Scroll.in,          url: "https://feeds.feedburner.com/ScrollinArticles.rss", category: world, region: asia, note: "Independent, reader-funded (India)."}
   - {type: rss, name: The Wire,           url: "https://cms.thewire.in/feed/", category: world, region: asia, link_excludes: ["/opinion/", "/ptiprnews/"], note: "Nonprofit (India). Feed is served from the cms host; PTI press-release copy is filtered out."}
   - {type: rss, name: ThePrint,           url: "https://theprint.in/category/politics/feed/", category: world, region: asia, note: "Independent (India). Politics feed: the root feed returns 403, and the India feed is mostly PTI wire copy."}
-  - {type: rss, name: The News Minute,    url: "https://www.thenewsminute.com/feed", category: world, region: asia, note: "Independent, South India."}
+  - {type: rss, name: The News Minute,    url: "https://www.thenewsminute.com/feed", category: world, region: asia, enabled: false, note: "Independent, South India. DISABLED: site has sign-in and subscribe walls; stories.rss?time-period=last-7-days works if that changes (Nov 2026)."}
   - {type: rss, name: Dawn,               url: "https://www.dawn.com/feeds/home", category: world, region: asia, note: "Pakistan's paper of record."}
   - {type: rss, name: The Express Tribune, url: "https://tribune.com.pk/feed/home", category: world, region: asia}
   - {type: rss, name: The Daily Star (Bangladesh), url: "https://www.thedailystar.net/frontpage/rss.xml", category: world, region: asia}
@@ -212,7 +212,7 @@ sources:
   - {type: rss, name: Lowy Interpreter,   url: "https://www.lowyinstitute.org/the-interpreter/rss.xml", category: opinion, topic: analysis, region: oceania}
   - {type: rss, name: SAIIA,              url: "https://saiia.org.za/feed/", category: opinion, topic: analysis, region: africa}
   - {type: rss, name: ISS Africa,         url: "https://issafrica.org/rss", category: opinion, topic: analysis, region: africa, enabled: false, note: "Institute for Security Studies. DISABLED: No public feed found on the site (checked Nov 2026)."}
-  - {type: rss, name: International Crisis Group, url: "https://www.crisisgroup.org/rss", link_excludes: ["/ar/", "/fr/", "/es/", "/ru/", "/evt/", "/vid/"], category: opinion, topic: analysis, note: "Centrist; nonpartisan conflict-prevention NGO. Non-English items and events filtered out."}
+  - {type: rss, name: International Crisis Group, url: "https://www.crisisgroup.org/rss", link_excludes: ["/ar/", "/fr/", "/es/", "/ru/", "/evt/", "/vid/", "/sco/"], category: opinion, topic: analysis, note: "Centrist; nonpartisan conflict-prevention NGO. Non-English items and events filtered out."}
   # ── Expert commentary (academics) ──
   - {type: rss, name: The Conversation,   url: "https://theconversation.com/global/articles.atom", category: opinion, topic: experts, note: "Academics write, journalists edit; Creative Commons."}
   - {type: rss, name: The Conversation Africa, url: "https://theconversation.com/africa/articles.atom", category: opinion, topic: experts, region: africa}
@@ -289,13 +289,25 @@ sources:
   - {type: rss,   name: The Conversation Science, url: "https://theconversation.com/global/technology/articles.atom", category: science, topic: general}
 
   # ═══════════════════════════ HEALTH & MEDICINE ═══════════════════════════
-  - {type: rss, name: BBC Health,         url: "https://feeds.bbci.co.uk/news/health/rss.xml", category: health, ownership: public, limited_in: [US]}
-  - {type: rss, name: WHO News,           url: "https://www.who.int/rss-feeds/news-english.xml", category: health, ownership: public}
-  - {type: rss, name: NPR Health,         url: "https://feeds.npr.org/1128/rss.xml", category: health, ownership: public}
-  - {type: rss, name: KFF Health News,    url: "https://kffhealthnews.org/feed/", category: health, note: "Nonprofit newsroom."}
-  - {type: rss, name: Think Global Health, url: "https://www.thinkglobalhealth.org/rss.xml", category: health, enabled: false, note: "Council on Foreign Relations. DISABLED: No public feed found on the site (checked Nov 2026)."}
-  - {type: rss, name: medRxiv,            url: "https://connect.medrxiv.org/medrxiv_xml.php?subject=all", category: health, note: "Preprints (not yet peer reviewed)."}
-  - {type: rss, name: eLife Medicine,     url: "https://elifesciences.org/rss/subject/medicine.xml", category: health}
+  - {type: rss, name: BBC Health,         url: "https://feeds.bbci.co.uk/news/health/rss.xml", category: health, topic: news, ownership: public, limited_in: [US]}
+  - {type: rss, name: WHO News,           url: "https://www.who.int/rss-feeds/news-english.xml", category: health, topic: news, ownership: public}
+  - {type: rss, name: NPR Health,         url: "https://feeds.npr.org/1128/rss.xml", category: health, topic: news, ownership: public}
+  - {type: rss, name: KFF Health News,    url: "https://kffhealthnews.org/feed/", category: health, topic: news, note: "Nonprofit newsroom."}
+  - {type: rss, name: Think Global Health, url: "https://www.thinkglobalhealth.org/rss.xml", category: health, topic: news, enabled: false, note: "Council on Foreign Relations. DISABLED: No public feed found on the site (checked Nov 2026)."}
+  - {type: rss, name: medRxiv,            url: "https://connect.medrxiv.org/medrxiv_xml.php?subject=all", category: health, topic: research, note: "Preprints (not yet peer reviewed)."}
+  - {type: rss, name: eLife Medicine,     url: "https://elifesciences.org/rss/subject/medicine.xml", category: health, topic: research}
+  - {type: rss, name: NIH News, url: "https://www.nih.gov/news-releases/feed.xml", category: health, topic: news, ownership: public, note: "US National Institutes of Health."}
+  - {type: rss, name: NIH News in Health, url: "https://newsinhealth.nih.gov/rss", category: health, topic: fitness, ownership: public, note: "Plain-language health advice from the NIH."}
+  # Fitness & wellbeing
+  - {type: rss, name: The Guardian Fitness, url: "https://www.theguardian.com/lifeandstyle/fitness/rss", category: health, topic: fitness, note: "Owned by the Scott Trust; no paywall."}
+  - {type: rss, name: The Guardian Wellbeing, url: "https://www.theguardian.com/lifeandstyle/health-and-wellbeing/rss", category: health, topic: fitness, note: "Owned by the Scott Trust; no paywall."}
+  - {type: rss, name: ScienceDaily Fitness, url: "https://www.sciencedaily.com/rss/health_medicine/fitness.xml", category: health, topic: fitness, note: "Research news on exercise."}
+  # Nutrition
+  - {type: rss, name: ScienceDaily Nutrition, url: "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml", category: health, topic: nutrition, note: "Research news on diet."}
+  # Mental health
+  - {type: rss, name: The Guardian Mental Health, url: "https://www.theguardian.com/society/mental-health/rss", category: health, topic: mental, note: "Owned by the Scott Trust; no paywall."}
+  - {type: rss, name: ScienceDaily Mental Health, url: "https://www.sciencedaily.com/rss/mind_brain/mental_health.xml", category: health, topic: mental}
+  - {type: rss, name: PsyPost, url: "https://www.psypost.org/feed/", category: health, topic: mental, note: "Psychology and neuroscience research news."}
 
   # ═══════════════════════════ CLIMATE & ENVIRONMENT ═══════════════════════════
   - {type: rss, name: The Guardian Environment, url: "https://www.theguardian.com/environment/rss", category: climate}
@@ -308,10 +320,48 @@ sources:
   - {type: rss, name: NASA GISS,          url: "https://www.nasa.gov/centers-and-facilities/giss/feed/", category: climate, ownership: public}
 
   # ═══════════════════════════ SPORTS ═══════════════════════════
-  - {type: rss, name: BBC Sport,          url: "https://feeds.bbci.co.uk/sport/rss.xml", category: sports, ownership: public, limited_in: [US]}
-  - {type: rss, name: The Guardian Sport, url: "https://www.theguardian.com/sport/rss", category: sports}
-  - {type: rss, name: ESPN,               url: "https://www.espn.com/espn/rss/news", category: sports}
-  - {type: rss, name: ESPNcricinfo,       url: "https://www.espncricinfo.com/rss/content/story/feeds/0.xml", category: sports}
+  - {type: rss, name: BBC Sport,          url: "https://feeds.bbci.co.uk/sport/rss.xml", category: sports, topic: general, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian Sport, url: "https://www.theguardian.com/sport/rss", category: sports, topic: general}
+  - {type: rss, name: ESPN,               url: "https://www.espn.com/espn/rss/news", category: sports, topic: general}
+  - {type: rss, name: ESPNcricinfo,       url: "https://www.espncricinfo.com/rss/content/story/feeds/0.xml", category: sports, topic: cricket}
+  # Cricket
+  - {type: rss, name: BBC Cricket, url: "https://feeds.bbci.co.uk/sport/cricket/rss.xml", link_contains: ["/sport/cricket/"], category: sports, topic: cricket, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian Cricket, url: "https://www.theguardian.com/sport/cricket/rss", category: sports, topic: cricket, note: "Owned by the Scott Trust; no paywall."}
+  - {type: rss, name: Wisden, url: "https://www.wisden.com/feed", category: sports, topic: cricket, note: "The cricket almanack brand."}
+  - {type: rss, name: Khel Now Cricket, url: "https://www.khelnow.com/feed", category: sports, topic: cricket, region: asia, link_contains: ["/cricket/"], note: "Indian sports site."}
+  # Kabaddi
+  - {type: rss, name: Kabaddi Adda, url: "https://kabaddiadda.com/feed/", category: sports, topic: kabaddi, region: asia, note: "Specialist kabaddi news site (India)."}
+  - {type: rss, name: The Bridge Kabaddi, url: "https://thebridge.in/kabaddi/feed", category: sports, topic: kabaddi, region: asia, note: "Indian Olympic and grassroots sport."}
+  - {type: rss, name: Khel Now Kabaddi, url: "https://www.khelnow.com/feed", category: sports, topic: kabaddi, region: asia, link_contains: ["/kabaddi/"], note: "Indian sports site."}
+  # Football
+  - {type: rss, name: BBC Football, url: "https://feeds.bbci.co.uk/sport/football/rss.xml", link_contains: ["/sport/football/"], category: sports, topic: football, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian Football, url: "https://www.theguardian.com/football/rss", category: sports, topic: football, note: "Owned by the Scott Trust; no paywall."}
+  - {type: rss, name: Sky Sports Football, url: "https://www.skysports.com/rss/11095", link_contains: ["/football/"], category: sports, topic: football}
+  - {type: rss, name: ESPN Soccer, url: "https://www.espn.com/espn/rss/soccer/news", category: sports, topic: football, link_excludes: ["/insider/"], note: "Some ESPN+ articles are paid."}
+  - {type: rss, name: Khel Now Football, url: "https://www.khelnow.com/feed", category: sports, topic: football, region: asia, link_contains: ["/football/"], note: "Indian sports site."}
+  # Tennis
+  - {type: rss, name: BBC Tennis, url: "https://feeds.bbci.co.uk/sport/tennis/rss.xml", link_contains: ["/sport/tennis/"], category: sports, topic: tennis, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian Tennis, url: "https://www.theguardian.com/sport/tennis/rss", category: sports, topic: tennis, note: "Owned by the Scott Trust; no paywall."}
+  - {type: rss, name: Sky Sports Tennis, url: "https://www.skysports.com/rss/12040", link_contains: ["/tennis/"], category: sports, topic: tennis}
+  - {type: rss, name: ESPN Tennis, url: "https://www.espn.com/espn/rss/tennis/news", category: sports, topic: tennis, link_excludes: ["/insider/"], note: "Some ESPN+ articles are paid."}
+  # F1 & motorsport
+  - {type: rss, name: BBC F1, url: "https://feeds.bbci.co.uk/sport/formula1/rss.xml", link_contains: ["/sport/formula1/"], category: sports, topic: motorsport, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian F1, url: "https://www.theguardian.com/sport/formulaone/rss", category: sports, topic: motorsport, note: "Owned by the Scott Trust; no paywall."}
+  - {type: rss, name: ESPN F1, url: "https://www.espn.com/espn/rss/f1/news", category: sports, topic: motorsport, link_excludes: ["/insider/"], note: "Some ESPN+ articles are paid."}
+  # Basketball & US sports
+  - {type: rss, name: ESPN NBA, url: "https://www.espn.com/espn/rss/nba/news", category: sports, topic: us, link_excludes: ["/insider/"], note: "Some ESPN+ articles are paid."}
+  - {type: rss, name: ESPN NFL, url: "https://www.espn.com/espn/rss/nfl/news", category: sports, topic: us, link_excludes: ["/insider/"], note: "Some ESPN+ articles are paid."}
+  - {type: rss, name: ESPN MLB, url: "https://www.espn.com/espn/rss/mlb/news", category: sports, topic: us, link_excludes: ["/insider/"], note: "Some ESPN+ articles are paid."}
+  - {type: rss, name: The Guardian Basketball, url: "https://www.theguardian.com/sport/basketball/rss", category: sports, topic: us, note: "Owned by the Scott Trust; no paywall."}
+  # Olympics & athletics
+  - {type: rss, name: BBC Athletics, url: "https://feeds.bbci.co.uk/sport/athletics/rss.xml", link_contains: ["/sport/athletics/"], category: sports, topic: olympic, ownership: public, limited_in: [US]}
+  - {type: rss, name: BBC Olympics, url: "https://feeds.bbci.co.uk/sport/olympics/rss.xml", link_contains: ["/sport/olympics/"], category: sports, topic: olympic, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian Athletics, url: "https://www.theguardian.com/sport/athletics/rss", category: sports, topic: olympic, note: "Owned by the Scott Trust; no paywall."}
+  - {type: rss, name: The Bridge, url: "https://thebridge.in/feed", category: sports, topic: olympic, region: asia, link_excludes: ["/kabaddi/"], note: "Indian Olympic and grassroots sport."}
+  # Rugby & golf
+  - {type: rss, name: BBC Rugby Union, url: "https://feeds.bbci.co.uk/sport/rugby-union/rss.xml", link_contains: ["/sport/rugby-union/"], category: sports, topic: rugby_golf, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian Rugby, url: "https://www.theguardian.com/sport/rugby-union/rss", category: sports, topic: rugby_golf, note: "Owned by the Scott Trust; no paywall."}
+  - {type: rss, name: BBC Golf, url: "https://feeds.bbci.co.uk/sport/golf/rss.xml", link_contains: ["/sport/golf/"], category: sports, topic: rugby_golf, ownership: public, limited_in: [US]}
 
   # ═══════════════════════════ CULTURE & ARTS ═══════════════════════════
   - {type: rss, name: BBC Entertainment & Arts, url: "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml", category: culture, ownership: public, limited_in: [US]}

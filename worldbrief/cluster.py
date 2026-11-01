@@ -105,7 +105,9 @@ def cluster(articles: list[Article], threshold: float = 0.6, min_shared: int = 3
             for s in stories:
                 if s.category != a.category or s.articles[0].plugin == "arxiv":
                     continue
-                if len(kw & s.terms) < min(min_shared, len(kw)):
+                # Every title needs min_shared words in common, however short it
+                # is. Otherwise "Healthcare for all" joins any story about healthcare.
+                if len(kw & s.terms) < min_shared:
                     continue
                 sim = similarity(kw, s.terms)
                 if sim > best_sim:

@@ -5,7 +5,8 @@
 Endpoints (what the iOS app calls):
     GET /index.json            catalog, breaking, top headlines per section
     GET /sections/<id>.json    one section; each story lists at most 5 articles
-    GET /sections/<id>.json?full=1    the same section, every article
+    GET /sections/<id>.full.json      the same section, every article (also ?full=1)
+    GET /morning.json          today's Morning brief, one edition a day
     GET /health                last refresh time and source health
 
 Every file carries an ETag, so when the app re-fetches on open and nothing
@@ -29,10 +30,10 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
-from .pipeline import Refresher
+from .pipeline import Refresher, health
 
 log = logging.getLogger(__name__)
-_ALLOWED = re.compile(r"^/(index\.json|sections/[a-z0-9_]+\.json)$")
+_ALLOWED = re.compile(r"^/(index\.json|health\.json|morning\.json|sections/[a-z0-9_]+(\.full)?\.json)$")
 
 
 def accepts_gzip(header: str | None) -> bool:
@@ -53,6 +54,7 @@ def _gzip(body: bytes) -> bytes:
 def make_handler(out_dir: Path, refresher: Refresher, started: float, max_age: int):
     class Handler(BaseHTTPRequestHandler):
         server_version = "WorldBrief/0.3"
+        timeout = 30  # a stalled client shouldn't hold a thread and connection forever
 
         def log_message(self, fmt, *args):  # route through logging
             log.debug("%s - %s", self.address_string(), fmt % args)
@@ -82,14 +84,8 @@ def make_handler(out_dir: Path, refresher: Refresher, started: float, max_age: i
             url = urlsplit(self.path)
             path = url.path
             if path == "/health":
-                d = refresher.last or {}
-                body = json.dumps({
-                    "ok": refresher.last is not None,
-                    "generated_at": d.get("generated_at"),
-                    "uptime_seconds": int(time.time() - started),
-                    "stats": d.get("stats"),
-                    "failed_sources": [r["name"] for r in d.get("source_health", []) if not r["ok"]],
-                }).encode()
+                body = json.dumps({**health(refresher.last),
+                                   "uptime_seconds": int(time.time() - started)}).encode()
                 return self._send(200, body)
             if not _ALLOWED.match(path):
                 return self._send(404, b'{"error":"not found"}')
@@ -97,6 +93,8 @@ def make_handler(out_dir: Path, refresher: Refresher, started: float, max_age: i
             if path.startswith("/sections/") and parse_qs(url.query).get("full") == ["1"]:
                 f = f.with_name(f"{f.stem}.full.json")
             if not f.exists():
+                if path == "/morning.json" and not refresher.briefer:
+                    return self._send(404, b'{"error":"briefs are off"}')
                 # First refresh still running.
                 return self._send(503, b'{"error":"warming up, retry in a few seconds"}')
             body = f.read_bytes()

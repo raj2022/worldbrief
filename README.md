@@ -29,6 +29,7 @@ The app calls:
 | `GET /index.json` | Section catalog, breaking stories, top 5 per section, source directory |
 | `GET /sections/<id>.json` | One section: `top` (ranked), `latest` (newest first), `by_topic`, `by_region`. Each story lists its 5 most recent articles; `source_count` is still the full count |
 | `GET /sections/<id>.json?full=1` | The same section with every article |
+| `GET /morning.json` | Today's Morning brief, one edition a day (only with AI briefs on) |
 | `GET /health` | Last refresh time, story counts, failing sources, source health |
 
 See `sample_output/` for real examples of both files.
@@ -45,10 +46,38 @@ Why not every 30 seconds? Publishers update RSS every few minutes at most, and
 polite polling (5–15 min, conditional GET) keeps feeds from blocking you. 10
 minutes is the default; `--every 5` is fine for the world section alone.
 
-**Deploying:** any small always-on host works (a $5 VPS, Fly.io, Railway,
-Render). Run `serve` behind HTTPS. If you'd rather not run a server,
-`python -m worldbrief run` from cron every 10 minutes writes the same files to
-`dist/`, which you can upload to static hosting.
+## Deploying
+
+The digest is hosted for free on GitHub Pages. `.github/workflows/refresh.yml`
+runs `python -m worldbrief run` every 15 minutes and publishes `dist/`. The app
+reads it from `https://raj2022.github.io/worldbrief/`:
+
+| File | What it holds |
+|---|---|
+| `index.json` | Section catalog, breaking stories, top 5 per section, source directory |
+| `sections/<id>.json` | One section, with each story's 5 most recent articles |
+| `sections/<id>.full.json` | The same section with every article |
+| `health.json` | Last refresh time, story counts, failing sources |
+
+The rolling store sits in `.cache/`, outside the published files. Actions cache
+carries it between runs, and GitHub removes a cache after 7 days unused. If the
+workflow stays off longer than that, the store starts again from the current feeds.
+
+Scheduled runs can start late when GitHub is busy. Pages also caches files for up
+to 10 minutes, so the app can be about 25 minutes behind publishers.
+
+`keepalive.yml` stops GitHub disabling the schedule after 60 days without activity.
+
+To run a refresh now, use `gh workflow run refresh.yml`. Publishers see the repo URL
+as the contact. To use an email, set a `WORLDBRIEF_CONTACT` Actions variable.
+
+AI briefs stay off until the repo has an `ANTHROPIC_API_KEY` secret. Their cache and
+the Morning edition stay in `.cache/` with the store, and `morning.json` is published
+with the other files.
+
+`Dockerfile` and `fly.toml` run the live `serve` mode on a server instead, if you
+ever need refreshes faster than this. Feeds can block data-center addresses that
+accept a home connection, so check `failed_sources` in `health.json` after changes.
 
 ## Sections
 
@@ -63,9 +92,9 @@ makes it show up in the app without an app update.
 | Business & Economy | | 36 h |
 | Technology | | 36 h |
 | Science & Research | Physics, Space, AI & ML, Computer Science, Biology, Chemistry & Materials, Earth Science, Science News | 4 days |
-| Health & Medicine | | 36 h |
+| Health & Medicine | Health News, Medical Research, Fitness & Wellbeing, Nutrition, Mental Health | 7 days |
 | Climate & Environment | | 36 h |
-| Sports | | 36 h |
+| Sports | Top Sports, Cricket, Kabaddi, Football, Tennis, F1 & Motorsport, Basketball & US Sports, Olympics & Athletics, Rugby & Golf | 3 days |
 | Culture & Arts | | 36 h |
 
 `python -m worldbrief sections` lists them with source counts.
@@ -127,9 +156,13 @@ class MyAPI(SourcePlugin):
   text, and every item links to the publisher. The court in AP v. Meltwater
   (2013) ruled against an aggregator that copied substantial article text, and
   EU press-publisher rights exempt links and very short extracts.
+- AI briefs are written only from those headlines and snippets, and the app labels
+  them as AI and links every source article.
 - Paywalled domains are dropped (`paywall.yaml`); review the list now and then.
+- Live blogs, videos, galleries, podcasts and recurring pages are dropped
+  (`worldbrief/quality.py`), so every headline opens something readable.
 - arXiv: at most one request every 3 seconds across all machines.
-- Set your contact email in `USER_AGENT` (`worldbrief/plugin.py`).
+- `WORLDBRIEF_CONTACT` sets the contact sent to publishers.
 
 ## Tests
 

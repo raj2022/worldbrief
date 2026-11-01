@@ -1,0 +1,8 @@
+*
+!worldbrief/
+!sources.yaml
+!sections.yaml
+!paywall.yaml
+!requirements.txt
+!entrypoint.sh
+**/__pycache__

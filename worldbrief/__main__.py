@@ -2,6 +2,7 @@
 
     python -m worldbrief serve --every 10             # LIVE: refresh every 10 min + HTTP API
     python -m worldbrief run                          # one refresh -> dist/ (for cron)
+    python -m worldbrief run --store .cache/store.json    # keep the store out of dist/
     python -m worldbrief run --only world,science     # just these sections
     python -m worldbrief run --single-file digest.json
     python -m worldbrief validate [--only sports]     # check sources respond
@@ -13,6 +14,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import sys
 from pathlib import Path
 
@@ -24,6 +26,21 @@ def _only(value: str | None) -> set[str] | None:
     return {s.strip() for s in value.split(",") if s.strip()} if value else None
 
 
+def _briefer(out_dir: Path):
+    """Briefs turn on when an API key is set. Without one, everything else
+    works as usual."""
+    if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
+        logging.getLogger(__name__).warning("ANTHROPIC_API_KEY isn't set, so AI briefs are off")
+        return None
+    from .briefs import Briefer
+    return Briefer.from_env(out_dir)
+
+
+def _morning_hours() -> tuple[int, ...]:
+    raw = os.environ.get("WORLDBRIEF_MORNING_HOURS_UTC", "")
+    return tuple(int(h) for h in raw.split(",") if h.strip()) or pipeline.DEFAULT_MORNING_HOURS
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="worldbrief")
     ap.add_argument("--sources", type=Path, default=pipeline.DEFAULT_SOURCES)
@@ -33,6 +50,9 @@ def main(argv=None) -> int:
     r = sub.add_parser("run", help="fetch sources and write the digest")
     r.add_argument("--out-dir", type=Path, default=Path("dist"),
                    help="writes index.json + sections/<id>.json (default: dist/)")
+    r.add_argument("--store", type=Path, default=None,
+                   help="keep the rolling store and brief cache here instead of in --out-dir, "
+                        "so they aren't published with it (e.g. .cache/store.json)")
     r.add_argument("--single-file", type=Path, default=None,
                    help="write everything to one JSON file instead")
     r.add_argument("--only", help="comma-separated section ids, e.g. world,science")
@@ -85,7 +105,8 @@ def main(argv=None) -> int:
     if args.cmd == "serve":
         from .server import serve
         logging.getLogger().setLevel(logging.INFO)
-        refresher = pipeline.Refresher(args.sources, args.out_dir, only=_only(args.only))
+        refresher = pipeline.Refresher(args.sources, args.out_dir, only=_only(args.only),
+                                       briefer=_briefer(args.out_dir), morning_hours=_morning_hours())
         serve(refresher, args.host, args.port, args.every)
         return 0
 
@@ -97,8 +118,10 @@ def main(argv=None) -> int:
     else:
         # Uses the rolling store in out_dir, so running this from cron every
         # few minutes behaves like the live server.
-        digest = pipeline.Refresher(args.sources, args.out_dir, paywall_path=args.paywall,
-                                    only=_only(args.only)).refresh()
+        digest = pipeline.Refresher(args.sources, args.out_dir, store_path=args.store,
+                                    paywall_path=args.paywall, only=_only(args.only),
+                                    briefer=_briefer(args.store.parent if args.store else args.out_dir),
+                                    morning_hours=_morning_hours()).refresh()
         where = f"{args.out_dir}/ (index.json + {len(digest['sections'])} section files)"
     s = digest["stats"]
     print(f"wrote {where}: {s['stories']} stories from {s['sources_ok']} sources "
