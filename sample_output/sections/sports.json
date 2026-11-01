@@ -1,0 +1,77 @@
+{
+    "id": "sports",
+    "top": [
+        {
+            "id": "c8386c061ba29906",
+            "headline": "India beat Australia in World Cup semi-final",
+            "snippet": "",
+            "category": "sports",
+            "regions": [
+                "global"
+            ],
+            "topics": [],
+            "source_count": 1,
+            "latest": "2026-11-01T10:00:00+00:00",
+            "score": 1.22,
+            "articles": [
+                {
+                    "title": "India beat Australia in World Cup semi-final",
+                    "url": "https://www.bbc.co.uk/sport/cricket/1",
+                    "source": "BBC Sport",
+                    "category": "sports",
+                    "region": "global",
+                    "topic": "",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "",
+                    "published": "2026-11-01T10:00:00+00:00",
+                    "lang": "en",
+                    "tags": [],
+                    "plugin": "unit_test_sports",
+                    "first_seen": null,
+                    "id": "70e7244953aeb188",
+                    "domain": "bbc.co.uk"
+                }
+            ]
+        }
+    ],
+    "latest": [
+        {
+            "id": "c8386c061ba29906",
+            "headline": "India beat Australia in World Cup semi-final",
+            "snippet": "",
+            "category": "sports",
+            "regions": [
+                "global"
+            ],
+            "topics": [],
+            "source_count": 1,
+            "latest": "2026-11-01T10:00:00+00:00",
+            "score": 1.22,
+            "articles": [
+                {
+                    "title": "India beat Australia in World Cup semi-final",
+                    "url": "https://www.bbc.co.uk/sport/cricket/1",
+                    "source": "BBC Sport",
+                    "category": "sports",
+                    "region": "global",
+                    "topic": "",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "",
+                    "published": "2026-11-01T10:00:00+00:00",
+                    "lang": "en",
+                    "tags": [],
+                    "plugin": "unit_test_sports",
+                    "first_seen": null,
+                    "id": "70e7244953aeb188",
+                    "domain": "bbc.co.uk"
+                }
+            ]
+        }
+    ],
+    "by_topic": {},
+    "by_region": {},
+    "story_count": 1,
+    "generated_at": "2026-11-01T12:00:00+00:00"
+}

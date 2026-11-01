@@ -1,0 +1,320 @@
+# Free, credible sources for every section in sections.yaml.
+# Built from the research in reports/ (Nov 2026). Every outlet is free to read.
+#
+# Feed URLs were last checked on 2026-11-01. Re-check with
+#   python -m worldbrief validate
+# and fix or disable (enabled: false) any that fail before shipping.
+#
+# Fields
+#   type        plugin: rss | arxiv | gdelt | hackernews | substack | hf_papers
+#   category    section id;  topic: subtopic id (sections that have them)
+#   region      global (default) | africa | asia | middle_east | europe | americas | oceania
+#   ownership   independent (default) | public | state_linked | aggregator
+#   note        shown on the app's "Our sources" page
+#   limited_in  countries where free reading is limited (e.g. bbc.com in the US)
+#
+# Not included on purpose: state propaganda outlets (RT, Sputnik, TASS, Xinhua,
+# CGTN, Global Times, Press TV, TeleSUR, KCNA ...) and paywalled outlets.
+
+sources:
+
+  # ═══════════════════════════ WORLD & POLITICS ═══════════════════════════
+  # ── International ──
+  - {type: rss, name: BBC World,          url: "https://feeds.bbci.co.uk/news/world/rss.xml", category: world, ownership: public, limited_in: [US], note: "UK public broadcaster. bbc.com has a dynamic paywall for US visitors (since June 2025)."}
+  - {type: rss, name: The Guardian World, url: "https://www.theguardian.com/world/rss", category: world, note: "Owned by the Scott Trust; no paywall."}
+  - {type: rss, name: Al Jazeera,         url: "https://www.aljazeera.com/xml/rss/all.xml", category: world, ownership: state_linked, link_excludes: ["/opinions/"], note: "Funded by the State of Qatar; strong Global South coverage."}
+  - {type: rss, name: DW,                 url: "https://rss.dw.com/rdf/rss-en-all", category: world, ownership: public, note: "German public broadcaster, legally independent."}
+  - {type: rss, name: France 24,          url: "https://www.france24.com/en/rss", category: world, ownership: public, note: "France Médias Monde, public service."}
+  - {type: rss, name: RFI English,        url: "https://www.rfi.fr/en/rss", category: world, ownership: public}
+  - {type: rss, name: AP Top Stories,     url: "https://flipboard.com/@associatedpress/top-stories-u7govdf1z.rss", category: world, note: "AP's own Flipboard feed (apnews.com has no official RSS since 2024)."}
+  - {type: rss, name: UN News,            url: "https://news.un.org/feed/subscribe/en/news/all/rss.xml", category: world, ownership: public}
+  - {type: rss, name: Global Voices,      url: "https://globalvoices.org/feed/", category: world, note: "Nonprofit citizen-media network."}
+
+  # ── Africa ──
+  - {type: rss, name: BBC Africa,         url: "https://feeds.bbci.co.uk/news/world/africa/rss.xml", category: world, region: africa, ownership: public, limited_in: [US]}
+  - {type: rss, name: AllAfrica,          url: "https://allafrica.com/tools/headlines/rdf/latest/headlines.rdf", category: world, region: africa, note: "Aggregates 100+ African outlets."}
+  - {type: rss, name: The Guardian Africa, url: "https://www.theguardian.com/world/africa/rss", category: world, region: africa}
+  - {type: rss, name: Daily Maverick,     url: "https://www.dailymaverick.co.za/dmrss/", category: world, region: africa, link_excludes: ["/opinionista/"], note: "Independent (South Africa); free with optional membership."}
+  - {type: rss, name: GroundUp,           url: "https://groundup.org.za/sitenews/rss/", category: world, region: africa, note: "Nonprofit (South Africa)."}
+  - {type: rss, name: Premium Times,      url: "https://www.premiumtimesng.com/feed", category: world, region: africa, note: "Independent (Nigeria); free, optional membership."}
+  - {type: rss, name: TheCable,           url: "https://www.thecable.ng/feed", category: world, region: africa, enabled: false, note: "Independent (Nigeria). DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
+  - {type: rss, name: HumAngle,           url: "https://humanglemedia.com/feed/", category: world, region: africa, enabled: false, note: "Conflict and humanitarian reporting, Lake Chad and Sahel. DISABLED: Hosting bot check returns 429 to the WorldBrief User-Agent, homepage included (Nov 2026)."}
+  - {type: rss, name: Citizen Digital,    url: "https://citizen.digital/feed.xml", category: world, region: africa, note: "Royal Media Services (Kenya)."}
+  - {type: rss, name: MyJoyOnline,        url: "https://www.myjoyonline.com/feed/", category: world, region: africa, note: "Multimedia Group (Ghana)."}
+  - {type: rss, name: Citi Newsroom,      url: "https://citinewsroom.com/feed/", category: world, region: africa, enabled: false, note: "Ghana. DISABLED: Feed URLs now redirect to the homepage; no public feed found (Nov 2026)."}
+  - {type: rss, name: Addis Standard,     url: "https://addisstandard.com/feed/", category: world, region: africa, enabled: false, note: "Independent (Ethiopia). DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
+  - {type: rss, name: Ethiopia Insight,   url: "https://www.ethiopia-insight.com/feed/", category: world, region: africa}
+  - {type: rss, name: Radio Dabanga,      url: "https://www.dabangasudan.org/en/feed", category: world, region: africa, note: "Independent Sudanese newsroom in exile (Amsterdam)."}
+  - {type: rss, name: Sudan Tribune,      url: "https://sudantribune.com/feed/", category: world, region: africa, enabled: false, note: "DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
+  - {type: rss, name: Mada Masr,          url: "https://www.madamasr.com/en/feed/", category: world, region: africa, note: "Independent (Egypt). An Egyptian court ordered it closed on 27 Oct 2026; the feed may stop."}
+  - {type: rss, name: Morocco World News, url: "https://www.moroccoworldnews.com/feed/", category: world, region: africa, enabled: false, note: "DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
+  - {type: rss, name: Hespress English,   url: "https://en.hespress.com/feed", category: world, region: africa, note: "Private (Morocco)."}
+  - {type: rss, name: Nawaat,             url: "https://nawaat.org/feed/", category: world, region: africa, note: "Independent (Tunisia)."}
+  - {type: rss, name: African Arguments,  url: "https://africanarguments.org/feed/", category: world, region: africa}
+  - {type: rss, name: Africanews,         url: "https://www.africanews.com/feed/rss", category: world, region: africa, note: "Same owner as Euronews (see the Euronews note)."}
+  - {type: rss, name: Punch,              url: "https://rss.punchng.com/v1/category/latest_news", category: world, region: africa, note: "Private (Nigeria)."}
+  - {type: rss, name: Channels TV,        url: "https://www.channelstv.com/feed/", category: world, region: africa, note: "Private broadcaster (Nigeria)."}
+  - {type: rss, name: The New Humanitarian, url: "https://www.thenewhumanitarian.org/rss/all.xml", category: world, note: "Nonprofit; crises and humanitarian response."}
+  - {type: gdelt, name: GDELT Africa,     query: "(sourcecountry:nigeria OR sourcecountry:kenya OR sourcecountry:southafrica OR sourcecountry:ethiopia OR sourcecountry:ghana OR sourcecountry:senegal OR sourcecountry:uganda) (election OR government OR parliament OR president OR minister)", category: world, region: africa, enabled: false, note: "DISABLED: API rate-limits to one request per 5 s; two GDELT sources run at once. Needs serialized requests."}
+
+  # ── Middle East ──
+  - {type: rss, name: BBC Middle East,    url: "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml", category: world, region: middle_east, ownership: public, limited_in: [US]}
+  - {type: rss, name: Middle East Eye,    url: "https://www.middleeasteye.net/rss", category: world, region: middle_east, link_excludes: ["/opinion/"], note: "London-based; ownership not publicly disclosed."}
+  - {type: rss, name: Times of Israel,    url: "https://www.timesofisrael.com/feed/", category: world, region: middle_east}
+  - {type: rss, name: The Guardian Middle East, url: "https://www.theguardian.com/world/middleeast/rss", category: world, region: middle_east}
+  - {type: rss, name: Ynetnews,           url: "https://www.ynetnews.com/Integration/StoryRss3089.xml", category: world, region: middle_east, note: "Yedioth Ahronoth group (Israel)."}
+  - {type: rss, name: +972 Magazine,      url: "https://www.972mag.com/feed/", category: world, region: middle_east, note: "Independent, left; Israeli and Palestinian journalists."}
+  - {type: rss, name: Naharnet,           url: "http://www.naharnet.com/tags/middle-east/en/feed.atom", category: world, region: middle_east, note: "Private (Lebanon)."}
+  - {type: rss, name: IranWire,           url: "https://iranwire.com/en/feed/", category: world, region: middle_east, note: "Independent, run by Iranian journalists in exile."}
+  - {type: rss, name: bianet English,     url: "https://bianet.org/english/rss", category: world, region: middle_east, note: "Independent (Turkey)."}
+  - {type: rss, name: Turkish Minute,     url: "https://www.turkishminute.com/feed/", category: world, region: middle_east, note: "Exile-run; critical of the Turkish government."}
+  - {type: rss, name: Rudaw,              url: "https://www.rudaw.net/rss/english", category: world, region: middle_east, enabled: false, note: "Kurdistan Region of Iraq; linked to the ruling KDP. DISABLED: No public feed found on the site (checked Nov 2026)."}
+  - {type: rss, name: Enab Baladi,        url: "https://english.enabbaladi.net/feed/", category: world, region: middle_east, enabled: false, note: "Independent (Syria). DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
+  - {type: rss, name: Syria Direct,       url: "https://syriadirect.org/feed/", category: world, region: middle_east, note: "Independent nonprofit."}
+  - {type: rss, name: Amwaj.media,        url: "https://amwaj.media/rss", category: world, region: middle_east, note: "Independent; Iran, Iraq and the Arabian Peninsula."}
+  - {type: rss, name: The New Arab,       url: "https://www.newarab.com/rss", category: world, region: middle_east, note: "London-based; reported Qatari funding."}
+
+  # ── South Asia ──
+  - {type: rss, name: Scroll.in,          url: "https://feeds.feedburner.com/ScrollinArticles.rss", category: world, region: asia, note: "Independent, reader-funded (India)."}
+  - {type: rss, name: The Wire,           url: "https://cms.thewire.in/feed/", category: world, region: asia, link_excludes: ["/opinion/", "/ptiprnews/"], note: "Nonprofit (India). Feed is served from the cms host; PTI press-release copy is filtered out."}
+  - {type: rss, name: ThePrint,           url: "https://theprint.in/category/politics/feed/", category: world, region: asia, note: "Independent (India). Politics feed: the root feed returns 403, and the India feed is mostly PTI wire copy."}
+  - {type: rss, name: The News Minute,    url: "https://www.thenewsminute.com/feed", category: world, region: asia, note: "Independent, South India."}
+  - {type: rss, name: Dawn,               url: "https://www.dawn.com/feeds/home", category: world, region: asia, note: "Pakistan's paper of record."}
+  - {type: rss, name: The Express Tribune, url: "https://tribune.com.pk/feed/home", category: world, region: asia}
+  - {type: rss, name: The Daily Star (Bangladesh), url: "https://www.thedailystar.net/frontpage/rss.xml", category: world, region: asia}
+  - {type: rss, name: The Kathmandu Post, url: "https://kathmandupost.com/rss", category: world, region: asia}
+  - {type: rss, name: Daily Mirror (Sri Lanka), url: "https://www.dailymirror.lk/rss/breaking_news/108", category: world, region: asia}
+  - {type: rss, name: Himal Southasian,   url: "https://www.himalmag.com/feed", category: world, region: asia, note: "Regional nonprofit magazine."}
+  # ── Southeast Asia ──
+  - {type: rss, name: Rappler,            url: "https://www.rappler.com/feed/", category: world, region: asia, note: "Independent (Philippines); co-founded by Nobel laureate Maria Ressa. IFCN signatory."}
+  - {type: rss, name: Philippine Daily Inquirer, url: "https://www.inquirer.net/fullfeed", category: world, region: asia, enabled: false, note: "DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
+  - {type: rss, name: Free Malaysia Today, url: "https://www.freemalaysiatoday.com/feed/", category: world, region: asia}
+  - {type: rss, name: CNA,                url: "https://www.channelnewsasia.com/api/v1/rss-outbound-feed?_format=xml", category: world, region: asia, ownership: state_linked, note: "Mediacorp, owned by Singapore state investor Temasek."}
+  - {type: rss, name: Prachatai English,  url: "https://prachataienglish.com/rss.xml", category: world, region: asia, note: "Independent nonprofit (Thailand)."}
+  - {type: rss, name: Thai PBS World,     url: "https://world.thaipbs.or.th/rss", category: world, region: asia, ownership: public, enabled: false, note: "DISABLED: Moved to thaipbsworld.com; no public feed found there (Nov 2026)."}
+  - {type: rss, name: The Irrawaddy,      url: "https://www.irrawaddy.com/feed", category: world, region: asia, note: "Independent exile media (Myanmar)."}
+  - {type: rss, name: CamboJA News,       url: "https://cambojanews.com/feed/", category: world, region: asia, note: "Cambodian Journalists Alliance."}
+  # ── East Asia ──
+  - {type: rss, name: NHK World,          url: "https://www3.nhk.or.jp/nhkworld/en/news/rss/", category: world, region: asia, ownership: public, enabled: false, note: "DISABLED: English feed removed; only Japanese and audio-podcast feeds remain (Nov 2026)."}
+  - {type: rss, name: Kyodo News,         url: "https://english.kyodonews.net/list/feed/rss4kyodonews-fzone", category: world, region: asia, ownership: public, enabled: false, note: "Nonprofit cooperative news agency (Japan). DISABLED: article pages are marked isAccessibleForFree:false with a .paywalled-content block (Nov 2026)."}
+  - {type: rss, name: Mainichi,           url: "https://mainichi.jp/rss/etc/english_latest.rss", category: world, region: asia}
+  - {type: rss, name: Japan Today,        url: "https://japantoday.com/feed", category: world, region: asia, note: "English-language news site (Japan)."}
+  - {type: rss, name: nippon.com,         url: "https://www.nippon.com/list/feed/rss_en", category: world, region: asia, note: "Nippon Communications Foundation (Japan); features and explainers."}
+  - {type: rss, name: Yonhap,             url: "https://en.yna.co.kr/RSS/news.xml", category: world, region: asia, ownership: public, note: "State-subsidised national news agency (South Korea)."}
+  - {type: rss, name: Hankyoreh,          url: "https://english.hani.co.kr/rss/", category: world, region: asia, note: "Citizen-shareholder owned (South Korea)."}
+  - {type: rss, name: Korea JoongAng Daily, url: "https://koreajoongangdaily.joins.com/xmls/joins_rss_latest.xml", category: world, region: asia, enabled: false, note: "Site moved domains; find the new feed URL before enabling."}
+  - {type: rss, name: Focus Taiwan,       url: "https://feeds.feedburner.com/rsscna/engnews/", category: world, region: asia, ownership: public}
+  - {type: rss, name: Taipei Times,       url: "https://www.taipeitimes.com/xml/index.rss", category: world, region: asia}
+  - {type: rss, name: Hong Kong Free Press, url: "https://hongkongfp.com/feed/", category: world, region: asia, note: "Independent, reader-funded."}
+  - {type: rss, name: China Digital Times, url: "https://chinadigitaltimes.net/feed/", category: world, region: asia, note: "Independent coverage of China (US-based)."}
+  - {type: rss, name: ChinaFile,          url: "https://www.chinafile.com/rss.xml", category: world, region: asia, note: "Asia Society."}
+  # ── Central Asia ──
+  - {type: rss, name: Eurasianet,         url: "https://eurasianet.org/rss", category: world, region: asia, note: "Independent nonprofit."}
+  - {type: rss, name: The Times of Central Asia, url: "https://timesca.com/feed/", category: world, region: asia}
+  - {type: gdelt, name: GDELT South & SE Asia, query: "(sourcecountry:india OR sourcecountry:indonesia OR sourcecountry:philippines OR sourcecountry:bangladesh OR sourcecountry:vietnam OR sourcecountry:pakistan) (election OR government OR minister OR parliament)", category: world, region: asia, enabled: false, note: "DISABLED: API rate-limits to one request per 5 s; two GDELT sources run at once. Needs serialized requests."}
+
+  # ── Europe ──
+  - {type: rss, name: BBC Europe,         url: "https://feeds.bbci.co.uk/news/world/europe/rss.xml", category: world, region: europe, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian Europe, url: "https://www.theguardian.com/world/europe-news/rss", category: world, region: europe}
+  - {type: rss, name: Sky News World,     url: "https://feeds.skynews.com/feeds/rss/world.xml", category: world, region: europe}
+  - {type: rss, name: Euronews,           url: "https://www.euronews.com/rss", category: world, region: europe, note: "Majority-owned by Alpac Capital, which has reported indirect links to Viktor Orbán."}
+  - {type: rss, name: Politico Europe,    url: "https://www.politico.eu/feed/", category: world, region: europe, note: "Axel Springer. News site free; Politico Pro is paid."}
+  - {type: rss, name: RTÉ News,           url: "https://www.rte.ie/feeds/rss/?index=/news/", category: world, region: europe, ownership: public}
+  - {type: rss, name: Swissinfo,          url: "https://www.swissinfo.ch/eng/rss", category: world, region: europe, ownership: public, enabled: false, note: "DISABLED: Feed returns 410 Gone; no replacement found (Nov 2026)."}
+  - {type: rss, name: Yle News,           url: "https://feeds.yle.fi/uutiset/v1/recent.rss?publisherIds=YLE_NEWS", category: world, region: europe, ownership: public}
+  - {type: rss, name: ERR News,           url: "https://news.err.ee/rss", category: world, region: europe, ownership: public}
+  - {type: rss, name: Notes from Poland,  url: "https://notesfrompoland.com/feed/", category: world, region: europe}
+  - {type: rss, name: Balkan Insight,     url: "https://balkaninsight.com/feed/", category: world, region: europe, note: "BIRN nonprofit network."}
+  - {type: rss, name: Kyiv Independent,   url: "https://kyivindependent.com/news-archive/rss/", category: world, region: europe, note: "Reader-funded; pledged no paywall during the war."}
+  - {type: rss, name: Ukrainska Pravda,   url: "https://www.pravda.com.ua/eng/rss/", category: world, region: europe}
+  - {type: rss, name: Meduza,             url: "https://meduza.io/rss/en/all", category: world, region: europe, note: "Independent Russian newsroom in exile."}
+  - {type: rss, name: The Moscow Times,   url: "https://www.themoscowtimes.com/rss/news", category: world, region: europe, note: "Independent, in exile."}
+  - {type: rss, name: Novaya Gazeta Europe, url: "https://novayagazeta.eu/feed/rss/en", category: world, region: europe, note: "Independent, in exile."}
+  - {type: rss, name: RFE/RL,             url: "https://www.rferl.org/api/", category: world, region: europe, ownership: public, note: "US-government funded (USAGM); several services closed in 2026."}
+  - {type: rss, name: OCCRP,              url: "https://www.occrp.org/en/feed", category: world, region: europe, note: "Investigative nonprofit."}
+  - {type: rss, name: Bellingcat,         url: "https://www.bellingcat.com/feed/", category: world, region: europe, note: "Open-source investigations."}
+
+  # ── Americas ──
+  - {type: rss, name: NPR News,           url: "https://feeds.npr.org/1001/rss.xml", category: world, region: americas, ownership: public}
+  - {type: rss, name: NPR Politics,       url: "https://feeds.npr.org/1014/rss.xml", category: world, region: americas, ownership: public}
+  - {type: rss, name: PBS NewsHour,       url: "https://www.pbs.org/newshour/feeds/rss/headlines", category: world, region: americas, ownership: public}
+  - {type: rss, name: ProPublica,         url: "https://feeds.propublica.org/propublica/main", category: world, region: americas, note: "Investigative nonprofit."}
+  - {type: rss, name: The 19th,           url: "https://19thnews.org/feed/", category: world, region: americas, note: "Nonprofit; gender, politics and policy."}
+  - {type: rss, name: Texas Tribune,      url: "https://feeds.texastribune.org/feeds/main/", category: world, region: americas}
+  - {type: rss, name: CalMatters,         url: "https://calmatters.org/feed/", category: world, region: americas}
+  - {type: rss, name: Votebeat,           url: "https://www.votebeat.org/arc/outboundfeeds/rss/", category: world, region: americas, note: "Nonprofit covering elections."}
+  - {type: rss, name: Axios,              url: "https://api.axios.com/feed/", category: world, region: americas, note: "Cox Enterprises. Main site free; Axios Pro paid."}
+  - {type: rss, name: The Hill,           url: "https://thehill.com/news/feed/", category: world, region: americas}
+  - {type: rss, name: CBC World,          url: "https://www.cbc.ca/webfeed/rss/rss-world", category: world, region: americas, ownership: public, enabled: false, note: "DISABLED: cbc.ca drops requests when USER_AGENT contains '+free news aggregator'; rss.cbc.ca/lineup feeds time out the same way (Nov 2026)."}
+  - {type: rss, name: CBC Canada,         url: "https://www.cbc.ca/webfeed/rss/rss-canada", category: world, region: americas, ownership: public, enabled: false, note: "DISABLED: cbc.ca drops requests when USER_AGENT contains '+free news aggregator'; rss.cbc.ca/lineup feeds time out the same way (Nov 2026)."}
+  - {type: rss, name: The Tyee,           url: "https://thetyee.ca/rss2.xml", category: world, region: americas, note: "Independent, progressive (Canada)."}
+  - {type: rss, name: Global News Canada, url: "https://globalnews.ca/canada/feed/", category: world, region: americas, note: "Corus Entertainment (Canada)."}
+  - {type: rss, name: Global News World,  url: "https://globalnews.ca/world/feed/", category: world, region: americas, note: "Corus Entertainment (Canada)."}
+  - {type: rss, name: BBC Latin America,  url: "https://feeds.bbci.co.uk/news/world/latin_america/rss.xml", category: world, region: americas, ownership: public, limited_in: [US]}
+  - {type: rss, name: MercoPress,         url: "https://en.mercopress.com/rss", category: world, region: americas}
+  - {type: rss, name: Buenos Aires Times, url: "https://www.batimes.com.ar/feed", category: world, region: americas}
+  - {type: rss, name: Agência Brasil,     url: "https://agenciabrasil.ebc.com.br/rss/ultimasnoticias/feed.xml", category: world, region: americas, ownership: public, lang: pt, note: "Brazilian federal public company (EBC). Portuguese."}
+  - {type: rss, name: Animal Político,    url: "https://www.animalpolitico.com/feed/", category: world, region: americas, lang: es, enabled: false, note: "Independent (Mexico). Spanish. DISABLED: Site moved to grupoanimal.mx; old feed returns 504 and no new feed found (Nov 2026)."}
+  - {type: rss, name: El Faro,            url: "https://elfaro.net/rss/", category: world, region: americas, lang: es, enabled: false, note: "Independent (El Salvador, in exile in Costa Rica). Spanish. DISABLED: Site erroring; /rss/feed/ responds but its newest item is May 2025 (Nov 2026)."}
+  - {type: rss, name: InSight Crime,      url: "https://insightcrime.org/feed/", category: world, region: americas, note: "Nonprofit; organized crime in the Americas."}
+  - {type: rss, name: Jamaica Gleaner,    url: "https://jamaica-gleaner.com/feed/rss.xml", category: world, region: americas, enabled: false, note: "DISABLED: Fails TLS verification in Python (certificate chain); don't turn verification off."}
+
+  # ── Oceania ──
+  - {type: rss, name: ABC Australia,      url: "https://www.abc.net.au/news/feed/51120/rss.xml", category: world, region: oceania, ownership: public}
+  - {type: rss, name: SBS News,           url: "https://www.sbs.com.au/news/topic/latest/feed", category: world, region: oceania, ownership: public}
+  - {type: rss, name: Guardian Australia, url: "https://www.theguardian.com/australia-news/rss", category: world, region: oceania}
+  - {type: rss, name: RNZ,                url: "https://www.rnz.co.nz/rss/national.xml", category: world, region: oceania, ownership: public}
+  - {type: rss, name: RNZ Pacific,        url: "https://www.rnz.co.nz/rss/pacific.xml", category: world, region: oceania, ownership: public}
+  - {type: rss, name: The Spinoff,        url: "https://thespinoff.co.nz/feed", category: world, region: oceania, enabled: false, note: "DISABLED: No public feed found on the site (checked Nov 2026)."}
+  - {type: rss, name: Newsroom NZ,        url: "https://newsroom.co.nz/feed/", category: world, region: oceania}
+  - {type: rss, name: Asia Pacific Report, url: "https://asiapacificreport.nz/feed/", category: world, region: oceania}
+
+  # ═══════════════════════════ OPINION & ANALYSIS ═══════════════════════════
+  # Viewpoints deliberately span left, centre and right, and the Global South.
+  # ── Editorials (the institution's own voice) ──
+  - {type: rss, name: The Guardian Editorials, url: "https://www.theguardian.com/profile/editorial/rss", category: opinion, topic: editorials, region: europe, note: "Centre-left."}
+  - {type: rss, name: Dawn Editorials,    url: "https://www.dawn.com/feeds/editorial", category: opinion, topic: editorials, region: asia, enabled: false, note: "DISABLED: Feed removed; Dawn Opinion still carries editorials (Nov 2026)."}
+  - {type: rss, name: Rappler Editorials, url: "https://www.rappler.com/voices/editorials/feed/", category: opinion, topic: editorials, region: asia, note: "Weekly; some pieces are in Filipino."}
+  - {type: rss, name: The Daily Star Editorials, url: "https://www.thedailystar.net/taxonomy/term/61/rss.xml", category: opinion, topic: editorials, region: asia, note: "Bangladesh."}
+  - {type: rss, name: Express Tribune Editorials, url: "https://tribune.com.pk/feed/editorial", category: opinion, topic: editorials, region: asia, note: "Pakistan."}
+  - {type: rss, name: Premium Times Editorials, url: "https://www.premiumtimesng.com/category/opinion/editorial/feed", category: opinion, topic: editorials, region: africa, note: "Nigeria; weekly."}
+  - {type: rss, name: Vanguard Editorials, url: "https://www.vanguardngr.com/category/editorial/feed/", category: opinion, topic: editorials, region: africa, note: "Nigeria."}
+  - {type: rss, name: Jamaica Observer Editorial, url: "https://www.jamaicaobserver.com/category/editorial/feed/", category: opinion, topic: editorials, region: americas, note: "Jamaica. Section also carries signed staff pieces."}
+  # ── Columns & op-eds ──
+  - {type: rss, name: The Guardian Opinion, url: "https://www.theguardian.com/uk/commentisfree/rss", category: opinion, topic: columns, region: europe, note: "Centre-left."}
+  - {type: rss, name: Al Jazeera Opinion, url: "https://www.aljazeera.com/xml/rss/all.xml", link_contains: ["/opinions/"], category: opinion, topic: columns, ownership: state_linked, enabled: false, note: "Qatar state-funded; Global South voices. DISABLED: Main feed had no /opinions/ links when checked; no separate opinion feed found (Nov 2026)."}
+  - {type: rss, name: Middle East Eye Opinion, url: "https://www.middleeasteye.net/rss", link_contains: ["/opinion/"], category: opinion, topic: columns, region: middle_east}
+  - {type: rss, name: Dawn Opinion,       url: "https://www.dawn.com/feeds/opinion", category: opinion, topic: columns, region: asia}
+  - {type: rss, name: The Wire Opinion,   url: "https://thewire.in/rss", link_contains: ["/opinion/"], category: opinion, topic: columns, region: asia, enabled: false, note: "Left-liberal (India). DISABLED: No public feed found on the site (checked Nov 2026)."}
+  - {type: rss, name: Rappler Voices,     url: "https://www.rappler.com/voices/feed/", category: opinion, topic: columns, region: asia}
+  - {type: rss, name: Kyiv Independent Opinion, url: "https://kyivindependent.com/tag/opinion/rss/", category: opinion, topic: columns, region: europe, enabled: false, note: "DISABLED: Tag feed removed; the main feed has no way to pick out opinion links (Nov 2026)."}
+  - {type: rss, name: Daily Maverick Opinionistas, url: "https://www.dailymaverick.co.za/dmrss/", link_contains: ["/opinionista/"], category: opinion, topic: columns, region: africa, note: "Free; voluntary membership."}
+  - {type: rss, name: Africa Is a Country, url: "https://africasacountry.com/feed", category: opinion, topic: columns, region: africa, note: "Left."}
+  - {type: rss, name: Reason,             url: "https://reason.com/feed/", category: opinion, topic: columns, region: americas, note: "Libertarian."}
+  # ── Policy & think tanks ──
+  - {type: rss, name: Brookings,          url: "https://www.brookings.edu/feed/", category: opinion, topic: analysis, region: americas, enabled: false, note: "Centre-left. DISABLED: Feed URLs now redirect to the homepage; no public feed found (Nov 2026)."}
+  - {type: rss, name: AEI,                url: "https://www.aei.org/feed/", category: opinion, topic: analysis, region: americas, note: "Centre-right / conservative."}
+  - {type: rss, name: Cato Institute,     url: "https://www.cato.org/rss/recent-opeds", category: opinion, topic: analysis, region: americas, enabled: false, note: "Libertarian. DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
+  - {type: rss, name: Council on Foreign Relations, url: "https://www.cfr.org/feed", category: opinion, topic: analysis, region: americas, note: "Centre."}
+  - {type: rss, name: RAND Commentary,    url: "https://www.rand.org/pubs/commentary.xml", category: opinion, topic: analysis, region: americas, note: "Centre."}
+  - {type: rss, name: Atlantic Council,   url: "https://www.atlanticcouncil.org/feed/", category: opinion, topic: analysis, region: americas, note: "Centre, transatlanticist."}
+  - {type: rss, name: War on the Rocks,   url: "https://warontherocks.com/feed/", category: opinion, topic: analysis, region: americas, note: "National security; articles free."}
+  - {type: rss, name: Just Security,      url: "https://www.justsecurity.org/feed/", category: opinion, topic: analysis, region: americas, note: "NYU; law and security."}
+  - {type: rss, name: Niskanen Center,    url: "https://www.niskanencenter.org/feed/", category: opinion, topic: analysis, region: americas, note: "Centrist."}
+  - {type: rss, name: Manhattan Institute, url: "https://manhattan.institute/rss.xml", category: opinion, topic: analysis, region: americas, note: "Centre-right."}
+  - {type: rss, name: Law & Liberty,      url: "https://lawliberty.org/feed/", category: opinion, topic: analysis, region: americas, note: "Conservative / classical liberal; Liberty Fund."}
+  - {type: rss, name: Chatham House,      url: "https://www.chathamhouse.org/path/publications.xml", category: opinion, topic: analysis, region: europe, note: "Centre."}
+  - {type: rss, name: ECFR,               url: "https://ecfr.eu/feed/", category: opinion, topic: analysis, region: europe, enabled: false, note: "Pro-EU, centre. DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
+  - {type: rss, name: Bruegel,            url: "https://www.bruegel.org/rss.xml", category: opinion, topic: analysis, region: europe, note: "Economics, centre."}
+  - {type: rss, name: VoxEU (CEPR),       url: "https://cepr.org/rss/vox-content", category: opinion, topic: analysis, region: europe, note: "Research-based economics columns."}
+  - {type: rss, name: ORF,                url: "https://www.orfonline.org/feed", category: opinion, topic: analysis, region: asia, enabled: false, note: "India; seen as close to government. DISABLED: No public feed found on the site (checked Nov 2026)."}
+  - {type: rss, name: ASPI The Strategist, url: "https://www.aspistrategist.org.au/feed/", category: opinion, topic: analysis, region: oceania, note: "Part government/defence-industry funded."}
+  - {type: rss, name: Lowy Interpreter,   url: "https://www.lowyinstitute.org/the-interpreter/rss.xml", category: opinion, topic: analysis, region: oceania}
+  - {type: rss, name: SAIIA,              url: "https://saiia.org.za/feed/", category: opinion, topic: analysis, region: africa}
+  - {type: rss, name: ISS Africa,         url: "https://issafrica.org/rss", category: opinion, topic: analysis, region: africa, enabled: false, note: "Institute for Security Studies. DISABLED: No public feed found on the site (checked Nov 2026)."}
+  - {type: rss, name: International Crisis Group, url: "https://www.crisisgroup.org/rss", link_excludes: ["/ar/", "/fr/", "/es/", "/ru/", "/evt/", "/vid/"], category: opinion, topic: analysis, note: "Centrist; nonpartisan conflict-prevention NGO. Non-English items and events filtered out."}
+  # ── Expert commentary (academics) ──
+  - {type: rss, name: The Conversation,   url: "https://theconversation.com/global/articles.atom", category: opinion, topic: experts, note: "Academics write, journalists edit; Creative Commons."}
+  - {type: rss, name: The Conversation Africa, url: "https://theconversation.com/africa/articles.atom", category: opinion, topic: experts, region: africa}
+  - {type: rss, name: East Asia Forum,    url: "https://eastasiaforum.org/feed/", category: opinion, topic: experts, region: asia, enabled: false, note: "ANU Crawford School. DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
+  - {type: rss, name: Devpolicy Blog,     url: "https://devpolicy.org/feed/", category: opinion, topic: experts, region: oceania, note: "ANU Development Policy Centre."}
+  # ── Long reads & essays ──
+  - {type: rss, name: Aeon,               url: "https://aeon.co/feed.rss", category: opinion, topic: essays, note: "Nonprofit; philosophy, science, culture."}
+  - {type: rss, name: Noema,              url: "https://www.noemamag.com/feed/", category: opinion, topic: essays, enabled: false, note: "Berggruen Institute. DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
+  - {type: rss, name: Knowable Magazine,  url: "https://knowablemagazine.org/rss", category: opinion, topic: essays, note: "Annual Reviews; CC BY-ND."}
+  - {type: rss, name: Undark,             url: "https://undark.org/feed/", category: opinion, topic: essays, note: "MIT Knight Science Journalism."}
+  - {type: rss, name: Boston Review,      url: "https://www.bostonreview.net/feed/", category: opinion, topic: essays, enabled: false, note: "Left. DISABLED: Feed URLs now redirect to the homepage; no public feed found (Nov 2026)."}
+  - {type: rss, name: Jacobin,            url: "https://jacobin.com/feed/", category: opinion, topic: essays, note: "Socialist left."}
+  # ── Independent newsletters (free posts only) ──
+  - {type: substack, name: Letters from an American, site: "https://heathercoxrichardson.substack.com", category: opinion, topic: newsletters, region: americas, note: "Historian Heather Cox Richardson; left of centre."}
+  - {type: substack, name: Noahpinion,    site: "https://www.noahpinion.blog", category: opinion, topic: newsletters, note: "Economics; centre-left, pro-growth."}
+  - {type: substack, name: Silver Bulletin, site: "https://www.natesilver.net", category: opinion, topic: newsletters, region: americas, note: "Nate Silver; centre."}
+  - {type: substack, name: Chartbook,     site: "https://adamtooze.substack.com", category: opinion, topic: newsletters, note: "Economic historian Adam Tooze."}
+  - {type: substack, name: Persuasion,    site: "https://www.persuasion.community", category: opinion, topic: newsletters, note: "Centrist liberal."}
+  - {type: substack, name: The Bulwark,   site: "https://www.thebulwark.com", category: opinion, topic: newsletters, region: americas, note: "Centre-right; paid posts filtered out."}
+  - {type: substack, name: Import AI,     site: "https://importai.substack.com", category: opinion, topic: newsletters, note: "AI research and policy."}
+  - {type: rss, name: Simon Willison,     url: "https://simonwillison.net/atom/everything/", category: opinion, topic: newsletters, note: "Practical AI and software."}
+
+  # ═══════════════════════════ BUSINESS & ECONOMY ═══════════════════════════
+  - {type: rss, name: BBC Business,       url: "https://feeds.bbci.co.uk/news/business/rss.xml", category: business, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian Business, url: "https://www.theguardian.com/business/rss", category: business}
+  - {type: rss, name: NPR Business,       url: "https://feeds.npr.org/1006/rss.xml", category: business, ownership: public}
+  - {type: rss, name: DW Business,        url: "https://rss.dw.com/rdf/rss-en-bus", category: business, ownership: public}
+  - {type: rss, name: CNBC World,         url: "https://www.cnbc.com/id/100727362/device/rss/rss.html", category: business, note: "Some CNBC Pro articles are paid."}
+  - {type: rss, name: EconomyNext,        url: "https://economynext.com/feed/", category: business, region: asia}
+  - {type: rss, name: Rest of World,      url: "https://restofworld.org/feed/latest", category: business, note: "Tech and business outside the West."}
+
+  # ═══════════════════════════ TECHNOLOGY ═══════════════════════════
+  - {type: rss, name: BBC Technology,     url: "https://feeds.bbci.co.uk/news/technology/rss.xml", category: technology, ownership: public, limited_in: [US]}
+  - {type: rss, name: Ars Technica,       url: "https://feeds.arstechnica.com/arstechnica/index", category: technology}
+  - {type: rss, name: TechCrunch,         url: "https://techcrunch.com/feed/", category: technology}
+  - {type: rss, name: The Guardian Tech,  url: "https://www.theguardian.com/technology/rss", category: technology}
+  - {type: hackernews, name: Hacker News, min_score: 200, category: technology}
+
+  # ═══════════════════════════ SCIENCE & RESEARCH ═══════════════════════════
+  # Physics
+  - {type: arxiv, name: arXiv HEP,        categories: [hep-ex, hep-ph, hep-th], category: science, topic: physics}
+  - {type: arxiv, name: arXiv Quantum,    categories: [quant-ph], category: science, topic: physics}
+  - {type: rss,   name: APS Physics,      url: "http://feeds.aps.org/rss/recent/physics.xml", category: science, topic: physics, note: "APS's free Physics magazine."}
+  - {type: rss,   name: CERN News,        url: "https://home.cern/api/news/news/feed.rss", category: science, topic: physics, ownership: public, enabled: false, note: "DISABLED: Site rebuilt; advertised /feed/ returns 404 (Nov 2026)."}
+  - {type: rss,   name: Phys.org Physics, url: "https://phys.org/rss-feed/physics-news/", category: science, topic: physics}
+  - {type: rss,   name: Fermilab News,    url: "https://news.fnal.gov/feed/", category: science, topic: physics, ownership: public, note: "US national laboratory (Department of Energy)."}
+  - {type: rss,   name: CERN Courier,     url: "https://cerncourier.com/feed/", category: science, topic: physics, note: "Published for CERN; posts in bursts, so it can go quiet for weeks."}
+  # Space & astronomy
+  - {type: arxiv, name: arXiv Astrophysics, categories: [astro-ph.CO, astro-ph.HE, astro-ph.GA, astro-ph.EP], category: science, topic: space}
+  - {type: rss,   name: NASA,             url: "https://www.nasa.gov/news-release/feed/", category: science, topic: space, ownership: public}
+  - {type: rss,   name: ESA Space News,   url: "https://www.esa.int/rssfeed/Our_Activities/Space_News", category: science, topic: space, ownership: public}
+  - {type: rss,   name: ESA Space Science, url: "https://www.esa.int/rssfeed/Our_Activities/Space_Science", category: science, topic: space, ownership: public}
+  - {type: rss,   name: Space.com,        url: "https://www.space.com/feeds.xml", category: science, topic: space}
+  # AI & machine learning
+  - {type: hf_papers, name: Hugging Face Daily Papers, min_upvotes: 5, category: science, topic: ai, note: "Community-upvoted AI papers; links go to arXiv."}
+  - {type: arxiv, name: arXiv AI & ML,    categories: [cs.AI, cs.LG, cs.CL, cs.CV, stat.ML], category: science, topic: ai}
+  - {type: rss,   name: MIT News AI,      url: "https://news.mit.edu/rss/topic/artificial-intelligence2", category: science, topic: ai}
+  # Computer science
+  - {type: arxiv, name: arXiv CS,         categories: [cs.CR, cs.DS, cs.DC, cs.SE, cs.PL, cs.HC], category: science, topic: computing}
+  # Biology
+  - {type: rss,   name: bioRxiv,          url: "https://connect.biorxiv.org/biorxiv_xml.php?subject=all", category: science, topic: biology, note: "Preprints (not yet peer reviewed)."}
+  - {type: rss,   name: eLife,            url: "https://elifesciences.org/rss/recent.xml", category: science, topic: biology, note: "Open-access journal."}
+  - {type: rss,   name: Phys.org Biology, url: "https://phys.org/rss-feed/biology-news/", category: science, topic: biology}
+  # Chemistry & materials
+  - {type: arxiv, name: arXiv Materials,  categories: [cond-mat.mtrl-sci, cond-mat.str-el, cond-mat.supr-con], category: science, topic: chemistry}
+  - {type: rss,   name: Phys.org Chemistry, url: "https://phys.org/rss-feed/chemistry-news/", category: science, topic: chemistry}
+  # Earth science
+  - {type: rss,   name: Phys.org Earth,   url: "https://phys.org/rss-feed/earth-news/", category: science, topic: earth}
+  - {type: rss,   name: ESA Observing the Earth, url: "https://www.esa.int/rssfeed/Our_Activities/Observing_the_Earth", category: science, topic: earth, ownership: public}
+  # General science news
+  - {type: rss,   name: Quanta Magazine,  url: "https://www.quantamagazine.org/feed/", category: science, topic: general, note: "Simons Foundation."}
+  - {type: rss,   name: ScienceDaily,     url: "https://www.sciencedaily.com/rss/all.xml", category: science, topic: general}
+  - {type: rss,   name: MIT News,         url: "https://news.mit.edu/rss/feed", category: science, topic: general}
+  - {type: rss,   name: The Conversation Science, url: "https://theconversation.com/global/technology/articles.atom", category: science, topic: general}
+
+  # ═══════════════════════════ HEALTH & MEDICINE ═══════════════════════════
+  - {type: rss, name: BBC Health,         url: "https://feeds.bbci.co.uk/news/health/rss.xml", category: health, ownership: public, limited_in: [US]}
+  - {type: rss, name: WHO News,           url: "https://www.who.int/rss-feeds/news-english.xml", category: health, ownership: public}
+  - {type: rss, name: NPR Health,         url: "https://feeds.npr.org/1128/rss.xml", category: health, ownership: public}
+  - {type: rss, name: KFF Health News,    url: "https://kffhealthnews.org/feed/", category: health, note: "Nonprofit newsroom."}
+  - {type: rss, name: Think Global Health, url: "https://www.thinkglobalhealth.org/rss.xml", category: health, enabled: false, note: "Council on Foreign Relations. DISABLED: No public feed found on the site (checked Nov 2026)."}
+  - {type: rss, name: medRxiv,            url: "https://connect.medrxiv.org/medrxiv_xml.php?subject=all", category: health, note: "Preprints (not yet peer reviewed)."}
+  - {type: rss, name: eLife Medicine,     url: "https://elifesciences.org/rss/subject/medicine.xml", category: health}
+
+  # ═══════════════════════════ CLIMATE & ENVIRONMENT ═══════════════════════════
+  - {type: rss, name: The Guardian Environment, url: "https://www.theguardian.com/environment/rss", category: climate}
+  - {type: rss, name: BBC Science & Environment, url: "https://feeds.bbci.co.uk/news/science_and_environment/rss.xml", category: climate, ownership: public, limited_in: [US]}
+  - {type: rss, name: Carbon Brief,       url: "https://www.carbonbrief.org/feed/", category: climate, note: "Science-led climate analysis."}
+  - {type: rss, name: Inside Climate News, url: "https://insideclimatenews.org/feed/", category: climate, note: "Nonprofit; Pulitzer winner."}
+  - {type: rss, name: Grist,              url: "https://grist.org/feed/", category: climate, note: "Nonprofit."}
+  - {type: rss, name: Mongabay,           url: "https://news.mongabay.com/feed/", category: climate, note: "Nonprofit; global environment."}
+  - {type: rss, name: Down To Earth,      url: "https://www.downtoearth.org.in/rss/latest", category: climate, region: asia, enabled: false, note: "Centre for Science and Environment (India). DISABLED: Site has a metered wall for premium articles; stories.rss?time-period=last-7-days works if that changes (Nov 2026)."}
+  - {type: rss, name: NASA GISS,          url: "https://www.nasa.gov/centers-and-facilities/giss/feed/", category: climate, ownership: public}
+
+  # ═══════════════════════════ SPORTS ═══════════════════════════
+  - {type: rss, name: BBC Sport,          url: "https://feeds.bbci.co.uk/sport/rss.xml", category: sports, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian Sport, url: "https://www.theguardian.com/sport/rss", category: sports}
+  - {type: rss, name: ESPN,               url: "https://www.espn.com/espn/rss/news", category: sports}
+  - {type: rss, name: ESPNcricinfo,       url: "https://www.espncricinfo.com/rss/content/story/feeds/0.xml", category: sports}
+
+  # ═══════════════════════════ CULTURE & ARTS ═══════════════════════════
+  - {type: rss, name: BBC Entertainment & Arts, url: "https://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml", category: culture, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian Culture, url: "https://www.theguardian.com/culture/rss", category: culture}
+  - {type: rss, name: NPR Arts,           url: "https://feeds.npr.org/1008/rss.xml", category: culture, ownership: public}
+  - {type: rss, name: Aeon Culture,       url: "https://aeon.co/feed.rss", category: culture, note: "Essays."}

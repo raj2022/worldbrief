@@ -1,0 +1,85 @@
+# The menu of sections the app shows in its picker. The app reads this
+# (it's embedded in index.json), so adding a section here + sources for it in
+# sources.yaml makes it appear in the app with no app update.
+#
+# symbol: an SF Symbols name for the iOS icon
+# default: whether the section is on for a new user
+# by_region: show a region filter (Africa, Asia, ...) inside the section
+# max_age_hours: how long items stay (default 36). News is kept short so the
+#   feed stays live; opinion and papers are read at leisure, so they stay longer.
+
+sections:
+  - id: world
+    title: World & Politics
+    symbol: globe.americas
+    description: Governments, elections, conflicts and diplomacy in every region
+    default: true
+    by_region: true
+    max_age_hours: 30
+
+  - id: opinion
+    title: Opinion & Analysis
+    symbol: text.quote
+    description: Editorials, columns, think-tank analysis and long reads to read at your own pace
+    default: true
+    by_region: true
+    max_age_hours: 168
+    subtopics:
+      - {id: editorials, title: Editorials}
+      - {id: columns,    title: Columns & Op-eds}
+      - {id: analysis,   title: Policy & Think Tanks}
+      - {id: experts,    title: Expert Commentary}
+      - {id: essays,     title: Long Reads & Essays}
+      - {id: newsletters, title: Independent Newsletters}
+
+  - id: business
+    title: Business & Economy
+    symbol: chart.line.uptrend.xyaxis
+    description: Markets, companies, trade and economic policy
+    default: true
+
+  - id: technology
+    title: Technology
+    symbol: cpu
+    description: Tech industry, products, startups and the internet
+    default: true
+
+  - id: science
+    title: Science & Research
+    symbol: atom
+    description: New papers and discoveries across the sciences
+    default: true
+    max_age_hours: 96
+    subtopics:
+      - {id: physics,   title: Physics}
+      - {id: space,     title: Space & Astronomy}
+      - {id: ai,        title: AI & Machine Learning}
+      - {id: computing, title: Computer Science}
+      - {id: biology,   title: Biology}
+      - {id: chemistry, title: Chemistry & Materials}
+      - {id: earth,     title: Earth Science}
+      - {id: general,   title: Science News}
+
+  - id: health
+    title: Health & Medicine
+    symbol: cross.case
+    description: Public health, medical research and health policy
+    default: false
+
+  - id: climate
+    title: Climate & Environment
+    symbol: leaf
+    description: Climate science, energy, nature and environmental policy
+    default: false
+
+  - id: sports
+    title: Sports
+    symbol: sportscourt
+    description: Football, cricket, tennis, F1, US sports and more
+    default: false
+
+  - id: culture
+    title: Culture & Arts
+    symbol: theatermasks
+    description: Film, music, books, art and entertainment
+    default: false

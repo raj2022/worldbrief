@@ -1,0 +1,529 @@
+{
+    "id": "world",
+    "top": [
+        {
+            "id": "7d309086800eb690",
+            "headline": "Brazil election: Voters head to polls in tight presidential runoff",
+            "snippet": "Millions of Brazilians vote in a closely fought runoff.",
+            "category": "world",
+            "regions": [
+                "global",
+                "middle_east"
+            ],
+            "topics": [],
+            "source_count": 2,
+            "latest": "2026-11-01T10:15:00+00:00",
+            "score": 3.074,
+            "articles": [
+                {
+                    "title": "Brazilians vote in tight presidential election runoff",
+                    "url": "https://www.aljazeera.com/news/2026/11/1/brazil-runoff?utm_source=rss",
+                    "source": "Al Jazeera",
+                    "category": "world",
+                    "region": "middle_east",
+                    "topic": "",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "Polls show the two candidates nearly tied.",
+                    "published": "2026-11-01T10:15:00+00:00",
+                    "lang": "en",
+                    "tags": [],
+                    "plugin": "rss",
+                    "first_seen": null,
+                    "id": "77e6e0be9121bd22",
+                    "domain": "aljazeera.com"
+                },
+                {
+                    "title": "Brazil election: Voters head to polls in tight presidential runoff",
+                    "url": "https://www.bbc.co.uk/news/world-latin-america-1?at_medium=RSS&at_campaign=rss",
+                    "source": "BBC World",
+                    "category": "world",
+                    "region": "global",
+                    "topic": "",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "Millions of Brazilians vote in a closely fought runoff.",
+                    "published": "2026-11-01T09:00:00+00:00",
+                    "lang": "en",
+                    "tags": [],
+                    "plugin": "rss",
+                    "first_seen": null,
+                    "id": "71c8afba60ff9d3e",
+                    "domain": "bbc.co.uk"
+                }
+            ]
+        },
+        {
+            "id": "cb43defd36d20925",
+            "headline": "UN Security Council meets on Sudan ceasefire",
+            "snippet": "Diplomats discuss a proposed truce.",
+            "category": "world",
+            "regions": [
+                "middle_east"
+            ],
+            "topics": [],
+            "source_count": 1,
+            "latest": "2026-11-01T08:00:00+00:00",
+            "score": 1.146,
+            "articles": [
+                {
+                    "title": "UN Security Council meets on Sudan ceasefire",
+                    "url": "https://www.aljazeera.com/news/2026/11/1/sudan",
+                    "source": "Al Jazeera",
+                    "category": "world",
+                    "region": "middle_east",
+                    "topic": "",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "Diplomats discuss a proposed truce.",
+                    "published": "2026-11-01T08:00:00+00:00",
+                    "lang": "en",
+                    "tags": [],
+                    "plugin": "rss",
+                    "first_seen": null,
+                    "id": "aa8801f85b34c793",
+                    "domain": "aljazeera.com"
+                }
+            ]
+        },
+        {
+            "id": "3b2b971a776bb5f7",
+            "headline": "INEC announces timetable for governorship elections",
+            "snippet": "",
+            "category": "world",
+            "regions": [
+                "africa"
+            ],
+            "topics": [],
+            "source_count": 1,
+            "latest": "2026-11-01T07:30:00+00:00",
+            "score": 1.129,
+            "articles": [
+                {
+                    "title": "INEC announces timetable for governorship elections",
+                    "url": "https://www.premiumtimesng.com/news/1.html",
+                    "source": "premiumtimesng.com",
+                    "category": "world",
+                    "region": "africa",
+                    "topic": "",
+                    "ownership": "aggregator",
+                    "limited_in": [],
+                    "summary": "",
+                    "published": "2026-11-01T07:30:00+00:00",
+                    "lang": "en",
+                    "tags": [
+                        "Nigeria"
+                    ],
+                    "plugin": "gdelt",
+                    "first_seen": null,
+                    "id": "867f30c1a0e37c9e",
+                    "domain": "premiumtimesng.com"
+                }
+            ]
+        },
+        {
+            "id": "d8e5949158e7e3be",
+            "headline": "Earthquake strikes off coast of Japan, tsunami warning lifted",
+            "snippet": "A magnitude 6.8 quake hit early on Sunday.",
+            "category": "world",
+            "regions": [
+                "global"
+            ],
+            "topics": [],
+            "source_count": 1,
+            "latest": "2026-11-01T06:30:00+00:00",
+            "score": 1.095,
+            "articles": [
+                {
+                    "title": "Earthquake strikes off coast of Japan, tsunami warning lifted",
+                    "url": "https://www.bbc.co.uk/news/world-asia-2",
+                    "source": "BBC World",
+                    "category": "world",
+                    "region": "global",
+                    "topic": "",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "A magnitude 6.8 quake hit early on Sunday.",
+                    "published": "2026-11-01T06:30:00+00:00",
+                    "lang": "en",
+                    "tags": [],
+                    "plugin": "rss",
+                    "first_seen": null,
+                    "id": "28c0b6a16fd9056e",
+                    "domain": "bbc.co.uk"
+                }
+            ]
+        }
+    ],
+    "latest": [
+        {
+            "id": "7d309086800eb690",
+            "headline": "Brazil election: Voters head to polls in tight presidential runoff",
+            "snippet": "Millions of Brazilians vote in a closely fought runoff.",
+            "category": "world",
+            "regions": [
+                "global",
+                "middle_east"
+            ],
+            "topics": [],
+            "source_count": 2,
+            "latest": "2026-11-01T10:15:00+00:00",
+            "score": 3.074,
+            "articles": [
+                {
+                    "title": "Brazilians vote in tight presidential election runoff",
+                    "url": "https://www.aljazeera.com/news/2026/11/1/brazil-runoff?utm_source=rss",
+                    "source": "Al Jazeera",
+                    "category": "world",
+                    "region": "middle_east",
+                    "topic": "",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "Polls show the two candidates nearly tied.",
+                    "published": "2026-11-01T10:15:00+00:00",
+                    "lang": "en",
+                    "tags": [],
+                    "plugin": "rss",
+                    "first_seen": null,
+                    "id": "77e6e0be9121bd22",
+                    "domain": "aljazeera.com"
+                },
+                {
+                    "title": "Brazil election: Voters head to polls in tight presidential runoff",
+                    "url": "https://www.bbc.co.uk/news/world-latin-america-1?at_medium=RSS&at_campaign=rss",
+                    "source": "BBC World",
+                    "category": "world",
+                    "region": "global",
+                    "topic": "",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "Millions of Brazilians vote in a closely fought runoff.",
+                    "published": "2026-11-01T09:00:00+00:00",
+                    "lang": "en",
+                    "tags": [],
+                    "plugin": "rss",
+                    "first_seen": null,
+                    "id": "71c8afba60ff9d3e",
+                    "domain": "bbc.co.uk"
+                }
+            ]
+        },
+        {
+            "id": "cb43defd36d20925",
+            "headline": "UN Security Council meets on Sudan ceasefire",
+            "snippet": "Diplomats discuss a proposed truce.",
+            "category": "world",
+            "regions": [
+                "middle_east"
+            ],
+            "topics": [],
+            "source_count": 1,
+            "latest": "2026-11-01T08:00:00+00:00",
+            "score": 1.146,
+            "articles": [
+                {
+                    "title": "UN Security Council meets on Sudan ceasefire",
+                    "url": "https://www.aljazeera.com/news/2026/11/1/sudan",
+                    "source": "Al Jazeera",
+                    "category": "world",
+                    "region": "middle_east",
+                    "topic": "",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "Diplomats discuss a proposed truce.",
+                    "published": "2026-11-01T08:00:00+00:00",
+                    "lang": "en",
+                    "tags": [],
+                    "plugin": "rss",
+                    "first_seen": null,
+                    "id": "aa8801f85b34c793",
+                    "domain": "aljazeera.com"
+                }
+            ]
+        },
+        {
+            "id": "3b2b971a776bb5f7",
+            "headline": "INEC announces timetable for governorship elections",
+            "snippet": "",
+            "category": "world",
+            "regions": [
+                "africa"
+            ],
+            "topics": [],
+            "source_count": 1,
+            "latest": "2026-11-01T07:30:00+00:00",
+            "score": 1.129,
+            "articles": [
+                {
+                    "title": "INEC announces timetable for governorship elections",
+                    "url": "https://www.premiumtimesng.com/news/1.html",
+                    "source": "premiumtimesng.com",
+                    "category": "world",
+                    "region": "africa",
+                    "topic": "",
+                    "ownership": "aggregator",
+                    "limited_in": [],
+                    "summary": "",
+                    "published": "2026-11-01T07:30:00+00:00",
+                    "lang": "en",
+                    "tags": [
+                        "Nigeria"
+                    ],
+                    "plugin": "gdelt",
+                    "first_seen": null,
+                    "id": "867f30c1a0e37c9e",
+                    "domain": "premiumtimesng.com"
+                }
+            ]
+        },
+        {
+            "id": "d8e5949158e7e3be",
+            "headline": "Earthquake strikes off coast of Japan, tsunami warning lifted",
+            "snippet": "A magnitude 6.8 quake hit early on Sunday.",
+            "category": "world",
+            "regions": [
+                "global"
+            ],
+            "topics": [],
+            "source_count": 1,
+            "latest": "2026-11-01T06:30:00+00:00",
+            "score": 1.095,
+            "articles": [
+                {
+                    "title": "Earthquake strikes off coast of Japan, tsunami warning lifted",
+                    "url": "https://www.bbc.co.uk/news/world-asia-2",
+                    "source": "BBC World",
+                    "category": "world",
+                    "region": "global",
+                    "topic": "",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "A magnitude 6.8 quake hit early on Sunday.",
+                    "published": "2026-11-01T06:30:00+00:00",
+                    "lang": "en",
+                    "tags": [],
+                    "plugin": "rss",
+                    "first_seen": null,
+                    "id": "28c0b6a16fd9056e",
+                    "domain": "bbc.co.uk"
+                }
+            ]
+        }
+    ],
+    "by_topic": {},
+    "by_region": {
+        "global": [
+            {
+                "id": "7d309086800eb690",
+                "headline": "Brazil election: Voters head to polls in tight presidential runoff",
+                "snippet": "Millions of Brazilians vote in a closely fought runoff.",
+                "category": "world",
+                "regions": [
+                    "global",
+                    "middle_east"
+                ],
+                "topics": [],
+                "source_count": 2,
+                "latest": "2026-11-01T10:15:00+00:00",
+                "score": 3.074,
+                "articles": [
+                    {
+                        "title": "Brazilians vote in tight presidential election runoff",
+                        "url": "https://www.aljazeera.com/news/2026/11/1/brazil-runoff?utm_source=rss",
+                        "source": "Al Jazeera",
+                        "category": "world",
+                        "region": "middle_east",
+                        "topic": "",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "Polls show the two candidates nearly tied.",
+                        "published": "2026-11-01T10:15:00+00:00",
+                        "lang": "en",
+                        "tags": [],
+                        "plugin": "rss",
+                        "first_seen": null,
+                        "id": "77e6e0be9121bd22",
+                        "domain": "aljazeera.com"
+                    },
+                    {
+                        "title": "Brazil election: Voters head to polls in tight presidential runoff",
+                        "url": "https://www.bbc.co.uk/news/world-latin-america-1?at_medium=RSS&at_campaign=rss",
+                        "source": "BBC World",
+                        "category": "world",
+                        "region": "global",
+                        "topic": "",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "Millions of Brazilians vote in a closely fought runoff.",
+                        "published": "2026-11-01T09:00:00+00:00",
+                        "lang": "en",
+                        "tags": [],
+                        "plugin": "rss",
+                        "first_seen": null,
+                        "id": "71c8afba60ff9d3e",
+                        "domain": "bbc.co.uk"
+                    }
+                ]
+            },
+            {
+                "id": "d8e5949158e7e3be",
+                "headline": "Earthquake strikes off coast of Japan, tsunami warning lifted",
+                "snippet": "A magnitude 6.8 quake hit early on Sunday.",
+                "category": "world",
+                "regions": [
+                    "global"
+                ],
+                "topics": [],
+                "source_count": 1,
+                "latest": "2026-11-01T06:30:00+00:00",
+                "score": 1.095,
+                "articles": [
+                    {
+                        "title": "Earthquake strikes off coast of Japan, tsunami warning lifted",
+                        "url": "https://www.bbc.co.uk/news/world-asia-2",
+                        "source": "BBC World",
+                        "category": "world",
+                        "region": "global",
+                        "topic": "",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "A magnitude 6.8 quake hit early on Sunday.",
+                        "published": "2026-11-01T06:30:00+00:00",
+                        "lang": "en",
+                        "tags": [],
+                        "plugin": "rss",
+                        "first_seen": null,
+                        "id": "28c0b6a16fd9056e",
+                        "domain": "bbc.co.uk"
+                    }
+                ]
+            }
+        ],
+        "middle_east": [
+            {
+                "id": "7d309086800eb690",
+                "headline": "Brazil election: Voters head to polls in tight presidential runoff",
+                "snippet": "Millions of Brazilians vote in a closely fought runoff.",
+                "category": "world",
+                "regions": [
+                    "global",
+                    "middle_east"
+                ],
+                "topics": [],
+                "source_count": 2,
+                "latest": "2026-11-01T10:15:00+00:00",
+                "score": 3.074,
+                "articles": [
+                    {
+                        "title": "Brazilians vote in tight presidential election runoff",
+                        "url": "https://www.aljazeera.com/news/2026/11/1/brazil-runoff?utm_source=rss",
+                        "source": "Al Jazeera",
+                        "category": "world",
+                        "region": "middle_east",
+                        "topic": "",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "Polls show the two candidates nearly tied.",
+                        "published": "2026-11-01T10:15:00+00:00",
+                        "lang": "en",
+                        "tags": [],
+                        "plugin": "rss",
+                        "first_seen": null,
+                        "id": "77e6e0be9121bd22",
+                        "domain": "aljazeera.com"
+                    },
+                    {
+                        "title": "Brazil election: Voters head to polls in tight presidential runoff",
+                        "url": "https://www.bbc.co.uk/news/world-latin-america-1?at_medium=RSS&at_campaign=rss",
+                        "source": "BBC World",
+                        "category": "world",
+                        "region": "global",
+                        "topic": "",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "Millions of Brazilians vote in a closely fought runoff.",
+                        "published": "2026-11-01T09:00:00+00:00",
+                        "lang": "en",
+                        "tags": [],
+                        "plugin": "rss",
+                        "first_seen": null,
+                        "id": "71c8afba60ff9d3e",
+                        "domain": "bbc.co.uk"
+                    }
+                ]
+            },
+            {
+                "id": "cb43defd36d20925",
+                "headline": "UN Security Council meets on Sudan ceasefire",
+                "snippet": "Diplomats discuss a proposed truce.",
+                "category": "world",
+                "regions": [
+                    "middle_east"
+                ],
+                "topics": [],
+                "source_count": 1,
+                "latest": "2026-11-01T08:00:00+00:00",
+                "score": 1.146,
+                "articles": [
+                    {
+                        "title": "UN Security Council meets on Sudan ceasefire",
+                        "url": "https://www.aljazeera.com/news/2026/11/1/sudan",
+                        "source": "Al Jazeera",
+                        "category": "world",
+                        "region": "middle_east",
+                        "topic": "",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "Diplomats discuss a proposed truce.",
+                        "published": "2026-11-01T08:00:00+00:00",
+                        "lang": "en",
+                        "tags": [],
+                        "plugin": "rss",
+                        "first_seen": null,
+                        "id": "aa8801f85b34c793",
+                        "domain": "aljazeera.com"
+                    }
+                ]
+            }
+        ],
+        "africa": [
+            {
+                "id": "3b2b971a776bb5f7",
+                "headline": "INEC announces timetable for governorship elections",
+                "snippet": "",
+                "category": "world",
+                "regions": [
+                    "africa"
+                ],
+                "topics": [],
+                "source_count": 1,
+                "latest": "2026-11-01T07:30:00+00:00",
+                "score": 1.129,
+                "articles": [
+                    {
+                        "title": "INEC announces timetable for governorship elections",
+                        "url": "https://www.premiumtimesng.com/news/1.html",
+                        "source": "premiumtimesng.com",
+                        "category": "world",
+                        "region": "africa",
+                        "topic": "",
+                        "ownership": "aggregator",
+                        "limited_in": [],
+                        "summary": "",
+                        "published": "2026-11-01T07:30:00+00:00",
+                        "lang": "en",
+                        "tags": [
+                            "Nigeria"
+                        ],
+                        "plugin": "gdelt",
+                        "first_seen": null,
+                        "id": "867f30c1a0e37c9e",
+                        "domain": "premiumtimesng.com"
+                    }
+                ]
+            }
+        ]
+    },
+    "story_count": 4,
+    "generated_at": "2026-11-01T12:00:00+00:00"
+}

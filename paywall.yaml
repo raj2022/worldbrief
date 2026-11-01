@@ -1,0 +1,75 @@
+# Domains with a hard or metered paywall. Links to these are dropped.
+# Subdomains match automatically (ft.com also blocks markets.ft.com).
+# Paywall policies change — review this list every few months.
+blocked:
+  # United States
+  - wsj.com
+  - nytimes.com
+  - scientificamerican.com
+  - newscientist.com
+  - technologyreview.com
+  - washingtonpost.com
+  - bloomberg.com
+  - barrons.com
+  - theatlantic.com
+  - newyorker.com
+  - wired.com
+  - businessinsider.com
+  - theinformation.com
+  - foreignaffairs.com
+  - foreignpolicy.com
+  - hbr.org
+  - latimes.com
+  - bostonglobe.com
+  - statnews.com
+  - science.org          # research articles; news is partly free
+  # United Kingdom / Europe
+  - ft.com
+  - economist.com
+  - thetimes.co.uk
+  - telegraph.co.uk
+  - lemonde.fr
+  - lefigaro.fr
+  - spiegel.de
+  - zeit.de
+  - nzz.ch
+  - corriere.it
+  - elpais.com           # metered
+  - euobserver.com       # hard wall
+  - irishtimes.com       # metered
+  - mexiconewsdaily.com
+  - reuters.com          # registration/paid wall
+  - cnn.com              # metered since Oct 2024
+  # Asia / Middle East / Oceania
+  - nikkei.com
+  - scmp.com
+  - thehindu.com         # metered
+  - haaretz.com
+  - al-monitor.com       # paywall since 2023
+  - nation.africa        # premium paywall since Sep 2023
+  - theafricareport.com
+  - lorientlejour.com    # L'Orient Today, metered
+  - mg.co.za             # Mail & Guardian, monthly limit
+  - malaysiakini.com
+  - thejakartapost.com   # premium stories
+  - bangkokpost.com
+  - japantimes.co.jp     # metered + registration
+  - thediplomat.com      # metered
+  - indianexpress.com    # premium tier
+  - timesofindia.indiatimes.com  # TOI+
+  - theaustralian.com.au
+  - afr.com
+  - smh.com.au           # metered
+  # Journals (research articles behind subscription)
+  - nature.com
+  - cell.com
+  - sciencedirect.com
+  - springer.com
+  - link.springer.com
+  - onlinelibrary.wiley.com
+
+# Always allowed, even if a parent domain above is blocked.
+allowed:
+  - arxiv.org
+  - biorxiv.org
+  - medrxiv.org

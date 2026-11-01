@@ -1,0 +1,245 @@
+{
+    "id": "science",
+    "top": [
+        {
+            "id": "280a714d038730cd",
+            "headline": "Search for a heavy resonance decaying to a top quark pair in proton-proton collisions at 13.6 TeV",
+            "snippet": "A search is presented for a new heavy resonance decaying to ttbar.",
+            "category": "science",
+            "regions": [
+                "global"
+            ],
+            "topics": [
+                "physics"
+            ],
+            "source_count": 1,
+            "latest": "2026-10-31T17:59:00+00:00",
+            "score": 0.869,
+            "articles": [
+                {
+                    "title": "Search for a heavy resonance decaying to a top quark pair in proton-proton collisions at 13.6 TeV",
+                    "url": "http://arxiv.org/abs/2610.01234v1",
+                    "source": "arXiv HEP",
+                    "category": "science",
+                    "region": "global",
+                    "topic": "physics",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "A search is presented for a new heavy resonance decaying to ttbar.",
+                    "published": "2026-10-31T17:59:00+00:00",
+                    "lang": "en",
+                    "tags": [
+                        "hep-ex",
+                        "pdf:http://arxiv.org/pdf/2610.01234v1",
+                        "authors:A. Author, B. Author, C. Author et al."
+                    ],
+                    "plugin": "arxiv",
+                    "first_seen": null,
+                    "id": "62c2e961e8c2e0c6",
+                    "domain": "arxiv.org"
+                }
+            ]
+        },
+        {
+            "id": "67fdba15d9dcd35f",
+            "headline": "Scaling Laws for Sparse Mixture-of-Experts Language Models",
+            "snippet": "We study scaling of sparse MoE models.",
+            "category": "science",
+            "regions": [
+                "global"
+            ],
+            "topics": [
+                "physics"
+            ],
+            "source_count": 1,
+            "latest": "2026-10-31T15:00:00+00:00",
+            "score": 0.819,
+            "articles": [
+                {
+                    "title": "Scaling Laws for Sparse Mixture-of-Experts Language Models",
+                    "url": "http://arxiv.org/abs/2610.05678v1",
+                    "source": "arXiv HEP",
+                    "category": "science",
+                    "region": "global",
+                    "topic": "physics",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "We study scaling of sparse MoE models.",
+                    "published": "2026-10-31T15:00:00+00:00",
+                    "lang": "en",
+                    "tags": [
+                        "cs.LG",
+                        "authors:E. Researcher"
+                    ],
+                    "plugin": "arxiv",
+                    "first_seen": null,
+                    "id": "6ada9014127de4da",
+                    "domain": "arxiv.org"
+                }
+            ]
+        }
+    ],
+    "latest": [
+        {
+            "id": "280a714d038730cd",
+            "headline": "Search for a heavy resonance decaying to a top quark pair in proton-proton collisions at 13.6 TeV",
+            "snippet": "A search is presented for a new heavy resonance decaying to ttbar.",
+            "category": "science",
+            "regions": [
+                "global"
+            ],
+            "topics": [
+                "physics"
+            ],
+            "source_count": 1,
+            "latest": "2026-10-31T17:59:00+00:00",
+            "score": 0.869,
+            "articles": [
+                {
+                    "title": "Search for a heavy resonance decaying to a top quark pair in proton-proton collisions at 13.6 TeV",
+                    "url": "http://arxiv.org/abs/2610.01234v1",
+                    "source": "arXiv HEP",
+                    "category": "science",
+                    "region": "global",
+                    "topic": "physics",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "A search is presented for a new heavy resonance decaying to ttbar.",
+                    "published": "2026-10-31T17:59:00+00:00",
+                    "lang": "en",
+                    "tags": [
+                        "hep-ex",
+                        "pdf:http://arxiv.org/pdf/2610.01234v1",
+                        "authors:A. Author, B. Author, C. Author et al."
+                    ],
+                    "plugin": "arxiv",
+                    "first_seen": null,
+                    "id": "62c2e961e8c2e0c6",
+                    "domain": "arxiv.org"
+                }
+            ]
+        },
+        {
+            "id": "67fdba15d9dcd35f",
+            "headline": "Scaling Laws for Sparse Mixture-of-Experts Language Models",
+            "snippet": "We study scaling of sparse MoE models.",
+            "category": "science",
+            "regions": [
+                "global"
+            ],
+            "topics": [
+                "physics"
+            ],
+            "source_count": 1,
+            "latest": "2026-10-31T15:00:00+00:00",
+            "score": 0.819,
+            "articles": [
+                {
+                    "title": "Scaling Laws for Sparse Mixture-of-Experts Language Models",
+                    "url": "http://arxiv.org/abs/2610.05678v1",
+                    "source": "arXiv HEP",
+                    "category": "science",
+                    "region": "global",
+                    "topic": "physics",
+                    "ownership": "independent",
+                    "limited_in": [],
+                    "summary": "We study scaling of sparse MoE models.",
+                    "published": "2026-10-31T15:00:00+00:00",
+                    "lang": "en",
+                    "tags": [
+                        "cs.LG",
+                        "authors:E. Researcher"
+                    ],
+                    "plugin": "arxiv",
+                    "first_seen": null,
+                    "id": "6ada9014127de4da",
+                    "domain": "arxiv.org"
+                }
+            ]
+        }
+    ],
+    "by_topic": {
+        "physics": [
+            {
+                "id": "280a714d038730cd",
+                "headline": "Search for a heavy resonance decaying to a top quark pair in proton-proton collisions at 13.6 TeV",
+                "snippet": "A search is presented for a new heavy resonance decaying to ttbar.",
+                "category": "science",
+                "regions": [
+                    "global"
+                ],
+                "topics": [
+                    "physics"
+                ],
+                "source_count": 1,
+                "latest": "2026-10-31T17:59:00+00:00",
+                "score": 0.869,
+                "articles": [
+                    {
+                        "title": "Search for a heavy resonance decaying to a top quark pair in proton-proton collisions at 13.6 TeV",
+                        "url": "http://arxiv.org/abs/2610.01234v1",
+                        "source": "arXiv HEP",
+                        "category": "science",
+                        "region": "global",
+                        "topic": "physics",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "A search is presented for a new heavy resonance decaying to ttbar.",
+                        "published": "2026-10-31T17:59:00+00:00",
+                        "lang": "en",
+                        "tags": [
+                            "hep-ex",
+                            "pdf:http://arxiv.org/pdf/2610.01234v1",
+                            "authors:A. Author, B. Author, C. Author et al."
+                        ],
+                        "plugin": "arxiv",
+                        "first_seen": null,
+                        "id": "62c2e961e8c2e0c6",
+                        "domain": "arxiv.org"
+                    }
+                ]
+            },
+            {
+                "id": "67fdba15d9dcd35f",
+                "headline": "Scaling Laws for Sparse Mixture-of-Experts Language Models",
+                "snippet": "We study scaling of sparse MoE models.",
+                "category": "science",
+                "regions": [
+                    "global"
+                ],
+                "topics": [
+                    "physics"
+                ],
+                "source_count": 1,
+                "latest": "2026-10-31T15:00:00+00:00",
+                "score": 0.819,
+                "articles": [
+                    {
+                        "title": "Scaling Laws for Sparse Mixture-of-Experts Language Models",
+                        "url": "http://arxiv.org/abs/2610.05678v1",
+                        "source": "arXiv HEP",
+                        "category": "science",
+                        "region": "global",
+                        "topic": "physics",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "We study scaling of sparse MoE models.",
+                        "published": "2026-10-31T15:00:00+00:00",
+                        "lang": "en",
+                        "tags": [
+                            "cs.LG",
+                            "authors:E. Researcher"
+                        ],
+                        "plugin": "arxiv",
+                        "first_seen": null,
+                        "id": "6ada9014127de4da",
+                        "domain": "arxiv.org"
+                    }
+                ]
+            }
+        ]
+    },
+    "by_region": {},
+    "story_count": 2,
+    "generated_at": "2026-11-01T12:00:00+00:00"
+}

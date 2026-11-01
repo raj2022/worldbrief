@@ -1,0 +1,11 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Generated digest and rolling store
+dist/
+
+# macOS
+.DS_Store

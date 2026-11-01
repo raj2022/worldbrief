@@ -1,0 +1,511 @@
+{
+    "schema_version": 3,
+    "generated_at": "2026-11-01T12:00:00+00:00",
+    "catalog": [
+        {
+            "id": "world",
+            "title": "World & Politics",
+            "symbol": "globe.americas",
+            "description": "Governments, elections, conflicts and diplomacy in every region",
+            "default": true,
+            "by_region": true,
+            "subtopics": [],
+            "max_age_hours": 30,
+            "regions": [
+                {
+                    "id": "global",
+                    "title": "International"
+                },
+                {
+                    "id": "africa",
+                    "title": "Africa"
+                },
+                {
+                    "id": "asia",
+                    "title": "Asia"
+                },
+                {
+                    "id": "middle_east",
+                    "title": "Middle East"
+                },
+                {
+                    "id": "europe",
+                    "title": "Europe"
+                },
+                {
+                    "id": "americas",
+                    "title": "Americas"
+                },
+                {
+                    "id": "oceania",
+                    "title": "Oceania"
+                }
+            ]
+        },
+        {
+            "id": "opinion",
+            "title": "Opinion & Analysis",
+            "symbol": "text.quote",
+            "description": "Editorials, columns, think-tank analysis and long reads to read at your own pace",
+            "default": true,
+            "by_region": true,
+            "subtopics": [
+                {
+                    "id": "editorials",
+                    "title": "Editorials"
+                },
+                {
+                    "id": "columns",
+                    "title": "Columns & Op-eds"
+                },
+                {
+                    "id": "analysis",
+                    "title": "Policy & Think Tanks"
+                },
+                {
+                    "id": "experts",
+                    "title": "Expert Commentary"
+                },
+                {
+                    "id": "essays",
+                    "title": "Long Reads & Essays"
+                },
+                {
+                    "id": "newsletters",
+                    "title": "Independent Newsletters"
+                }
+            ],
+            "max_age_hours": 168,
+            "regions": [
+                {
+                    "id": "global",
+                    "title": "International"
+                },
+                {
+                    "id": "africa",
+                    "title": "Africa"
+                },
+                {
+                    "id": "asia",
+                    "title": "Asia"
+                },
+                {
+                    "id": "middle_east",
+                    "title": "Middle East"
+                },
+                {
+                    "id": "europe",
+                    "title": "Europe"
+                },
+                {
+                    "id": "americas",
+                    "title": "Americas"
+                },
+                {
+                    "id": "oceania",
+                    "title": "Oceania"
+                }
+            ]
+        },
+        {
+            "id": "business",
+            "title": "Business & Economy",
+            "symbol": "chart.line.uptrend.xyaxis",
+            "description": "Markets, companies, trade and economic policy",
+            "default": true,
+            "by_region": false,
+            "subtopics": [],
+            "max_age_hours": 36
+        },
+        {
+            "id": "technology",
+            "title": "Technology",
+            "symbol": "cpu",
+            "description": "Tech industry, products, startups and the internet",
+            "default": true,
+            "by_region": false,
+            "subtopics": [],
+            "max_age_hours": 36
+        },
+        {
+            "id": "science",
+            "title": "Science & Research",
+            "symbol": "atom",
+            "description": "New papers and discoveries across the sciences",
+            "default": true,
+            "by_region": false,
+            "subtopics": [
+                {
+                    "id": "physics",
+                    "title": "Physics"
+                },
+                {
+                    "id": "space",
+                    "title": "Space & Astronomy"
+                },
+                {
+                    "id": "ai",
+                    "title": "AI & Machine Learning"
+                },
+                {
+                    "id": "computing",
+                    "title": "Computer Science"
+                },
+                {
+                    "id": "biology",
+                    "title": "Biology"
+                },
+                {
+                    "id": "chemistry",
+                    "title": "Chemistry & Materials"
+                },
+                {
+                    "id": "earth",
+                    "title": "Earth Science"
+                },
+                {
+                    "id": "general",
+                    "title": "Science News"
+                }
+            ],
+            "max_age_hours": 96
+        },
+        {
+            "id": "health",
+            "title": "Health & Medicine",
+            "symbol": "cross.case",
+            "description": "Public health, medical research and health policy",
+            "default": false,
+            "by_region": false,
+            "subtopics": [],
+            "max_age_hours": 36
+        },
+        {
+            "id": "climate",
+            "title": "Climate & Environment",
+            "symbol": "leaf",
+            "description": "Climate science, energy, nature and environmental policy",
+            "default": false,
+            "by_region": false,
+            "subtopics": [],
+            "max_age_hours": 36
+        },
+        {
+            "id": "sports",
+            "title": "Sports",
+            "symbol": "sportscourt",
+            "description": "Football, cricket, tennis, F1, US sports and more",
+            "default": false,
+            "by_region": false,
+            "subtopics": [],
+            "max_age_hours": 36
+        },
+        {
+            "id": "culture",
+            "title": "Culture & Arts",
+            "symbol": "theatermasks",
+            "description": "Film, music, books, art and entertainment",
+            "default": false,
+            "by_region": false,
+            "subtopics": [],
+            "max_age_hours": 36
+        }
+    ],
+    "breaking": [],
+    "stats": {
+        "fetched": 11,
+        "after_dedupe_and_paywall": 8,
+        "paywalled_dropped": 2,
+        "stories": 7,
+        "sources_ok": 5,
+        "sources_failed": 1
+    },
+    "headlines": {
+        "world": [
+            {
+                "id": "7d309086800eb690",
+                "headline": "Brazil election: Voters head to polls in tight presidential runoff",
+                "snippet": "Millions of Brazilians vote in a closely fought runoff.",
+                "category": "world",
+                "regions": [
+                    "global",
+                    "middle_east"
+                ],
+                "topics": [],
+                "source_count": 2,
+                "latest": "2026-11-01T10:15:00+00:00",
+                "score": 3.074,
+                "articles": [
+                    {
+                        "title": "Brazilians vote in tight presidential election runoff",
+                        "url": "https://www.aljazeera.com/news/2026/11/1/brazil-runoff?utm_source=rss",
+                        "source": "Al Jazeera",
+                        "category": "world",
+                        "region": "middle_east",
+                        "topic": "",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "Polls show the two candidates nearly tied.",
+                        "published": "2026-11-01T10:15:00+00:00",
+                        "lang": "en",
+                        "tags": [],
+                        "plugin": "rss",
+                        "first_seen": null,
+                        "id": "77e6e0be9121bd22",
+                        "domain": "aljazeera.com"
+                    },
+                    {
+                        "title": "Brazil election: Voters head to polls in tight presidential runoff",
+                        "url": "https://www.bbc.co.uk/news/world-latin-america-1?at_medium=RSS&at_campaign=rss",
+                        "source": "BBC World",
+                        "category": "world",
+                        "region": "global",
+                        "topic": "",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "Millions of Brazilians vote in a closely fought runoff.",
+                        "published": "2026-11-01T09:00:00+00:00",
+                        "lang": "en",
+                        "tags": [],
+                        "plugin": "rss",
+                        "first_seen": null,
+                        "id": "71c8afba60ff9d3e",
+                        "domain": "bbc.co.uk"
+                    }
+                ]
+            },
+            {
+                "id": "cb43defd36d20925",
+                "headline": "UN Security Council meets on Sudan ceasefire",
+                "snippet": "Diplomats discuss a proposed truce.",
+                "category": "world",
+                "regions": [
+                    "middle_east"
+                ],
+                "topics": [],
+                "source_count": 1,
+                "latest": "2026-11-01T08:00:00+00:00",
+                "score": 1.146,
+                "articles": [
+                    {
+                        "title": "UN Security Council meets on Sudan ceasefire",
+                        "url": "https://www.aljazeera.com/news/2026/11/1/sudan",
+                        "source": "Al Jazeera",
+                        "category": "world",
+                        "region": "middle_east",
+                        "topic": "",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "Diplomats discuss a proposed truce.",
+                        "published": "2026-11-01T08:00:00+00:00",
+                        "lang": "en",
+                        "tags": [],
+                        "plugin": "rss",
+                        "first_seen": null,
+                        "id": "aa8801f85b34c793",
+                        "domain": "aljazeera.com"
+                    }
+                ]
+            },
+            {
+                "id": "3b2b971a776bb5f7",
+                "headline": "INEC announces timetable for governorship elections",
+                "snippet": "",
+                "category": "world",
+                "regions": [
+                    "africa"
+                ],
+                "topics": [],
+                "source_count": 1,
+                "latest": "2026-11-01T07:30:00+00:00",
+                "score": 1.129,
+                "articles": [
+                    {
+                        "title": "INEC announces timetable for governorship elections",
+                        "url": "https://www.premiumtimesng.com/news/1.html",
+                        "source": "premiumtimesng.com",
+                        "category": "world",
+                        "region": "africa",
+                        "topic": "",
+                        "ownership": "aggregator",
+                        "limited_in": [],
+                        "summary": "",
+                        "published": "2026-11-01T07:30:00+00:00",
+                        "lang": "en",
+                        "tags": [
+                            "Nigeria"
+                        ],
+                        "plugin": "gdelt",
+                        "first_seen": null,
+                        "id": "867f30c1a0e37c9e",
+                        "domain": "premiumtimesng.com"
+                    }
+                ]
+            },
+            {
+                "id": "d8e5949158e7e3be",
+                "headline": "Earthquake strikes off coast of Japan, tsunami warning lifted",
+                "snippet": "A magnitude 6.8 quake hit early on Sunday.",
+                "category": "world",
+                "regions": [
+                    "global"
+                ],
+                "topics": [],
+                "source_count": 1,
+                "latest": "2026-11-01T06:30:00+00:00",
+                "score": 1.095,
+                "articles": [
+                    {
+                        "title": "Earthquake strikes off coast of Japan, tsunami warning lifted",
+                        "url": "https://www.bbc.co.uk/news/world-asia-2",
+                        "source": "BBC World",
+                        "category": "world",
+                        "region": "global",
+                        "topic": "",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "A magnitude 6.8 quake hit early on Sunday.",
+                        "published": "2026-11-01T06:30:00+00:00",
+                        "lang": "en",
+                        "tags": [],
+                        "plugin": "rss",
+                        "first_seen": null,
+                        "id": "28c0b6a16fd9056e",
+                        "domain": "bbc.co.uk"
+                    }
+                ]
+            }
+        ],
+        "opinion": [],
+        "business": [],
+        "technology": [],
+        "science": [
+            {
+                "id": "280a714d038730cd",
+                "headline": "Search for a heavy resonance decaying to a top quark pair in proton-proton collisions at 13.6 TeV",
+                "snippet": "A search is presented for a new heavy resonance decaying to ttbar.",
+                "category": "science",
+                "regions": [
+                    "global"
+                ],
+                "topics": [
+                    "physics"
+                ],
+                "source_count": 1,
+                "latest": "2026-10-31T17:59:00+00:00",
+                "score": 0.869,
+                "articles": [
+                    {
+                        "title": "Search for a heavy resonance decaying to a top quark pair in proton-proton collisions at 13.6 TeV",
+                        "url": "http://arxiv.org/abs/2610.01234v1",
+                        "source": "arXiv HEP",
+                        "category": "science",
+                        "region": "global",
+                        "topic": "physics",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "A search is presented for a new heavy resonance decaying to ttbar.",
+                        "published": "2026-10-31T17:59:00+00:00",
+                        "lang": "en",
+                        "tags": [
+                            "hep-ex",
+                            "pdf:http://arxiv.org/pdf/2610.01234v1",
+                            "authors:A. Author, B. Author, C. Author et al."
+                        ],
+                        "plugin": "arxiv",
+                        "first_seen": null,
+                        "id": "62c2e961e8c2e0c6",
+                        "domain": "arxiv.org"
+                    }
+                ]
+            },
+            {
+                "id": "67fdba15d9dcd35f",
+                "headline": "Scaling Laws for Sparse Mixture-of-Experts Language Models",
+                "snippet": "We study scaling of sparse MoE models.",
+                "category": "science",
+                "regions": [
+                    "global"
+                ],
+                "topics": [
+                    "physics"
+                ],
+                "source_count": 1,
+                "latest": "2026-10-31T15:00:00+00:00",
+                "score": 0.819,
+                "articles": [
+                    {
+                        "title": "Scaling Laws for Sparse Mixture-of-Experts Language Models",
+                        "url": "http://arxiv.org/abs/2610.05678v1",
+                        "source": "arXiv HEP",
+                        "category": "science",
+                        "region": "global",
+                        "topic": "physics",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "We study scaling of sparse MoE models.",
+                        "published": "2026-10-31T15:00:00+00:00",
+                        "lang": "en",
+                        "tags": [
+                            "cs.LG",
+                            "authors:E. Researcher"
+                        ],
+                        "plugin": "arxiv",
+                        "first_seen": null,
+                        "id": "6ada9014127de4da",
+                        "domain": "arxiv.org"
+                    }
+                ]
+            }
+        ],
+        "health": [],
+        "climate": [],
+        "sports": [
+            {
+                "id": "c8386c061ba29906",
+                "headline": "India beat Australia in World Cup semi-final",
+                "snippet": "",
+                "category": "sports",
+                "regions": [
+                    "global"
+                ],
+                "topics": [],
+                "source_count": 1,
+                "latest": "2026-11-01T10:00:00+00:00",
+                "score": 1.22,
+                "articles": [
+                    {
+                        "title": "India beat Australia in World Cup semi-final",
+                        "url": "https://www.bbc.co.uk/sport/cricket/1",
+                        "source": "BBC Sport",
+                        "category": "sports",
+                        "region": "global",
+                        "topic": "",
+                        "ownership": "independent",
+                        "limited_in": [],
+                        "summary": "",
+                        "published": "2026-11-01T10:00:00+00:00",
+                        "lang": "en",
+                        "tags": [],
+                        "plugin": "unit_test_sports",
+                        "first_seen": null,
+                        "id": "70e7244953aeb188",
+                        "domain": "bbc.co.uk"
+                    }
+                ]
+            }
+        ],
+        "culture": []
+    },
+    "section_files": {
+        "world": "sections/world.json",
+        "opinion": "sections/opinion.json",
+        "business": "sections/business.json",
+        "technology": "sections/technology.json",
+        "science": "sections/science.json",
+        "health": "sections/health.json",
+        "climate": "sections/climate.json",
+        "sports": "sections/sports.json",
+        "culture": "sections/culture.json"
+    }
+}

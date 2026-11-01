@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:arxiv="http://arxiv.org/schemas/atom">
+<title>arXiv Query</title>
+<entry>
+  <id>http://arxiv.org/abs/2610.01234v1</id>
+  <published>2026-10-31T17:59:00Z</published>
+  <title>Search for a heavy resonance decaying to a top quark pair
+     in proton-proton collisions at 13.6 TeV</title>
+  <summary>A search is presented for a new heavy resonance decaying to ttbar.</summary>
+  <author><name>A. Author</name></author><author><name>B. Author</name></author>
+  <author><name>C. Author</name></author><author><name>D. Author</name></author>
+  <link href="http://arxiv.org/abs/2610.01234v1" rel="alternate" type="text/html"/>
+  <link title="pdf" href="http://arxiv.org/pdf/2610.01234v1" rel="related" type="application/pdf"/>
+  <arxiv:primary_category term="hep-ex"/>
+</entry>
+<entry>
+  <id>http://arxiv.org/abs/2610.05678v1</id>
+  <published>2026-10-31T15:00:00Z</published>
+  <title>Scaling Laws for Sparse Mixture-of-Experts Language Models</title>
+  <summary>We study scaling of sparse MoE models.</summary>
+  <author><name>E. Researcher</name></author>
+  <link href="http://arxiv.org/abs/2610.05678v1" rel="alternate" type="text/html"/>
+  <arxiv:primary_category term="cs.LG"/>
+</entry>
+</feed>
