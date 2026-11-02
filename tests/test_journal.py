@@ -7,6 +7,7 @@ from worldbrief import plugin
 from worldbrief.cluster import cluster
 from worldbrief.models import Article
 from worldbrief.paywall import PaywallFilter
+from worldbrief.pipeline import TOPIC_SOURCE_SHARE, spread_sources
 from worldbrief.plugins.journal import abstract, plain_math
 
 NOW = datetime(2026, 11, 1, 12, 0, tzinfo=timezone.utc)
@@ -72,3 +73,18 @@ def test_news_outranks_an_equally_fresh_paper():
     news, study = cluster([paper("Higgs mass news today", "https://a/1", "A", "rss"),
                            paper("Measuring something else entirely", "https://b/1", "B")])
     assert news.score(NOW) > study.score(NOW)
+
+
+def listed(*sources):
+    return [{"articles": [{"source": s}]} for s in sources]
+
+
+def test_one_source_cannot_fill_a_topic_while_others_wait():
+    stories = listed(*["PLB"] * 30, *["PRD"] * 3, "JHEP")
+    picked = [st["articles"][0]["source"] for st in spread_sources(stories, 10)]
+    assert picked.count("PLB") == TOPIC_SOURCE_SHARE + 1 and "PRD" in picked and "JHEP" in picked
+
+
+def test_a_topic_with_one_source_keeps_its_full_list_in_order():
+    stories = listed(*["Kabaddi Adda"] * 30)
+    assert spread_sources(stories, 12) == stories[:12]
