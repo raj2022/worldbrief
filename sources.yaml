@@ -60,10 +60,10 @@ sources:
   # ── Middle East ──
   - {type: rss, name: BBC Middle East,    url: "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml", category: world, region: middle_east, ownership: public, limited_in: [US]}
   - {type: rss, name: Middle East Eye,    url: "https://www.middleeasteye.net/rss", category: world, region: middle_east, link_excludes: ["/opinion/"], note: "London-based; ownership not publicly disclosed."}
-  - {type: rss, name: Times of Israel,    url: "https://www.timesofisrael.com/feed/", category: world, region: middle_east}
+  - {type: rss, name: Times of Israel,    url: "https://www.timesofisrael.com/feed/", category: world, region: middle_east, enabled: false, note: "DISABLED: Returns 403 to GitHub Actions addresses (Nov 2026)."}
   - {type: rss, name: The Guardian Middle East, url: "https://www.theguardian.com/world/middleeast/rss", category: world, region: middle_east}
   - {type: rss, name: Ynetnews,           url: "https://www.ynetnews.com/Integration/StoryRss3089.xml", category: world, region: middle_east, note: "Yedioth Ahronoth group (Israel)."}
-  - {type: rss, name: +972 Magazine,      url: "https://www.972mag.com/feed/", category: world, region: middle_east, note: "Independent, left; Israeli and Palestinian journalists."}
+  - {type: rss, name: +972 Magazine,      url: "https://www.972mag.com/feed/", category: world, region: middle_east, enabled: false, note: "Independent, left; Israeli and Palestinian journalists. DISABLED: Returns 403 to GitHub Actions addresses (Nov 2026)."}
   - {type: rss, name: Naharnet,           url: "http://www.naharnet.com/tags/middle-east/en/feed.atom", category: world, region: middle_east, note: "Private (Lebanon)."}
   - {type: rss, name: IranWire,           url: "https://iranwire.com/en/feed/", category: world, region: middle_east, note: "Independent, run by Iranian journalists in exile."}
   - {type: rss, name: bianet English,     url: "https://bianet.org/english/rss", category: world, region: middle_east, enabled: false, note: "Independent (Turkey). DISABLED: site returns 403 to the WorldBrief User-Agent, homepage included (Nov 2026)."}
@@ -193,7 +193,7 @@ sources:
   - {type: rss, name: Reason,             url: "https://reason.com/feed/", category: opinion, topic: columns, region: americas, note: "Libertarian."}
   # ── Policy & think tanks ──
   - {type: rss, name: Brookings,          url: "https://www.brookings.edu/feed/", category: opinion, topic: analysis, region: americas, enabled: false, note: "Centre-left. DISABLED: Feed URLs now redirect to the homepage; no public feed found (Nov 2026)."}
-  - {type: rss, name: AEI,                url: "https://www.aei.org/feed/", category: opinion, topic: analysis, region: americas, note: "Centre-right / conservative."}
+  - {type: rss, name: AEI,                url: "https://www.aei.org/feed/", category: opinion, topic: analysis, region: americas, enabled: false, note: "Centre-right / conservative. DISABLED: Returns 403 to GitHub Actions addresses (Nov 2026)."}
   - {type: rss, name: Cato Institute,     url: "https://www.cato.org/rss/recent-opeds", category: opinion, topic: analysis, region: americas, enabled: false, note: "Libertarian. DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
   - {type: rss, name: Council on Foreign Relations, url: "https://www.cfr.org/feed", category: opinion, topic: analysis, region: americas, note: "Centre."}
   - {type: rss, name: RAND Commentary,    url: "https://www.rand.org/pubs/commentary.xml", category: opinion, topic: analysis, region: americas, note: "Centre."}
@@ -205,7 +205,7 @@ sources:
   - {type: rss, name: Law & Liberty,      url: "https://lawliberty.org/feed/", category: opinion, topic: analysis, region: americas, note: "Conservative / classical liberal; Liberty Fund."}
   - {type: rss, name: Chatham House,      url: "https://www.chathamhouse.org/path/publications.xml", category: opinion, topic: analysis, region: europe, note: "Centre."}
   - {type: rss, name: ECFR,               url: "https://ecfr.eu/feed/", category: opinion, topic: analysis, region: europe, enabled: false, note: "Pro-EU, centre. DISABLED: Bot protection returns 403 to the WorldBrief User-Agent; re-enable if the publisher allows it."}
-  - {type: rss, name: Bruegel,            url: "https://www.bruegel.org/rss.xml", category: opinion, topic: analysis, region: europe, note: "Economics, centre."}
+  - {type: rss, name: Bruegel,            url: "https://www.bruegel.org/rss.xml", category: opinion, topic: analysis, region: europe, enabled: false, note: "Economics, centre. DISABLED: Returns 403 to GitHub Actions addresses (Nov 2026)."}
   - {type: rss, name: VoxEU (CEPR),       url: "https://cepr.org/rss/vox-content", category: opinion, topic: analysis, region: europe, note: "Research-based economics columns."}
   - {type: rss, name: ORF,                url: "https://www.orfonline.org/feed", category: opinion, topic: analysis, region: asia, enabled: false, note: "India; seen as close to government. DISABLED: No public feed found on the site (checked Nov 2026)."}
   - {type: rss, name: ASPI The Strategist, url: "https://www.aspistrategist.org.au/feed/", category: opinion, topic: analysis, region: oceania, note: "Part government/defence-industry funded."}
@@ -226,13 +226,13 @@ sources:
   - {type: rss, name: Boston Review,      url: "https://www.bostonreview.net/feed/", category: opinion, topic: essays, enabled: false, note: "Left. DISABLED: Feed URLs now redirect to the homepage; no public feed found (Nov 2026)."}
   - {type: rss, name: Jacobin,            url: "https://jacobin.com/feed/", category: opinion, topic: essays, note: "Socialist left."}
   # ── Independent newsletters (free posts only) ──
-  - {type: substack, name: Letters from an American, site: "https://heathercoxrichardson.substack.com", category: opinion, topic: newsletters, region: americas, note: "Historian Heather Cox Richardson; left of centre."}
+  - {type: substack, name: Letters from an American, site: "https://heathercoxrichardson.substack.com", category: opinion, topic: newsletters, region: americas, enabled: false, note: "Historian Heather Cox Richardson; left of centre. DISABLED: Returns 403 to GitHub Actions addresses (Nov 2026)."}
   - {type: substack, name: Noahpinion,    site: "https://www.noahpinion.blog", category: opinion, topic: newsletters, note: "Economics; centre-left, pro-growth."}
   - {type: substack, name: Silver Bulletin, site: "https://www.natesilver.net", category: opinion, topic: newsletters, region: americas, note: "Nate Silver; centre."}
-  - {type: substack, name: Chartbook,     site: "https://adamtooze.substack.com", category: opinion, topic: newsletters, note: "Economic historian Adam Tooze."}
+  - {type: substack, name: Chartbook,     site: "https://adamtooze.substack.com", category: opinion, topic: newsletters, enabled: false, note: "Economic historian Adam Tooze. DISABLED: Returns 403 to GitHub Actions addresses (Nov 2026)."}
   - {type: substack, name: Persuasion,    site: "https://www.persuasion.community", category: opinion, topic: newsletters, note: "Centrist liberal."}
   - {type: substack, name: The Bulwark,   site: "https://www.thebulwark.com", category: opinion, topic: newsletters, region: americas, note: "Centre-right; paid posts filtered out."}
-  - {type: substack, name: Import AI,     site: "https://importai.substack.com", category: opinion, topic: newsletters, note: "AI research and policy."}
+  - {type: substack, name: Import AI,     site: "https://importai.substack.com", category: opinion, topic: newsletters, enabled: false, note: "AI research and policy. DISABLED: Returns 403 to GitHub Actions addresses (Nov 2026)."}
   - {type: rss, name: Simon Willison,     url: "https://simonwillison.net/atom/everything/", category: opinion, topic: newsletters, note: "Practical AI and software."}
 
   # ═══════════════════════════ BUSINESS & ECONOMY ═══════════════════════════
@@ -243,6 +243,11 @@ sources:
   - {type: rss, name: CNBC World,         url: "https://www.cnbc.com/id/100727362/device/rss/rss.html", category: business, note: "Some CNBC Pro articles are paid."}
   - {type: rss, name: EconomyNext,        url: "https://economynext.com/feed/", category: business, region: asia}
   - {type: rss, name: Rest of World,      url: "https://restofworld.org/feed/latest", category: business, note: "Tech and business outside the West."}
+  - {type: rss, name: CBS MoneyWatch, url: "https://www.cbsnews.com/latest/rss/moneywatch", category: business}
+  - {type: rss, name: Sky News Business, url: "https://feeds.skynews.com/feeds/rss/business.xml", category: business}
+  - {type: rss, name: France 24 Business, url: "https://www.france24.com/en/business/rss", category: business, ownership: public}
+  - {type: rss, name: RTÉ Business, url: "https://www.rte.ie/feeds/rss/?index=/news/business/", category: business, ownership: public}
+  - {type: rss, name: ABC Australia Business, url: "https://www.abc.net.au/news/feed/51892/rss.xml", category: business, ownership: public}
 
   # ═══════════════════════════ TECHNOLOGY ═══════════════════════════
   - {type: rss, name: BBC Technology,     url: "https://feeds.bbci.co.uk/news/technology/rss.xml", category: technology, ownership: public, limited_in: [US]}
@@ -250,6 +255,12 @@ sources:
   - {type: rss, name: TechCrunch,         url: "https://techcrunch.com/feed/", category: technology}
   - {type: rss, name: The Guardian Tech,  url: "https://www.theguardian.com/technology/rss", category: technology}
   - {type: hackernews, name: Hacker News, min_score: 200, category: technology}
+  - {type: rss, name: NPR Technology, url: "https://feeds.npr.org/1019/rss.xml", category: technology, ownership: public}
+  - {type: rss, name: Sky News Technology, url: "https://feeds.skynews.com/feeds/rss/technology.xml", category: technology}
+  - {type: rss, name: Engadget, url: "https://www.engadget.com/rss.xml", category: technology}
+  - {type: rss, name: CNBC Technology, url: "https://www.cnbc.com/id/19854910/device/rss/rss.html", category: technology}
+  - {type: rss, name: Euronews Next, url: "https://www.euronews.com/rss?level=vertical&name=next", category: technology}
+  - {type: rss, name: Gizmodo, url: "https://gizmodo.com/feed", category: technology}
 
   # ═══════════════════════════ SCIENCE & RESEARCH ═══════════════════════════
   # Physics
@@ -287,6 +298,12 @@ sources:
   - {type: rss,   name: ScienceDaily,     url: "https://www.sciencedaily.com/rss/all.xml", category: science, topic: general}
   - {type: rss,   name: MIT News,         url: "https://news.mit.edu/rss/feed", category: science, topic: general}
   - {type: rss,   name: The Conversation Science, url: "https://theconversation.com/global/technology/articles.atom", category: science, topic: general}
+  - {type: rss, name: NPR Science, url: "https://feeds.npr.org/1007/rss.xml", category: science, topic: general, ownership: public}
+  - {type: rss, name: The Guardian Science, url: "https://www.theguardian.com/science/rss", category: science, topic: general}
+  - {type: rss, name: Live Science, url: "https://www.livescience.com/feeds/all", category: science, topic: general}
+  - {type: rss, name: Science News, url: "https://www.sciencenews.org/feed", category: science, topic: general}
+  - {type: rss, name: ScienceAlert, url: "https://www.sciencealert.com/feed", category: science, topic: general}
+  - {type: rss, name: Smithsonian, url: "https://www.smithsonianmag.com/rss/latest_articles/", category: science, topic: general}
 
   # ═══════════════════════════ HEALTH & MEDICINE ═══════════════════════════
   - {type: rss, name: BBC Health,         url: "https://feeds.bbci.co.uk/news/health/rss.xml", category: health, topic: news, ownership: public, limited_in: [US]}
@@ -308,6 +325,12 @@ sources:
   - {type: rss, name: The Guardian Mental Health, url: "https://www.theguardian.com/society/mental-health/rss", category: health, topic: mental, note: "Owned by the Scott Trust; no paywall."}
   - {type: rss, name: ScienceDaily Mental Health, url: "https://www.sciencedaily.com/rss/mind_brain/mental_health.xml", category: health, topic: mental}
   - {type: rss, name: PsyPost, url: "https://www.psypost.org/feed/", category: health, topic: mental, note: "Psychology and neuroscience research news."}
+  - {type: rss, name: CBS Health, url: "https://www.cbsnews.com/latest/rss/health", category: health, topic: news}
+  - {type: rss, name: The Guardian Health, url: "https://www.theguardian.com/society/health/rss", category: health, topic: news}
+  - {type: rss, name: Euronews Health, url: "https://www.euronews.com/rss?level=vertical&name=health", category: health, topic: news}
+  - {type: rss, name: ABC Australia Health, url: "https://www.abc.net.au/news/feed/9167762/rss.xml", category: health, topic: news, ownership: public}
+  - {type: rss, name: Medical Xpress, url: "https://medicalxpress.com/rss-feed/", category: health, topic: research}
+  - {type: rss, name: The Conversation Health, url: "https://theconversation.com/us/health/articles.atom", category: health, topic: news}
 
   # ═══════════════════════════ CLIMATE & ENVIRONMENT ═══════════════════════════
   - {type: rss, name: The Guardian Environment, url: "https://www.theguardian.com/environment/rss", category: climate}
@@ -318,6 +341,11 @@ sources:
   - {type: rss, name: Mongabay,           url: "https://news.mongabay.com/feed/", category: climate, note: "Nonprofit; global environment."}
   - {type: rss, name: Down To Earth,      url: "https://www.downtoearth.org.in/rss/latest", category: climate, region: asia, enabled: false, note: "Centre for Science and Environment (India). DISABLED: Site has a metered wall for premium articles; stories.rss?time-period=last-7-days works if that changes (Nov 2026)."}
   - {type: rss, name: NASA GISS,          url: "https://www.nasa.gov/centers-and-facilities/giss/feed/", category: climate, ownership: public}
+  - {type: rss, name: NPR Climate, url: "https://feeds.npr.org/1167/rss.xml", category: climate, ownership: public}
+  - {type: rss, name: Climate Home News, url: "https://www.climatechangenews.com/feed/", category: climate}
+  - {type: rss, name: Yale E360, url: "https://e360.yale.edu/feed.xml", category: climate}
+  - {type: rss, name: DW Environment, url: "https://rss.dw.com/rdf/rss-en-environment", category: climate, ownership: public}
+  - {type: rss, name: Canary Media, url: "https://www.canarymedia.com/rss.xml", category: climate}
 
   # ═══════════════════════════ SPORTS ═══════════════════════════
   - {type: rss, name: BBC Sport,          url: "https://feeds.bbci.co.uk/sport/rss.xml", category: sports, topic: general, ownership: public, limited_in: [US]}
@@ -368,3 +396,9 @@ sources:
   - {type: rss, name: The Guardian Culture, url: "https://www.theguardian.com/culture/rss", category: culture}
   - {type: rss, name: NPR Arts,           url: "https://feeds.npr.org/1008/rss.xml", category: culture, ownership: public}
   - {type: rss, name: Aeon Culture,       url: "https://aeon.co/feed.rss", category: culture, note: "Essays."}
+  - {type: rss, name: Variety, url: "https://variety.com/feed/", category: culture}
+  - {type: rss, name: The Hollywood Reporter, url: "https://www.hollywoodreporter.com/feed/", category: culture}
+  - {type: rss, name: Deadline, url: "https://deadline.com/feed/", category: culture}
+  - {type: rss, name: Sky News Entertainment, url: "https://feeds.skynews.com/feeds/rss/entertainment.xml", category: culture}
+  - {type: rss, name: CBS Entertainment, url: "https://www.cbsnews.com/latest/rss/entertainment", category: culture}
+  - {type: rss, name: NME, url: "https://www.nme.com/feed", category: culture}

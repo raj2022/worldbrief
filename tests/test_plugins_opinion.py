@@ -94,7 +94,7 @@ def test_real_sources_file_has_labels_and_viewpoint_range():
     assert names["BBC World"].limited_in == ["US"]
     assert names["Al Jazeera"].ownership == "state_linked"
     # no excluded state-propaganda outlets slipped in
-    banned = ("rt.com", "sputnik", "xinhua", "cgtn", "globaltimes", "presstv", "telesur", "kcna")
+    banned = ("//rt.com", "//www.rt.com", "sputnik", "xinhua", "cgtn", "globaltimes", "presstv", "telesur", "kcna")
     urls = " ".join(str(getattr(p, "url", "")) + str(getattr(p, "site", "")) for p in plugins).lower()
     assert not any(b in urls for b in banned)
     # opinion spans the spectrum

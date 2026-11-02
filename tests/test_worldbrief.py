@@ -1,12 +1,12 @@
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
 
 from worldbrief import plugin, pipeline
 from worldbrief.catalog import Catalog
-from worldbrief.cluster import cluster, keywords
+from worldbrief.cluster import cluster, keywords, names
 from worldbrief.models import Article, canonical_url
 from worldbrief.paywall import PaywallFilter
 from worldbrief.plugin import SourcePlugin, register
@@ -159,6 +159,56 @@ def test_arxiv_papers_never_merge():
     arts = [art("Scaling laws for language models", "https://arxiv.org/abs/1", category="science", plugin="arxiv"),
             art("Scaling laws for language models revisited", "https://arxiv.org/abs/2", category="science", plugin="arxiv")]
     assert len(cluster(arts)) == 2
+
+
+def test_cluster_needs_a_shared_name_as_well_as_shared_words():
+    """A real pair from the feeds: three shared words, two different stories."""
+    a = art("Russia suffers record troop losses in October, its worst month", "https://a/1")
+    b = art("October worst on record for overcrowding, says INMO", "https://b/1")
+    assert len(cluster([a, b])) == 2
+
+
+def test_cluster_still_merges_differently_worded_names():
+    a = art("Judge dismisses Trump lawsuit against Wall Street Journal", "https://a/1")
+    b = art("Trump's Wall Street Journal lawsuit dismissed by judge", "https://b/1")
+    c = art("U.S. judge dismisses Trump lawsuit against the Journal", "https://c/1")
+    assert len(cluster([a, b, c])) == 1
+
+
+def test_cluster_does_not_continue_a_story_after_days_of_silence():
+    title = "Israeli strikes kill eight people in Gaza"
+    def at(url, days_ago):
+        return Article(title=title, url=url, source=url, category="world",
+                       published=NOW - timedelta(days=days_ago))
+
+    stories = cluster([at("https://a/1", 5), at("https://b/1", 0), at("https://c/1", 1)])
+    assert sorted(len(s.articles) for s in stories) == [1, 2]
+
+
+def test_sports_needs_the_full_overlap_even_with_a_rare_name():
+    pair = ["New Zealand win final T20 by seven wickets but India take series",
+            "Afghanistan thrash Zimbabwe to sweep T20 series after New Zealand final"]
+    world = cluster([art(t, f"https://{i}/1", str(i)) for i, t in enumerate(pair)])
+    sport = cluster([art(t, f"https://{i}/1", str(i), category="sports") for i, t in enumerate(pair)])
+    assert len(world) == 1 and len(sport) == 2
+
+
+def test_names_ignore_calendar_words_and_punctuation():
+    assert names("U.S. and Iran's talks on Sunday in October") == {"us", "iran"}
+    assert names("German") == names("Germany")
+
+
+def test_cluster_is_looser_for_a_rare_name_than_a_common_one():
+    """Real headlines. Same story, but under the normal 0.6 overlap."""
+    pair = ["Ghostly Cat's Head Nebula lurks within sight of Hubble and Webb telescopes in new image",
+            "Hubble and Webb spot something ghostly happening in the Cat's Head Nebula tonight in space"]
+    assert len(cluster([art(pair[0], "https://a/1", "A"), art(pair[1], "https://b/1", "B")])) == 1
+
+    common = [art(f"Trump meets governor number{i} visitor{i} guest{i} delegate{i}", f"https://c/{i}", f"O{i}")
+              for i in range(13)]
+    loose = [art("Trump meets governor about farming, tariffs, drought, subsidies and exports", "https://x/1", "X"),
+             art("Trump meets governor before rally, fundraiser, speech, debate and interview", "https://y/1", "Y")]
+    assert len(cluster(common + loose)) >= 3
 
 
 def test_keywords_ignore_stopwords():

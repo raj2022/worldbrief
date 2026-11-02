@@ -1,17 +1,19 @@
 """Group articles about the same event into one story.
 
 Lightweight and dependency-free: titles become keyword sets, and an article
-joins a story when its keywords overlap enough with the story's. Good enough
-to merge "15 outlets covering the same election"; swap in embeddings later
-if you want better recall.
+joins a story when its keywords overlap enough with the story's and they name
+the same people or places. A rare shared name lowers the overlap needed. Good
+enough to merge "15 outlets covering the same election"; swap in embeddings
+later if you want better recall.
 """
 from __future__ import annotations
 
 import hashlib
 import math
 import re
+from collections import Counter
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from .models import Article
 
@@ -24,6 +26,16 @@ said say amid after up down out more than first last over under how why what who
 live latest update updates news report reports video watch
 """.split())
 
+MAX_GAP = timedelta(hours=72)     # a story that goes quiet this long doesn't continue
+RELAXED_THRESHOLD = 0.4           # when two headlines share a rare name
+RARE_NAME_TITLES = 12             # headlines in a section naming it; "Trump" is far over this
+STRICT_SECTIONS = {"sports"}      # teams recur across different matches, so a name proves little
+_NAME = re.compile(r"[A-Z](?:\.?[\w'’-])*\.?")
+_CALENDAR = set("""
+january february march april may june july august september october november december
+monday tuesday wednesday thursday friday saturday sunday
+""".split())
+
 
 def keywords(title: str) -> frozenset[str]:
     words = (w.strip("'-") for w in _WORD.findall(title.lower()))
@@ -31,15 +43,29 @@ def keywords(title: str) -> frozenset[str]:
                      for w in words if w and w not in STOPWORDS and len(w) > 2)
 
 
+def names(title: str) -> frozenset[str]:
+    """Capitalised words, roughly the people and places a headline is about.
+    All-caps and title-case headlines just give more of them, which only makes
+    two headlines likelier to pass the check in `cluster`."""
+    found = set()
+    for word in _NAME.findall(title):
+        word = re.sub(r"['’]s$", "", word.lower()).replace(".", "")
+        if word not in STOPWORDS and word not in _CALENDAR:
+            found.add(word[:4])       # so German matches Germany, Israeli matches Israel
+    return frozenset(found)
+
+
 @dataclass
 class Story:
     category: str
     articles: list[Article] = field(default_factory=list)
     terms: set[str] = field(default_factory=set)
+    names: set[str] = field(default_factory=set)
 
-    def add(self, a: Article, kw: frozenset[str]) -> None:
+    def add(self, a: Article, kw: frozenset[str], who: frozenset[str] = frozenset()) -> None:
         self.articles.append(a)
         self.terms |= kw
+        self.names |= who
 
     @property
     def lead(self) -> Article:
@@ -97,8 +123,10 @@ def similarity(a: frozenset[str], b: set[str]) -> float:
 def cluster(articles: list[Article], threshold: float = 0.6, min_shared: int = 3) -> list[Story]:
     stories: list[Story] = []
     epoch = datetime.min.replace(tzinfo=timezone.utc)
+    titles_naming = Counter((a.category, n) for a in articles for n in names(a.title))
     for a in sorted(articles, key=lambda x: x.when or epoch):
         kw = keywords(a.title)
+        who = names(a.title)
         best, best_sim = None, 0.0
         # Papers are each their own item; only news clusters.
         if a.plugin != "arxiv":
@@ -109,13 +137,23 @@ def cluster(articles: list[Article], threshold: float = 0.6, min_shared: int = 3
                 # is. Otherwise "Healthcare for all" joins any story about healthcare.
                 if len(kw & s.terms) < min_shared:
                     continue
+                # Shared words aren't enough if the headlines name different people
+                # and places: "October worst on record" for Russia and for hospitals.
+                if who and s.names and not who & s.names:
+                    continue
+                if a.when and s.latest and a.when - s.latest > MAX_GAP:
+                    continue
                 sim = similarity(kw, s.terms)
+                # "Binance" pins down a story, so less of the headline has to match.
+                if a.category not in STRICT_SECTIONS and any(
+                        titles_naming[(a.category, n)] <= RARE_NAME_TITLES for n in who & s.names):
+                    sim += threshold - RELAXED_THRESHOLD
                 if sim > best_sim:
                     best, best_sim = s, sim
         if best is not None and best_sim >= threshold:
-            best.add(a, kw)
+            best.add(a, kw, who)
         else:
             s = Story(category=a.category)
-            s.add(a, kw)
+            s.add(a, kw, who)
             stories.append(s)
     return stories

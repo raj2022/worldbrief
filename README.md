@@ -68,6 +68,10 @@ to 10 minutes, so the app can be about 25 minutes behind publishers.
 
 `keepalive.yml` stops GitHub disabling the schedule after 60 days without activity.
 
+Each run tests the code before fetching anything. If a test fails, the run stops and
+the last good digest stays published, so a bad push can't replace the news. The app
+says "May be out of date" once the digest is over an hour old.
+
 To run a refresh now, use `gh workflow run refresh.yml`. Publishers see the repo URL
 as the contact. To use an email, set a `WORLDBRIEF_CONTACT` Actions variable.
 
