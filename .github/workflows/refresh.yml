@@ -2,7 +2,7 @@ name: Refresh news
 
 on:
   schedule:
-    - cron: "7,22,37,52 * * * *"   # off the busy :00 mark
+    - cron: "3,18,33,48 * * * *"   # off the busy :00 mark
   workflow_dispatch:
 
 concurrency:
