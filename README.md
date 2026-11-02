@@ -49,7 +49,10 @@ minutes is the default; `--every 5` is fine for the world section alone.
 ## Deploying
 
 The digest is hosted for free on GitHub Pages. `.github/workflows/refresh.yml`
-runs `python -m worldbrief run` every 15 minutes and publishes `dist/`. The app
+runs `python -m worldbrief run` and publishes `dist/`. GitHub's own cron rarely
+fires for this repo, so `ticker.yml` starts a refresh every 15 minutes. It runs
+for 5.5 hours, then starts its own replacement. Its 2-hourly cron restarts it if
+that chain ever breaks. The app
 reads it from `https://raj2022.github.io/worldbrief/`:
 
 | File | What it holds |
@@ -66,7 +69,7 @@ workflow stays off longer than that, the store starts again from the current fee
 Scheduled runs can start late when GitHub is busy. Pages also caches files for up
 to 10 minutes, so the app can be about 25 minutes behind publishers.
 
-`keepalive.yml` stops GitHub disabling the schedule after 60 days without activity.
+`keepalive.yml` stops GitHub disabling the schedules after 60 days without activity.
 
 Each run tests the code before fetching anything. If a test fails, the run stops and
 the last good digest stays published, so a bad push can't replace the news. The app

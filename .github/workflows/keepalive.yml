@@ -16,6 +16,7 @@ jobs:
     steps:
       - run: |
           gh workflow enable refresh.yml --repo "$GITHUB_REPOSITORY"
+          gh workflow enable ticker.yml --repo "$GITHUB_REPOSITORY"
           gh workflow enable keepalive.yml --repo "$GITHUB_REPOSITORY"
         env:
           GH_TOKEN: ${{ github.token }}
