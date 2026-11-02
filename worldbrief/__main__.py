@@ -27,12 +27,18 @@ def _only(value: str | None) -> set[str] | None:
 
 
 def _briefer(out_dir: Path):
-    """Briefs turn on when an API key is set. Without one, everything else
-    works as usual."""
+    """AI briefs are an optional upgrade: they need ANTHROPIC_API_KEY and
+    `pip install -r requirements-ai.txt`. Without a key, every multi-outlet story
+    still gets a free extractive brief, so there's nothing to warn about."""
     if not (os.environ.get("ANTHROPIC_API_KEY") or os.environ.get("ANTHROPIC_AUTH_TOKEN")):
-        logging.getLogger(__name__).warning("ANTHROPIC_API_KEY isn't set, so AI briefs are off")
         return None
-    from .briefs import Briefer
+    try:
+        from .briefs import Briefer
+    except ImportError:
+        logging.getLogger(__name__).warning(
+            "ANTHROPIC_API_KEY is set but the anthropic package isn't installed, so using free "
+            "briefs. Run pip install -r requirements-ai.txt to use AI briefs.")
+        return None
     return Briefer.from_env(out_dir)
 
 

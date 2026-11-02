@@ -37,7 +37,6 @@ jobs:
       - run: python -m worldbrief run --out-dir dist --store .cache/store.json
         env:
           WORLDBRIEF_CONTACT: ${{ vars.WORLDBRIEF_CONTACT || format('https://github.com/{0}', github.repository) }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
 
       - run: touch dist/.nojekyll
 

@@ -14,6 +14,7 @@ import yaml
 from . import plugin as plugin_mod
 from .catalog import Catalog
 from .cluster import cluster
+from .extract import add_free_coverage
 from .models import Article, canonical_url
 from .paywall import PaywallFilter
 from .quality import drop_junk
@@ -28,6 +29,7 @@ ARTICLES_PER_STORY = 5         # articles per story in section files (?full=1 ha
 BREAKING_MIN_SOURCES = 3       # independent outlets needed to call it breaking
 BREAKING_WINDOW_HOURS = 3
 NO_BREAKING_SECTIONS = {"opinion", "science", "culture"}
+NO_MORNING_SECTIONS = {"opinion"}   # an argument isn't an event to explain
 MORNING_MAX_STORIES = 15       # more than a screen, because the app filters by section
 MORNING_PER_SECTION = 8
 MORNING_MIN_STORIES = 3        # fewer than this waits for the next refresh
@@ -142,6 +144,7 @@ def build_digest(articles: list[Article], results: list[SourceResult],
         if sec is None:
             continue
         d = dicts[id(st)] = st.to_dict(now, decay[st.category])
+        add_free_coverage(d, now)
         push(sec["top"], d)
         for t in st.topics:
             push(sec["by_topic"].setdefault(t, []), d)
@@ -179,6 +182,7 @@ def build_digest(articles: list[Article], results: list[SourceResult],
             "stories": len(stories),
             "sources_ok": sum(r.ok for r in results),
             "sources_failed": sum(not r.ok for r in results),
+            "extractive_briefs": sum("brief" in d for d in dicts.values()),
         },
         "sections": sections,
         "source_health": [r.__dict__ for r in results],
@@ -271,9 +275,10 @@ def write_morning(digest: dict, out_dir: Path, state_dir: Path, hours: tuple[int
     created = False
     if morning_due(last, now, hours):
         stories = []
-        for sec in digest["sections"].values():
-            stories += [st for st in sec["top"] if st.get("brief")][:MORNING_PER_SECTION]
-        # Too few means the API was down at edition time, so try again next refresh.
+        for sid, sec in digest["sections"].items():
+            if sid not in NO_MORNING_SECTIONS:
+                stories += [st for st in sec["top"] if st.get("brief")][:MORNING_PER_SECTION]
+        # Too few means a thin news hour, so try again next refresh.
         if len(stories) >= MORNING_MIN_STORIES:
             stories.sort(key=lambda st: st["score"], reverse=True)
             edition = {
@@ -302,7 +307,7 @@ class Refresher:
         self.paywall = PaywallFilter.from_file(paywall_path) if paywall_path else PaywallFilter.from_file()
         self.out_dir = Path(out_dir)
         self.store = ArticleStore(store_path if store_path else self.out_dir / ".store.json")
-        self.briefer = briefer         # None leaves briefs off; see briefs.py
+        self.briefer = briefer         # None uses only the free briefs; see briefs.py
         self.morning_hours = morning_hours
         self.last: dict | None = None
 
@@ -326,8 +331,7 @@ class Refresher:
             except Exception:  # noqa: BLE001 — the news still has to go out
                 log.exception("briefs failed; publishing without new ones")
         write_split(digest, self.out_dir)
-        if self.briefer:
-            write_morning(digest, self.out_dir, self.briefer.path.parent, self.morning_hours, now)
+        write_morning(digest, self.out_dir, self.store.path.parent, self.morning_hours, now)
         self.last = digest
         return digest
 

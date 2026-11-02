@@ -1,0 +1,2 @@
+# Only for optional AI briefs (ANTHROPIC_API_KEY). The published digest doesn't use them.
+anthropic>=2.3,<3

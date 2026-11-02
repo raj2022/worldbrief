@@ -29,7 +29,7 @@ The app calls:
 | `GET /index.json` | Section catalog, breaking stories, top 5 per section, source directory |
 | `GET /sections/<id>.json` | One section: `top` (ranked), `latest` (newest first), `by_topic`, `by_region`. Each story lists its 5 most recent articles; `source_count` is still the full count |
 | `GET /sections/<id>.json?full=1` | The same section with every article |
-| `GET /morning.json` | Today's Morning brief, one edition a day (only with AI briefs on) |
+| `GET /morning.json` | Today's Morning brief, one edition a day |
 | `GET /health` | Last refresh time, story counts, failing sources, source health |
 
 See `sample_output/` for real examples of both files.
@@ -71,8 +71,7 @@ to 10 minutes, so the app can be about 25 minutes behind publishers.
 To run a refresh now, use `gh workflow run refresh.yml`. Publishers see the repo URL
 as the contact. To use an email, set a `WORLDBRIEF_CONTACT` Actions variable.
 
-AI briefs stay off until the repo has an `ANTHROPIC_API_KEY` secret. Their cache and
-the Morning edition stay in `.cache/` with the store, and `morning.json` is published
+The Morning edition stays in `.cache/` with the store, and `morning.json` is published
 with the other files.
 
 `Dockerfile` and `fly.toml` run the live `serve` mode on a server instead, if you
@@ -150,14 +149,32 @@ class MyAPI(SourcePlugin):
         return [self.make_article(title=x["title"], url=x["url"]) for x in data]
 ```
 
+## Briefs
+
+Every story covered by 2 or more outlets gets two extra fields, built in pure Python
+by `worldbrief/extract.py` with no API and no model:
+
+- `brief`: the 2 or 3 most central sentences across the outlets' snippets, under 400
+  characters, with `model: "extractive"` and an empty `why_it_matters`. A story has
+  no `brief` if its snippets hold no complete sentence that adds to the headline, and
+  one sentence if that's all they offer.
+- `framing`: up to 4 headlines from different outlets, preferring different regions
+  and ownership types, each with `source`, `ownership`, `region`, `headline` and `url`.
+
+The iOS app adds a summary on the phone itself where Apple Intelligence is available.
+
+AI briefs from the Anthropic API are optional and off. They need
+`pip install -r requirements-ai.txt` and `ANTHROPIC_API_KEY`, and they replace the free
+`brief` on the stories they cover. The GitHub workflow installs neither, so it never
+calls a paid API.
+
 ## Rules the backend follows
 
 - Stores only headlines and short feed snippets (≤ 400 characters), never full
   text, and every item links to the publisher. The court in AP v. Meltwater
   (2013) ruled against an aggregator that copied substantial article text, and
   EU press-publisher rights exempt links and very short extracts.
-- AI briefs are written only from those headlines and snippets, and the app labels
-  them as AI and links every source article.
+- Briefs cost nothing and are built only from those headlines and snippets. See Briefs.
 - Paywalled domains are dropped (`paywall.yaml`); review the list now and then.
 - Live blogs, videos, galleries, podcasts and recurring pages are dropped
   (`worldbrief/quality.py`), so every headline opens something readable.

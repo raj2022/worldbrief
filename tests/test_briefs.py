@@ -5,15 +5,16 @@ import threading
 from datetime import datetime, timedelta, timezone
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
-import anthropic
 import pytest
 
-from worldbrief import briefs
-from worldbrief.briefs import Briefer, render_coverage, select_stories
-from worldbrief.catalog import Catalog
-from worldbrief.models import Article
-from worldbrief.paywall import PaywallFilter
-from worldbrief.pipeline import build_digest, morning_due, write_morning, write_split
+anthropic = pytest.importorskip("anthropic")   # requirements-ai.txt
+
+from worldbrief import briefs  # noqa: E402
+from worldbrief.briefs import Briefer, render_coverage, select_stories  # noqa: E402
+from worldbrief.catalog import Catalog  # noqa: E402
+from worldbrief.models import Article  # noqa: E402
+from worldbrief.paywall import PaywallFilter  # noqa: E402
+from worldbrief.pipeline import build_digest, morning_due, write_morning, write_split  # noqa: E402
 
 NOW = datetime(2026, 11, 1, 12, 0, tzinfo=timezone.utc)
 SUMMARY = "Leaders met in Geneva on Sunday to discuss the ceasefire. Talks will continue on Monday."

@@ -1,4 +1,7 @@
-"""AI briefs: turn several outlets' headlines into one short explanation.
+"""Optional AI briefs: turn several outlets' headlines into one short explanation.
+
+Off unless ANTHROPIC_API_KEY is set and requirements-ai.txt is installed. Stories
+get a free brief from extract.py either way, and an AI brief replaces it.
 
 A brief is written once on the server and shared by every reader, so the cost
 depends on how many stories there are, not how many people read them. Only
@@ -11,7 +14,7 @@ joined and enough time has passed (see `_needs_rewrite`), so a fast-moving story
 can't trigger a call on every refresh.
 
 Nothing here can stop a refresh: if the API is down, stories keep their last
-brief or go out without one.
+brief or keep the free one.
 """
 from __future__ import annotations
 

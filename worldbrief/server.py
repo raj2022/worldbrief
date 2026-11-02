@@ -93,8 +93,6 @@ def make_handler(out_dir: Path, refresher: Refresher, started: float, max_age: i
             if path.startswith("/sections/") and parse_qs(url.query).get("full") == ["1"]:
                 f = f.with_name(f"{f.stem}.full.json")
             if not f.exists():
-                if path == "/morning.json" and not refresher.briefer:
-                    return self._send(404, b'{"error":"briefs are off"}')
                 # First refresh still running.
                 return self._send(503, b'{"error":"warming up, retry in a few seconds"}')
             body = f.read_bytes()

@@ -169,8 +169,6 @@ def test_morning_endpoint(tmp_path):
     threading.Thread(target=httpd.serve_forever, daemon=True).start()
     url = f"http://127.0.0.1:{httpd.server_port}/morning.json"
     try:
-        assert status(url) == 404                  # briefs off
-        refresher.briefer = object()
         assert status(url) == 503                  # first edition not out yet
         (out / "morning.json").write_text('{"edition": "2026-11-01", "stories": []}')
         with urllib.request.urlopen(url) as r:
