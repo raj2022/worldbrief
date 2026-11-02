@@ -180,6 +180,9 @@ calls a paid API.
   EU press-publisher rights exempt links and very short extracts.
 - Briefs cost nothing and are built only from those headlines and snippets. See Briefs.
 - Paywalled domains are dropped (`paywall.yaml`); review the list now and then.
+- Journals (`type: journal`) are the exception: they're chosen by hand and link to free
+  abstract pages, so they pass that filter. Each one's `note` says if the full text is
+  open access. Papers never group into stories, and they rank below reporting.
 - Live blogs, videos, galleries, podcasts and recurring pages are dropped
   (`worldbrief/quality.py`), so every headline opens something readable.
 - arXiv: at most one request every 3 seconds across all machines.

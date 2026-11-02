@@ -54,6 +54,7 @@ sections:
     max_age_hours: 96
     subtopics:
       - {id: physics,   title: Physics}
+      - {id: particle,  title: Particle & Nuclear Physics}
       - {id: space,     title: Space & Astronomy}
       - {id: ai,        title: AI & Machine Learning}
       - {id: computing, title: Computer Science}

@@ -30,6 +30,8 @@ MAX_GAP = timedelta(hours=72)     # a story that goes quiet this long doesn't co
 RELAXED_THRESHOLD = 0.4           # when two headlines share a rare name
 RARE_NAME_TITLES = 12             # headlines in a section naming it; "Trump" is far over this
 STRICT_SECTIONS = {"sports"}      # teams recur across different matches, so a name proves little
+PAPER_PLUGINS = {"arxiv", "journal"}
+PAPER_WEIGHT = 0.6                # so reporting leads a section, and papers fill its topics
 _NAME = re.compile(r"[A-Z](?:\.?[\w'’-])*\.?")
 _CALENDAR = set("""
 january february march april may june july august september october november december
@@ -94,7 +96,8 @@ class Story:
         """More independent outlets + more regions + fresher = higher."""
         hours = ((now - self.latest).total_seconds() / 3600) if self.latest else 48
         freshness = math.exp(-max(hours, 0) / decay_hours)
-        return (len(self.sources) + 0.5 * (len(self.regions) - 1)) * (0.3 + freshness)
+        weight = PAPER_WEIGHT if self.articles[0].plugin in PAPER_PLUGINS else 1
+        return weight * (len(self.sources) + 0.5 * (len(self.regions) - 1)) * (0.3 + freshness)
 
     def to_dict(self, now: datetime, decay_hours: float = 24) -> dict:
         lead = self.lead
@@ -129,9 +132,9 @@ def cluster(articles: list[Article], threshold: float = 0.6, min_shared: int = 3
         who = names(a.title)
         best, best_sim = None, 0.0
         # Papers are each their own item; only news clusters.
-        if a.plugin != "arxiv":
+        if a.plugin not in PAPER_PLUGINS:
             for s in stories:
-                if s.category != a.category or s.articles[0].plugin == "arxiv":
+                if s.category != a.category or s.articles[0].plugin in PAPER_PLUGINS:
                     continue
                 # Every title needs min_shared words in common, however short it
                 # is. Otherwise "Healthcare for all" joins any story about healthcare.

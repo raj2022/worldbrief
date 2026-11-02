@@ -53,6 +53,12 @@ class RSSPlugin(SourcePlugin):
             return False
         return not any(s in link for s in self.link_excludes)
 
+    def entry_title(self, entry) -> str:
+        return clean(entry.get("title"), 300)
+
+    def entry_summary(self, entry) -> str:
+        return clean(entry.get("summary") or entry.get("description"))
+
     def parse(self, content: bytes) -> list:
         feed = feedparser.parse(content)
         if feed.bozo and not feed.entries:
@@ -62,7 +68,7 @@ class RSSPlugin(SourcePlugin):
             if len(out) >= self.max_items:
                 break
             link = e.get("link")
-            title = clean(e.get("title"), 300)
+            title = self.entry_title(e)
             if not link or not title or not self._wanted(link):
                 continue
             tags = [t.get("term") for t in e.get("tags", []) if t.get("term")][:5]
@@ -72,7 +78,7 @@ class RSSPlugin(SourcePlugin):
             out.append(self.make_article(
                 title=title,
                 url=link,
-                summary=clean(e.get("summary") or e.get("description")),
+                summary=self.entry_summary(e),
                 published=_parse_date(e),
                 tags=tags,
             ))

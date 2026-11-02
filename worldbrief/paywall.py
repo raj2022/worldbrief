@@ -31,6 +31,10 @@ class PaywallFilter:
         return any(domain == d or domain.endswith("." + d) for d in pool)
 
     def is_free(self, article: Article) -> bool:
+        # Journals are chosen by hand, and their abstract pages are free to read.
+        # Their publishers stay blocked for open-ended plugins like Hacker News.
+        if article.plugin == "journal":
+            return True
         d = article.domain
         if self._matches(d, self.allowed):
             return True

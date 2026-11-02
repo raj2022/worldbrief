@@ -6,7 +6,7 @@
 # and fix or disable (enabled: false) any that fail before shipping.
 #
 # Fields
-#   type        plugin: rss | arxiv | gdelt | hackernews | substack | hf_papers
+#   type        plugin: rss | journal | arxiv | gdelt | hackernews | substack | hf_papers
 #   category    section id;  topic: subtopic id (sections that have them)
 #   region      global (default) | africa | asia | middle_east | europe | americas | oceania
 #   ownership   independent (default) | public | state_linked | aggregator
@@ -14,7 +14,8 @@
 #   limited_in  countries where free reading is limited (e.g. bbc.com in the US)
 #
 # Not included on purpose: state propaganda outlets (RT, Sputnik, TASS, Xinhua,
-# CGTN, Global Times, Press TV, TeleSUR, KCNA ...) and paywalled outlets.
+# CGTN, Global Times, Press TV, TeleSUR, KCNA ...) and paywalled outlets. Journals
+# are the exception: type journal links to abstracts, which are free to read.
 
 sources:
 
@@ -264,13 +265,40 @@ sources:
 
   # ═══════════════════════════ SCIENCE & RESEARCH ═══════════════════════════
   # Physics
-  - {type: arxiv, name: arXiv HEP,        categories: [hep-ex, hep-ph, hep-th], category: science, topic: physics}
+  # Particle and nuclear physics
+  - {type: arxiv, name: arXiv HEP & Nuclear, categories: [hep-ex, hep-ph, hep-th, hep-lat, nucl-ex, nucl-th], category: science, topic: particle, max_items: 60}
+  - {type: journal, name: Physical Review D, url: "https://feeds.aps.org/rss/recent/prd.xml", category: science, topic: particle, note: "Abstracts are free; full text may need a subscription. High-energy papers are open access (SCOAP3)."}
+  - {type: journal, name: Physical Review C, url: "https://feeds.aps.org/rss/recent/prc.xml", category: science, topic: particle, note: "Abstracts are free; full text may need a subscription. Nuclear physics."}
+  - {type: journal, name: JHEP, url: "https://link.springer.com/search.rss?facet-journal-id=13130", category: science, topic: particle, note: "Journal of High Energy Physics. Open access (SCOAP3)."}
+  - {type: journal, name: European Physical Journal C, url: "https://link.springer.com/search.rss?facet-journal-id=10052", category: science, topic: particle, note: "Open access for high-energy physics (SCOAP3)."}
+  - {type: journal, name: European Physical Journal A, url: "https://link.springer.com/search.rss?facet-journal-id=10050", category: science, topic: particle, note: "Abstracts are free; full text may need a subscription. Hadrons and nuclei."}
+  - {type: journal, name: Physics Letters B, url: "https://rss.sciencedirect.com/publication/science/03702693", category: science, topic: particle, note: "Open access for high-energy physics (SCOAP3)."}
+  - {type: journal, name: Nuclear Physics B, url: "https://rss.sciencedirect.com/publication/science/05503213", category: science, topic: particle, note: "Open access for high-energy physics (SCOAP3)."}
+  - {type: journal, name: Nuclear Physics A, url: "https://rss.sciencedirect.com/publication/science/03759474", category: science, topic: particle, note: "Abstracts are free; full text may need a subscription."}
+  - {type: journal, name: Chinese Physics C, url: "https://iopscience.iop.org/journal/rss/1674-1137", category: science, topic: particle, note: "Open access for high-energy physics (SCOAP3)."}
+  - {type: journal, name: Journal of Physics G, url: "https://iopscience.iop.org/journal/rss/0954-3899", category: science, topic: particle, note: "Abstracts are free; full text may need a subscription. Nuclear and particle physics."}
+  - {type: journal, name: JINST, url: "https://iopscience.iop.org/journal/rss/1748-0221", category: science, topic: particle, note: "Abstracts are free; full text may need a subscription. Detectors and instrumentation."}
   - {type: arxiv, name: arXiv Quantum,    categories: [quant-ph], category: science, topic: physics}
   - {type: rss,   name: APS Physics,      url: "http://feeds.aps.org/rss/recent/physics.xml", category: science, topic: physics, note: "APS's free Physics magazine."}
   - {type: rss,   name: CERN News,        url: "https://home.cern/api/news/news/feed.rss", category: science, topic: physics, ownership: public, enabled: false, note: "DISABLED: Site rebuilt; advertised /feed/ returns 404 (Nov 2026)."}
   - {type: rss,   name: Phys.org Physics, url: "https://phys.org/rss-feed/physics-news/", category: science, topic: physics}
-  - {type: rss,   name: Fermilab News,    url: "https://news.fnal.gov/feed/", category: science, topic: physics, ownership: public, note: "US national laboratory (Department of Energy)."}
-  - {type: rss,   name: CERN Courier,     url: "https://cerncourier.com/feed/", category: science, topic: physics, note: "Published for CERN; posts in bursts, so it can go quiet for weeks."}
+  - {type: rss,   name: Fermilab News,    url: "https://news.fnal.gov/feed/", category: science, topic: particle, ownership: public, note: "US national laboratory (Department of Energy)."}
+  - {type: rss,   name: CERN Courier,     url: "https://cerncourier.com/feed/", category: science, topic: particle, note: "Published for CERN; posts in bursts, so it can go quiet for weeks."}
+  # Major journals
+  - {type: journal, name: Physical Review Letters, url: "https://feeds.aps.org/rss/recent/prl.xml", category: science, topic: physics, note: "Abstracts are free; full text may need a subscription."}
+  - {type: journal, name: Physical Review X, url: "https://feeds.aps.org/rss/recent/prx.xml", category: science, topic: physics, note: "Open access."}
+  - {type: journal, name: Nature Physics, url: "https://www.nature.com/nphys.rss", category: science, topic: physics, note: "Abstracts are free; full text may need a subscription."}
+  - {type: journal, name: Nature Astronomy, url: "https://www.nature.com/natastron.rss", category: science, topic: space, note: "Abstracts are free; full text may need a subscription."}
+  - {type: journal, name: JCAP, url: "https://iopscience.iop.org/journal/rss/1475-7516", category: science, topic: space, note: "Journal of Cosmology and Astroparticle Physics. Abstracts are free; full text may need a subscription."}
+  - {type: journal, name: Nature, url: "https://www.nature.com/nature.rss", category: science, topic: general, max_items: 20, note: "Abstracts are free; full text may need a subscription."}
+  - {type: journal, name: Science, url: "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=science", category: science, topic: general, max_items: 20, note: "Abstracts are free; full text may need a subscription."}
+  - {type: journal, name: Science Advances, url: "https://www.science.org/action/showFeed?type=etoc&feed=rss&jc=sciadv", category: science, topic: general, max_items: 20, note: "Open access."}
+  - {type: journal, name: Nature Communications, url: "https://www.nature.com/ncomms.rss", category: science, topic: general, note: "Open access."}
+  - {type: journal, name: Cell, url: "https://www.cell.com/cell/inpress.rss", category: science, topic: biology, note: "Abstracts are free; full text may need a subscription."}
+  - {type: journal, name: NEJM, url: "https://www.nejm.org/action/showFeed?jc=nejm&type=etoc&feed=rss", category: health, topic: research, note: "Abstracts are free; full text may need a subscription."}
+  - {type: journal, name: The Lancet, url: "https://www.thelancet.com/rssfeed/lancet_current.xml", category: health, topic: research, note: "Abstracts are free; full text may need a subscription."}
+  - {type: journal, name: The BMJ, url: "https://www.bmj.com/rss/recent.xml", category: health, topic: research, note: "Abstracts are free; full text may need a subscription."}
+  - {type: journal, name: JAMA, url: "https://jamanetwork.com/rss/site_3/67.xml", category: health, topic: research, note: "Abstracts are free; full text may need a subscription."}
   # Space & astronomy
   - {type: arxiv, name: arXiv Astrophysics, categories: [astro-ph.CO, astro-ph.HE, astro-ph.GA, astro-ph.EP], category: science, topic: space}
   - {type: rss,   name: NASA,             url: "https://www.nasa.gov/news-release/feed/", category: science, topic: space, ownership: public}
