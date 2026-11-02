@@ -259,7 +259,7 @@ sources:
   - {type: rss, name: Undark,             url: "https://undark.org/feed/", category: opinion, topic: essays, note: "MIT Knight Science Journalism."}
   - {type: rss, name: Boston Review,      url: "https://www.bostonreview.net/feed/", category: opinion, topic: essays, enabled: false, note: "Left. DISABLED: Feed URLs now redirect to the homepage; no public feed found (Nov 2026)."}
   - {type: rss, name: Jacobin,            url: "https://jacobin.com/feed/", category: opinion, topic: essays, note: "Socialist left."}
-  - {type: rss, name: The Walrus,         url: "https://thewalrus.ca/feed/", category: opinion, topic: essays, region: americas, note: "Nonprofit Canadian magazine (The Walrus Foundation)."}
+  - {type: rss, name: The Walrus,         url: "https://thewalrus.ca/feed/", category: opinion, topic: essays, region: americas, enabled: false, note: "Nonprofit Canadian magazine (The Walrus Foundation). DISABLED: returns 403 to GitHub Actions runners (works from home connections), Nov 2026."}
   - {type: rss, name: Inside Story,       url: "https://insidestory.org.au/feed/", category: opinion, topic: essays, region: oceania, note: "Nonprofit Australian magazine of current affairs and culture."}
   - {type: rss, name: Public Domain Review, url: "https://publicdomainreview.org/rss.xml", category: opinion, topic: essays, note: "Nonprofit, reader-funded; essays on public-domain art and texts."}
   - {type: rss, name: Words Without Borders, url: "https://wordswithoutborders.org/feed/", category: opinion, topic: essays, note: "Nonprofit magazine of international literature in translation."}
