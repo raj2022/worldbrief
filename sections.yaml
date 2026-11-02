@@ -51,7 +51,7 @@ sections:
     symbol: atom
     description: New papers and discoveries across the sciences
     default: true
-    max_age_hours: 96
+    max_age_hours: 168
     subtopics:
       - {id: physics,   title: Physics}
       - {id: particle,  title: Particle & Nuclear Physics}
