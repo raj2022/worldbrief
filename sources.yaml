@@ -260,7 +260,7 @@ sources:
   - {type: rss, name: Engadget, url: "https://www.engadget.com/rss.xml", category: technology}
   - {type: rss, name: CNBC Technology, url: "https://www.cnbc.com/id/19854910/device/rss/rss.html", category: technology}
   - {type: rss, name: Euronews Next, url: "https://www.euronews.com/rss?level=vertical&name=next", category: technology}
-  - {type: rss, name: Gizmodo, url: "https://gizmodo.com/feed", category: technology}
+  - {type: rss, name: Gizmodo, url: "https://gizmodo.com/feed", category: technology, enabled: false, note: "DISABLED: Returns 403 to GitHub Actions addresses (Nov 2026)."}
 
   # ═══════════════════════════ SCIENCE & RESEARCH ═══════════════════════════
   # Physics

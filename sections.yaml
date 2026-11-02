@@ -37,12 +37,14 @@ sections:
     symbol: chart.line.uptrend.xyaxis
     description: Markets, companies, trade and economic policy
     default: true
+    max_age_hours: 48
 
   - id: technology
     title: Technology
     symbol: cpu
     description: Tech industry, products, startups and the internet
     default: true
+    max_age_hours: 48
 
   - id: science
     title: Science & Research
@@ -79,6 +81,7 @@ sections:
     symbol: leaf
     description: Climate science, energy, nature and environmental policy
     default: false
+    max_age_hours: 120
 
   - id: sports
     title: Sports
@@ -103,3 +106,4 @@ sections:
     symbol: theatermasks
     description: Film, music, books, art and entertainment
     default: false
+    max_age_hours: 96
