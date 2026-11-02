@@ -33,7 +33,8 @@ NO_MORNING_SECTIONS = {"opinion"}   # an argument isn't an event to explain
 MORNING_MAX_STORIES = 15       # more than a screen, because the app filters by section
 MORNING_PER_SECTION = 8
 MORNING_MIN_STORIES = 3        # fewer than this waits for the next refresh
-TOPIC_SOURCE_SHARE = 5         # slots one source fills in a topic list before others get a turn
+TOPIC_FIRST_TURN = 2           # slots every source gets in a topic list before any gets more
+TOPIC_SOURCE_SHARE = 5         # slots a source can fill before the rest compete on rank alone
 DEFAULT_MORNING_HOURS = (11,)  # UTC hours an edition comes out: 6am New York in winter
 
 
@@ -105,19 +106,18 @@ def dedupe(articles: list[Article]) -> list[Article]:
 
 
 def spread_sources(stories: list[dict], limit: int) -> list[dict]:
-    """The top `limit` stories, in order, with each source taking a few slots
-    before any takes more. A journal posting 30 papers at once would otherwise
-    fill a topic. Spare slots still go to the best remaining stories, so a topic
-    served by one source keeps its full list."""
+    """The top `limit` stories, in order, with every source getting a turn: each
+    source's first 2, then its next few, then whatever is left. A journal posting
+    30 papers at once would otherwise fill a topic, and weekly journals would never
+    outrank daily ones. A topic served by one source keeps its full list."""
     taken: dict[str, int] = {}
-    first, rest = [], []
-    for st in stories:
+    turns = []
+    for position, st in enumerate(stories):
         source = st["articles"][0]["source"]
-        taken[source] = taken.get(source, 0) + 1
-        (first if taken[source] <= TOPIC_SOURCE_SHARE else rest).append(st)
-    chosen = first[:limit] + rest[:max(0, limit - len(first))]
-    position = {id(st): i for i, st in enumerate(stories)}
-    return sorted(chosen, key=lambda st: position[id(st)])
+        n = taken[source] = taken.get(source, 0) + 1
+        turns.append((0 if n <= TOPIC_FIRST_TURN else 1 if n <= TOPIC_SOURCE_SHARE else 2, position))
+    chosen = sorted(position for _, position in sorted(turns)[:limit])
+    return [stories[position] for position in chosen]
 
 
 def build_digest(articles: list[Article], results: list[SourceResult],

@@ -85,6 +85,12 @@ def test_one_source_cannot_fill_a_topic_while_others_wait():
     assert picked.count("PLB") == TOPIC_SOURCE_SHARE + 1 and "PRD" in picked and "JHEP" in picked
 
 
+def test_a_low_ranked_weekly_journal_still_gets_a_turn():
+    stories = listed(*[f"Daily {i}" for i in range(6) for _ in range(9)], "JHEP", "JHEP")
+    picked = [st["articles"][0]["source"] for st in spread_sources(stories, 14)]
+    assert picked.count("JHEP") == 2
+
+
 def test_a_topic_with_one_source_keeps_its_full_list_in_order():
     stories = listed(*["Kabaddi Adda"] * 30)
     assert spread_sources(stories, 12) == stories[:12]
