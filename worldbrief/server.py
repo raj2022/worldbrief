@@ -6,7 +6,7 @@ Endpoints (what the iOS app calls):
     GET /index.json            catalog, breaking, top headlines per section
     GET /sections/<id>.json    one section; each story lists at most 5 articles
     GET /sections/<id>.full.json      the same section, every article (also ?full=1)
-    GET /morning.json          today's Morning brief, one edition a day
+    GET /morning.json          the latest brief, a new edition every 3 hours
     GET /health                last refresh time and source health
 
 Every file carries an ETag, so when the app re-fetches on open and nothing

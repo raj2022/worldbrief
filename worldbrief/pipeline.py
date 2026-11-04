@@ -35,7 +35,9 @@ MORNING_PER_SECTION = 8
 MORNING_MIN_STORIES = 3        # fewer than this waits for the next refresh
 TOPIC_FIRST_TURN = 2           # slots every source gets in a topic list before any gets more
 TOPIC_SOURCE_SHARE = 5         # slots a source can fill before the rest compete on rank alone
-DEFAULT_MORNING_HOURS = (11,)  # UTC hours an edition comes out: 6am New York in winter
+# UTC hours an edition comes out. Every 3 hours, so wherever the reader is, the
+# app's Morning, Afternoon, Evening and Night briefs each get a fresh edition.
+DEFAULT_MORNING_HOURS = (0, 3, 6, 9, 12, 15, 18, 21)
 
 
 @dataclass
@@ -278,7 +280,7 @@ def morning_due(last: datetime | None, now: datetime, hours: tuple[int, ...]) ->
 
 def write_morning(digest: dict, out_dir: Path, state_dir: Path, hours: tuple[int, ...],
                   now: datetime) -> bool:
-    """Publish the Morning brief: the highest-ranked stories that have a brief.
+    """Publish the brief: the highest-ranked stories that have a brief.
     It's a snapshot, so it reads like one edition rather than shifting with every
     refresh. The edition is kept in `state_dir`, because out_dir may be rebuilt
     from nothing on each run, and copied to out_dir every time. Returns True if

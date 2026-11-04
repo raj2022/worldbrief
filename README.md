@@ -29,7 +29,7 @@ The app calls:
 | `GET /index.json` | Section catalog, breaking stories, top 5 per section, source directory |
 | `GET /sections/<id>.json` | One section: `top` (ranked), `latest` (newest first), `by_topic`, `by_region`. Each story lists its 5 most recent articles; `source_count` is still the full count |
 | `GET /sections/<id>.json?full=1` | The same section with every article |
-| `GET /morning.json` | Today's Morning brief, one edition a day |
+| `GET /morning.json` | The latest brief, a new edition every 3 hours |
 | `GET /health` | Last refresh time, story counts, failing sources, source health |
 
 See `sample_output/` for real examples of both files.
@@ -78,8 +78,10 @@ says "May be out of date" once the digest is over an hour old.
 To run a refresh now, use `gh workflow run refresh.yml`. Publishers see the repo URL
 as the contact. To use an email, set a `WORLDBRIEF_CONTACT` Actions variable.
 
-The Morning edition stays in `.cache/` with the store, and `morning.json` is published
-with the other files.
+The latest edition stays in `.cache/` with the store, and `morning.json` is published
+with the other files. A new edition comes out every 3 hours (`WORLDBRIEF_MORNING_HOURS_UTC`
+changes the hours), and the app names it Morning, Afternoon, Evening or Night brief
+from the reader's local time.
 
 `Dockerfile` and `fly.toml` run the live `serve` mode on a server instead, if you
 ever need refreshes faster than this. Feeds can block data-center addresses that
