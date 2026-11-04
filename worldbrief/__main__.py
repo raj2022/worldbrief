@@ -124,10 +124,15 @@ def main(argv=None) -> int:
     else:
         # Uses the rolling store in out_dir, so running this from cron every
         # few minutes behaves like the live server.
-        digest = pipeline.Refresher(args.sources, args.out_dir, store_path=args.store,
-                                    paywall_path=args.paywall, only=_only(args.only),
-                                    briefer=_briefer(args.store.parent if args.store else args.out_dir),
-                                    morning_hours=_morning_hours()).refresh()
+        try:
+            digest = pipeline.Refresher(args.sources, args.out_dir, store_path=args.store,
+                                        paywall_path=args.paywall, only=_only(args.only),
+                                        briefer=_briefer(args.store.parent if args.store else args.out_dir),
+                                        morning_hours=_morning_hours()).refresh()
+        except pipeline.ThinDigestError as e:
+            # Non-zero exit stops the workflow before deploy, keeping the last good site.
+            print(f"error: {e}", file=sys.stderr)
+            return 1
         where = f"{args.out_dir}/ (index.json + {len(digest['sections'])} section files)"
     s = digest["stats"]
     print(f"wrote {where}: {s['stories']} stories from {s['sources_ok']} sources "

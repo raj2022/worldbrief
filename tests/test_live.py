@@ -129,6 +129,48 @@ def test_refresher_end_to_end(tmp_path):
     assert (tmp_path / "dist" / ".store.json").exists()
 
 
+def test_refresher_keeps_last_digest_when_sources_fail(tmp_path):
+    srcs = tmp_path / "s.yaml"
+    srcs.write_text("sources:\n  - {type: rss, name: BBC World, url: 'https://f', category: world}\n")
+    feed = (Path(__file__).parent / "fixtures" / "bbc.xml").read_bytes()
+    out = tmp_path / "dist"
+    with mock.patch.object(httpcache.SHARED, "get", return_value=httpcache.CachedResponse(feed, 200)):
+        r = pipeline.Refresher(srcs, out)
+        r.refresh(now=NOW)
+    good = (out / "index.json").read_bytes()
+    with mock.patch.object(httpcache.SHARED, "get", side_effect=OSError("network down")):
+        try:
+            r.refresh(now=NOW + timedelta(minutes=10))
+            raise AssertionError("expected ThinDigestError")
+        except pipeline.ThinDigestError:
+            pass
+    assert (out / "index.json").read_bytes() == good
+    assert r.last["generated_at"] == json.loads(good)["generated_at"]
+
+
+def test_check_publishable_thresholds():
+    ok = {"stats": {"sources_ok": 5, "sources_failed": 5, "stories": 10}}
+    pipeline.check_publishable(ok)
+    for stats in ({"sources_ok": 4, "sources_failed": 6, "stories": 10},
+                  {"sources_ok": 10, "sources_failed": 0, "stories": 0}):
+        try:
+            pipeline.check_publishable({"stats": stats})
+            raise AssertionError(f"expected ThinDigestError for {stats}")
+        except pipeline.ThinDigestError:
+            pass
+
+
+def test_cli_run_exits_nonzero_when_nothing_answers(tmp_path, capsys):
+    srcs = tmp_path / "s.yaml"
+    srcs.write_text("sources:\n  - {type: rss, name: BBC World, url: 'https://f', category: world}\n")
+    with mock.patch.object(httpcache.SHARED, "get", side_effect=OSError("network down")):
+        code = main(["--sources", str(srcs), "run", "--out-dir", str(tmp_path / "dist"),
+                     "--store", str(tmp_path / "cache" / "store.json")])
+    assert code == 1
+    assert "not publishing" in capsys.readouterr().err
+    assert not (tmp_path / "dist" / "index.json").exists()
+
+
 def test_server_serves_files_with_etag(tmp_path):
     out = tmp_path / "dist"
     digest = pipeline.build_digest([art("Hello world story", "https://h/1")], [], PW, CAT, now=NOW)
@@ -355,7 +397,10 @@ def test_run_keeps_store_out_of_published_files(tmp_path):
     out, store = tmp_path / "dist", tmp_path / ".cache" / "store.json"
     bad = mock.Mock(ok=False)
     bad.name = "Dead Feed"
-    with mock.patch.object(pipeline, "fetch_all", return_value=([], [bad])):
+    good = mock.Mock(ok=True)
+    good.name = "Live Feed"
+    story = art("Undated story still fresh", "https://h/fresh", published=False)
+    with mock.patch.object(pipeline, "fetch_all", return_value=([story], [good, bad])):
         assert main(["run", "--out-dir", str(out), "--store", str(store)]) == 0
     assert store.exists()
     assert not list(out.glob(".*"))

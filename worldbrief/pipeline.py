@@ -38,6 +38,23 @@ TOPIC_SOURCE_SHARE = 5         # slots a source can fill before the rest compete
 # UTC hours an edition comes out. Every 3 hours, so wherever the reader is, the
 # app's Morning, Afternoon, Evening and Night briefs each get a fresh edition.
 DEFAULT_MORNING_HOURS = (0, 3, 6, 9, 12, 15, 18, 21)
+# Below this share of sources answering, the run is treated as broken (runner
+# offline, DNS outage) and nothing is written, so the last good digest stays up.
+MIN_SOURCES_OK_FRACTION = 0.5
+
+
+class ThinDigestError(RuntimeError):
+    """The refresh produced too little to publish over the previous digest."""
+
+
+def check_publishable(digest: dict, min_ok_fraction: float = MIN_SOURCES_OK_FRACTION) -> None:
+    s = digest["stats"]
+    attempted = s["sources_ok"] + s["sources_failed"]
+    if attempted and s["sources_ok"] < min_ok_fraction * attempted:
+        raise ThinDigestError(f"only {s['sources_ok']}/{attempted} sources answered "
+                              f"(need {min_ok_fraction:.0%}); not publishing")
+    if s["stories"] == 0:
+        raise ThinDigestError("digest has no stories; not publishing")
 
 
 @dataclass
@@ -321,7 +338,8 @@ class Refresher:
     def __init__(self, sources_path: Path = DEFAULT_SOURCES, out_dir: Path = Path("dist"),
                  store_path: Path | None = None, paywall_path: Path | None = None,
                  only: set[str] | None = None, briefer=None,
-                 morning_hours: tuple[int, ...] = DEFAULT_MORNING_HOURS):
+                 morning_hours: tuple[int, ...] = DEFAULT_MORNING_HOURS,
+                 min_ok_fraction: float = MIN_SOURCES_OK_FRACTION):
         self.catalog = Catalog.from_file()
         self.plugins = load_sources(sources_path, self.catalog, only)
         self.paywall = PaywallFilter.from_file(paywall_path) if paywall_path else PaywallFilter.from_file()
@@ -329,6 +347,7 @@ class Refresher:
         self.store = ArticleStore(store_path if store_path else self.out_dir / ".store.json")
         self.briefer = briefer         # None uses only the free briefs; see briefs.py
         self.morning_hours = morning_hours
+        self.min_ok_fraction = min_ok_fraction
         self.last: dict | None = None
 
     def refresh(self, now: datetime | None = None) -> dict:
@@ -350,6 +369,9 @@ class Refresher:
                 digest["stats"]["briefs"] = self.briefer.update(digest, now)
             except Exception:  # noqa: BLE001 — the news still has to go out
                 log.exception("briefs failed; publishing without new ones")
+        # Raises before anything is written, so a broken run never replaces
+        # the published digest. The server keeps serving self.last.
+        check_publishable(digest, self.min_ok_fraction)
         write_split(digest, self.out_dir)
         write_morning(digest, self.out_dir, self.store.path.parent, self.morning_hours, now)
         self.last = digest
