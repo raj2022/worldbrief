@@ -91,6 +91,12 @@ sources:
   - {type: rss, name: Daily Mirror (Sri Lanka), url: "https://www.dailymirror.lk/rss/breaking_news/108", category: world, region: asia}
   - {type: rss, name: Himal Southasian,   url: "https://www.himalmag.com/feed", category: world, region: asia, note: "Regional nonprofit magazine."}
   - {type: rss, name: Alt News,           url: "https://www.altnews.in/feed/", category: world, region: asia, note: "Nonprofit fact-checker (India), run by the Pravda Media Foundation."}
+  - {type: rss, name: Times of India,     url: "https://timesofindia.indiatimes.com/rssfeedstopstories.cms", category: world, region: asia, link_excludes: ["/blogs/", "/entertainment/"], note: "Bennett, Coleman & Co. (The Times Group), India's largest English daily. Most articles free; TOI+ stories are paid."}
+  - {type: rss, name: Hindustan Times,    url: "https://www.hindustantimes.com/feeds/rss/india-news/rssfeed.xml", category: world, region: asia, note: "HT Media (Birla family), India. Free to read."}
+  - {type: rss, name: NDTV,               url: "https://feeds.feedburner.com/ndtvnews-top-stories", category: world, region: asia, note: "Indian broadcaster, controlled by the Adani Group since 2022. Free to read."}
+  - {type: rss, name: The Indian Express, url: "https://indianexpress.com/section/india/feed/", category: world, region: asia, note: "Indian Express Group. Most articles free; Express Premium stories are paid."}
+  - {type: rss, name: India Today,        url: "https://www.indiatoday.in/rss/1206578", category: world, region: asia, note: "Living Media (India Today Group). Free to read."}
+  - {type: rss, name: Deccan Chronicle,   url: "https://www.deccanchronicle.com/google_feeds.xml", category: world, region: asia, note: "Hyderabad-based daily (India). Free to read."}
   - {type: rss, name: Nepali Times,       url: "https://nepalitimes.com/feed", category: world, region: asia, note: "Independent weekly (Nepal), Himalmedia."}
   - {type: rss, name: Amu TV,             url: "https://amu.tv/feed/", category: world, region: asia, note: "Independent Afghan newsroom in exile, launched 2023 by Afghan journalists."}
   - {type: rss, name: KabulNow,           url: "https://kabulnow.com/feed/", category: world, region: asia, note: "Independent Afghan newsroom, reader-supported; run from exile since 2021."}
@@ -166,6 +172,16 @@ sources:
   - {type: rss, name: The Marshall Project, url: "https://www.themarshallproject.org/rss/recent.rss", category: world, region: americas, note: "Nonprofit newsroom on US criminal justice."}
   - {type: rss, name: FactCheck.org,      url: "https://www.factcheck.org/feed/", category: world, region: americas, note: "Nonpartisan fact-checker at the Annenberg Public Policy Center, University of Pennsylvania (US)."}
   - {type: rss, name: Axios,              url: "https://api.axios.com/feed/", category: world, region: americas, note: "Cox Enterprises. Main site free; Axios Pro paid."}
+  - {type: rss, name: CBS News,           url: "https://www.cbsnews.com/latest/rss/main", category: world, region: americas, note: "US network, Paramount Skydance. Free to read."}
+  - {type: rss, name: NBC News,           url: "https://feeds.nbcnews.com/nbcnews/public/news", category: world, region: americas, note: "US network, NBCUniversal (Comcast). Free to read."}
+  - {type: rss, name: ABC News,           url: "https://abcnews.go.com/abcnews/topstories", category: world, region: americas, note: "US network, Disney. Free to read."}
+  - {type: rss, name: Fox News,           url: "https://moxie.foxnews.com/google-publisher/latest.xml", category: world, region: americas, link_excludes: ["/opinion/"], note: "US cable network, Fox Corporation; conservative-leaning. Free to read; opinion filtered out."}
+  - {type: rss, name: Politico,           url: "https://rss.politico.com/politics-news.xml", category: world, region: americas, note: "Axel Springer. News site free; Politico Pro is paid."}
+  - {type: rss, name: Newsweek,           url: "https://www.newsweek.com/rss", category: world, region: americas, note: "US weekly, privately owned. Free to read."}
+  - {type: rss, name: Time,               url: "https://time.com/feed/", category: world, region: americas, note: "US magazine, owned by Marc and Lynne Benioff."}
+  - {type: rss, name: Vox,                url: "https://www.vox.com/rss/index.xml", category: world, region: americas, link_excludes: ["/culture/"], note: "Vox Media; explanatory journalism. Free to read."}
+  - {type: rss, name: Yahoo News,         url: "https://news.yahoo.com/rss/", category: world, region: americas, ownership: aggregator, note: "Yahoo (Apollo Global Management); republishes AP, Reuters and others."}
+  - {type: rss, name: CNN,                url: "http://rss.cnn.com/rss/cnn_topstories.rss", category: world, region: americas, enabled: false, note: "DISABLED: CNN stopped updating its RSS feeds in April 2023; no public feed since."}
   - {type: rss, name: The Hill,           url: "https://thehill.com/news/feed/", category: world, region: americas}
   - {type: rss, name: CBC World,          url: "https://www.cbc.ca/webfeed/rss/rss-world", category: world, region: americas, ownership: public, enabled: false, note: "DISABLED: cbc.ca drops requests when USER_AGENT contains '+free news aggregator'; rss.cbc.ca/lineup feeds time out the same way (Nov 2026)."}
   - {type: rss, name: CBC Canada,         url: "https://www.cbc.ca/webfeed/rss/rss-canada", category: world, region: americas, ownership: public, enabled: false, note: "DISABLED: cbc.ca drops requests when USER_AGENT contains '+free news aggregator'; rss.cbc.ca/lineup feeds time out the same way (Nov 2026)."}
@@ -279,6 +295,7 @@ sources:
   - {type: rss, name: NPR Business,       url: "https://feeds.npr.org/1006/rss.xml", category: business, ownership: public}
   - {type: rss, name: DW Business,        url: "https://rss.dw.com/rdf/rss-en-bus", category: business, ownership: public}
   - {type: rss, name: CNBC World,         url: "https://www.cnbc.com/id/100727362/device/rss/rss.html", category: business, note: "Some CNBC Pro articles are paid."}
+  - {type: rss, name: The Economic Times, url: "https://economictimes.indiatimes.com/rssfeedstopstories.cms", category: business, region: asia, note: "Bennett, Coleman & Co. (India). Most articles free; ET Prime stories are paid."}
   - {type: rss, name: EconomyNext,        url: "https://economynext.com/feed/", category: business, region: asia}
   - {type: rss, name: TechCabal,          url: "https://techcabal.com/feed/", category: business, region: africa, note: "Independent African tech and business publication (Big Cabal Media, Nigeria)."}
   - {type: rss, name: Rest of World,      url: "https://restofworld.org/feed/latest", category: business, note: "Tech and business outside the West."}
