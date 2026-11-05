@@ -95,7 +95,7 @@ def _prompt_articles(story: dict) -> list[dict]:
     ranked.sort(key=lambda a: not a.get("summary"))   # stable, so newest-first survives
     per_outlet: dict[str, dict] = {}
     for a in ranked:
-        per_outlet.setdefault(a["source"], a)
+        per_outlet.setdefault(a.get("outlet") or a["source"], a)
     return list(per_outlet.values())[:MAX_ARTICLES]
 
 

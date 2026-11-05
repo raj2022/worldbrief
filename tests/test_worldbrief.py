@@ -291,3 +291,36 @@ def test_catalog_marks_world_with_regions():
     assert [r["id"] for r in cat["world"]["regions"]][0] == "global"
     assert "regions" not in cat["sports"]
     assert {c["id"] for c in cat.values() if c["default"]} == {"world", "opinion", "business", "technology", "science"}
+
+
+def test_story_does_not_chain_through_its_growing_word_set():
+    # Three headlines about one event, then one sharing a different word with
+    # each. No single headline is close to it, only the pile of all their words.
+    event = ["drone strike hits kyiv grid", "drone strike hits kyiv substation",
+             "drone strike hits kyiv railway"]
+    stray = "grid substation railway tender awarded"
+    arts = [art(t, f"https://o{i}.com/1", f"Outlet {i}", hours_ago=4 - i)
+            for i, t in enumerate(event + [stray])]
+    stories = cluster(arts)
+    assert sorted(len(s.articles) for s in stories) == [1, 3]
+
+
+def test_sports_previews_of_different_matches_stay_apart():
+    titles = ["Como vs Venezia LIVE streaming, TV channel, kick-off time & where to watch",
+              "Inter vs Roma LIVE streaming, TV channel, kick-off time & where to watch"]
+    arts = [art(t, f"https://khelnow.com/{i}", "Khel Now Football", category="sports")
+            for i, t in enumerate(titles)]
+    assert len(cluster(arts)) == 2
+
+
+def test_feeds_of_one_publisher_count_as_one_outlet():
+    title = "Judge dismisses Trump lawsuit against Wall Street Journal over Epstein letter"
+    arts = [art(title, "https://www.theguardian.com/world/1", "The Guardian World"),
+            art(title, "https://www.theguardian.com/us/2", "The Guardian US"),
+            art(title, "https://www.theguardian.com/au/3", "Guardian Australia"),
+            art(title, "https://www.bbc.com/news/4", "BBC World"),
+            art(title, "https://www.bbc.co.uk/news/5", "bbc.co.uk")]   # GDELT names it by domain
+    [story] = cluster(arts)
+    assert story.sources == ["bbc.co.uk", "theguardian.com"]
+    assert story.to_dict(NOW)["source_count"] == 2
+    assert story.to_dict(NOW)["articles"][0]["outlet"] in {"bbc.co.uk", "theguardian.com"}

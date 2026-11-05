@@ -22,6 +22,25 @@ def domain_of(url: str) -> str:
     return urlparse(url).netloc.lower().removeprefix("www.")
 
 
+# Second-level labels under country codes: bbc.co.uk, tribune.com.pk, rnz.co.nz.
+_SECOND_LEVEL = {"co", "com", "org", "net", "ac", "gov", "edu", "ne", "or", "go", "gob", "nic"}
+# One publisher on several registrable domains.
+OUTLET_ALIASES = {"bbc.com": "bbc.co.uk", "bbci.co.uk": "bbc.co.uk", "guardian.co.uk": "theguardian.com"}
+
+
+def outlet_of(url: str) -> str:
+    """The publisher behind a URL, roughly its registrable domain. Two feeds of
+    one publisher ("BBC World", "BBC Europe") or a GDELT hit on its site are one
+    outlet, not several, when counting independent coverage."""
+    host = domain_of(url).split(":")[0]
+    labels = host.split(".")
+    if len(labels) < 2:
+        return ""          # localhost, a bare test host: no publisher to go on
+    n = 3 if len(labels) >= 3 and len(labels[-1]) == 2 and labels[-2] in _SECOND_LEVEL else 2
+    base = ".".join(labels[-n:])
+    return OUTLET_ALIASES.get(base, base)
+
+
 FUTURE_LEEWAY = timedelta(minutes=15)
 
 @dataclass
@@ -66,10 +85,15 @@ class Article:
     def domain(self) -> str:
         return domain_of(self.url)
 
+    @property
+    def outlet(self) -> str:
+        return outlet_of(self.url) or self.source
+
     def to_dict(self) -> dict:
         d = asdict(self)
         d["id"] = self.id
         d["domain"] = self.domain
+        d["outlet"] = self.outlet
         for k in ("published", "first_seen"):
             v = getattr(self, k)
             d[k] = v.astimezone(timezone.utc).isoformat() if v else None

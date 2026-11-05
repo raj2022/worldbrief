@@ -30,6 +30,12 @@ MAX_GAP = timedelta(hours=72)     # a story that goes quiet this long doesn't co
 RELAXED_THRESHOLD = 0.4           # when two headlines share a rare name
 RARE_NAME_TITLES = 12             # headlines in a section naming it; "Trump" is far over this
 STRICT_SECTIONS = {"sports"}      # teams recur across different matches, so a name proves little
+# Fixture-listing wording shared by every match preview, so it proves nothing.
+SPORTS_BOILERPLATE = frozenset("""
+streaming stream channel channels kick-off kickoff time where watch confirmed starting
+lineup lineups line-up line-ups clash preview prediction predictions highlight highlights
+live score scores result results today fixture fixtures team teams news odds tip tips
+""".split())
 PAPER_PLUGINS = {"arxiv", "journal"}
 PAPER_WEIGHT = 0.6                # so reporting leads a section, and papers fill its topics
 _NAME = re.compile(r"[A-Z](?:\.?[\w'’-])*\.?")
@@ -61,13 +67,18 @@ def names(title: str) -> frozenset[str]:
 class Story:
     category: str
     articles: list[Article] = field(default_factory=list)
-    terms: set[str] = field(default_factory=set)
+    terms: set[str] = field(default_factory=set)     # union: a cheap pre-filter only
     names: set[str] = field(default_factory=set)
+    # Each member's own keywords and names. A new headline must match one member,
+    # not the union, which only grows and so drifts: "Ukraine drone strike" then
+    # "Ukraine football match" would otherwise chain into one story.
+    members: list[tuple[frozenset[str], frozenset[str]]] = field(default_factory=list)
 
     def add(self, a: Article, kw: frozenset[str], who: frozenset[str] = frozenset()) -> None:
         self.articles.append(a)
         self.terms |= kw
         self.names |= who
+        self.members.append((kw, who))
 
     @property
     def lead(self) -> Article:
@@ -77,7 +88,8 @@ class Story:
 
     @property
     def sources(self) -> list[str]:
-        return sorted({a.source for a in self.articles})
+        """Distinct outlets, by publisher rather than feed name."""
+        return sorted({a.outlet for a in self.articles})
 
     @property
     def regions(self) -> list[str]:
@@ -130,29 +142,37 @@ def cluster(articles: list[Article], threshold: float = 0.6, min_shared: int = 3
     for a in sorted(articles, key=lambda x: x.when or epoch):
         kw = keywords(a.title)
         who = names(a.title)
+        if a.category in STRICT_SECTIONS:
+            kw -= SPORTS_BOILERPLATE
+            who -= {w[:4] for w in SPORTS_BOILERPLATE}
         best, best_sim = None, 0.0
         # Papers are each their own item; only news clusters.
         if a.plugin not in PAPER_PLUGINS:
             for s in stories:
                 if s.category != a.category or s.articles[0].plugin in PAPER_PLUGINS:
                     continue
-                # Every title needs min_shared words in common, however short it
-                # is. Otherwise "Healthcare for all" joins any story about healthcare.
+                # The union is a superset of every member, so failing here means
+                # no member can match either.
                 if len(kw & s.terms) < min_shared:
-                    continue
-                # Shared words aren't enough if the headlines name different people
-                # and places: "October worst on record" for Russia and for hospitals.
-                if who and s.names and not who & s.names:
                     continue
                 if a.when and s.latest and a.when - s.latest > MAX_GAP:
                     continue
-                sim = similarity(kw, s.terms)
-                # "Binance" pins down a story, so less of the headline has to match.
-                if a.category not in STRICT_SECTIONS and any(
-                        titles_naming[(a.category, n)] <= RARE_NAME_TITLES for n in who & s.names):
-                    sim += threshold - RELAXED_THRESHOLD
-                if sim > best_sim:
-                    best, best_sim = s, sim
+                for mkw, mwho in s.members:
+                    # Every title needs min_shared words in common, however short it
+                    # is. Otherwise "Healthcare for all" joins any story about healthcare.
+                    if len(kw & mkw) < min_shared:
+                        continue
+                    # Shared words aren't enough if the headlines name different people
+                    # and places: "October worst on record" for Russia and for hospitals.
+                    if who and mwho and not who & mwho:
+                        continue
+                    sim = similarity(kw, mkw)
+                    # "Binance" pins down a story, so less of the headline has to match.
+                    if a.category not in STRICT_SECTIONS and any(
+                            titles_naming[(a.category, n)] <= RARE_NAME_TITLES for n in who & mwho):
+                        sim += threshold - RELAXED_THRESHOLD
+                    if sim > best_sim:
+                        best, best_sim = s, sim
         if best is not None and best_sim >= threshold:
             best.add(a, kw, who)
         else:

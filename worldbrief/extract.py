@@ -16,6 +16,11 @@ from datetime import datetime
 
 from .cluster import STOPWORDS, keywords, similarity
 
+
+def _outlet(a: dict) -> str:
+    """Publisher, so two feeds of one site count once. Older stored dicts lack it."""
+    return a.get("outlet") or a["source"]
+
 MIN_OUTLETS = 2
 MAX_SENTENCES = 3
 MAX_CHARS = 400
@@ -95,7 +100,7 @@ def _candidates(articles: list[dict]) -> list[_Sentence]:
                 continue
             if any(similarity(terms, h) >= 0.9 and len(terms) <= len(h) + 1 for h in headlines):
                 continue
-            found.setdefault(terms, _Sentence(text, position, terms=terms)).outlets.add(a["source"])
+            found.setdefault(terms, _Sentence(text, position, terms=terms)).outlets.add(_outlet(a))
     return list(found.values())
 
 
@@ -151,7 +156,7 @@ def extract_brief(articles: list[dict]) -> str:
 def pick_framing(articles: list[dict]) -> list[dict]:
     """Up to MAX_FRAMING headlines, one per outlet (newest first, as the story
     lists them). Each pick favours whatever the earlier picks haven't shown yet."""
-    pool = list({a["source"]: a for a in reversed(articles)}.values())[::-1]
+    pool = list({_outlet(a): a for a in reversed(articles)}.values())[::-1]
     picked: list[dict] = []
     domains: set[str] = set()
     regions: set[str] = set()
@@ -189,7 +194,7 @@ def add_free_coverage(story: dict, now: datetime) -> None:
         story["brief"] = {
             "summary": summary,
             "why_it_matters": "",
-            "source_count": len({a["source"] for a in story["articles"] if a.get("summary")}),
+            "source_count": len({_outlet(a) for a in story["articles"] if a.get("summary")}),
             "generated_at": story["latest"] or now.isoformat(),
             "model": MODEL,
         }
