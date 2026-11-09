@@ -7,6 +7,7 @@
 # by_region: show a region filter (Africa, Asia, ...) inside the section
 # max_age_hours: how long items stay (default 36). News is kept short so the
 #   feed stays live; opinion and papers are read at leisure, so they stay longer.
+#   A subtopic can set its own max_age_hours to override the section's.
 
 sections:
   - id: world
@@ -35,9 +36,19 @@ sections:
   - id: business
     title: Business & Economy
     symbol: chart.line.uptrend.xyaxis
-    description: Markets, companies, trade and economic policy
+    description: Markets, companies, trade and economic policy, with market commentary
     default: true
+    by_region: true
     max_age_hours: 48
+    # Commentary and investing blogs post every few days and stay worth
+    # reading for a week, so that subtopic keeps items longer.
+    subtopics:
+      - {id: news,        title: Business News}
+      - {id: markets,     title: Markets & Stocks}
+      - {id: economy,     title: Economy & Central Banks}
+      - {id: commodities, title: Commodities & Currencies}
+      - {id: crypto,      title: Crypto}
+      - {id: commentary,  title: Market Commentary, max_age_hours: 168}
 
   - id: technology
     title: Technology

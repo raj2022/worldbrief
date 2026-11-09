@@ -30,6 +30,7 @@ The app calls:
 | `GET /sections/<id>.json` | One section: `top` (ranked), `latest` (newest first), `by_topic`, `by_region`. Each story lists its 5 most recent articles; `source_count` is still the full count |
 | `GET /sections/<id>.json?full=1` | The same section with every article |
 | `GET /morning.json` | The latest brief, a new edition every 3 hours |
+| `GET /markets.json` | Prices for the app's market dashboard (see Markets below) |
 | `GET /health` | Last refresh time, story counts, failing sources, source health |
 
 See `sample_output/` for real examples of both files.
@@ -61,6 +62,7 @@ reads it from `https://raj2022.github.io/worldbrief/`:
 | `sections/<id>.json` | One section, with each story's 5 most recent articles |
 | `sections/<id>.full.json` | The same section with every article |
 | `health.json` | Last refresh time, story counts, failing sources |
+| `markets.json` | Market prices, today's price path and the day's biggest movers |
 
 The rolling store sits in `.cache/`, outside the published files. Actions cache
 carries it between runs, and GitHub removes a cache after 7 days unused. If the
@@ -82,6 +84,24 @@ The latest edition stays in `.cache/` with the store, and `morning.json` is publ
 with the other files. A new edition comes out every 3 hours (`WORLDBRIEF_MORNING_HOURS_UTC`
 changes the hours), and the app names it Morning, Afternoon, Evening or Night brief
 from the reader's local time.
+
+## Markets
+
+`markets.yaml` lists what the app's market dashboard shows: indices for India
+(including mid caps, small caps and sectors), the Americas, Europe, Asia-Pacific, the
+Middle East and Africa, plus currencies, commodities, US Treasury yields and crypto,
+and two lists of large stocks for the day's top gainers and losers. Every refresh
+fetches them from Yahoo Finance's public chart data, which needs no key and is about
+15 minutes delayed for most exchanges.
+
+Prices never hold up the news. If Yahoo doesn't answer, each instrument keeps its last
+good price, saved in `.cache/.markets.json`, with its own trade time. Run
+`python -m worldbrief markets` to check every symbol answers.
+
+Business & Economy has subtopics for market news, the economy and central banks,
+commodities and currencies, crypto, and Market Commentary: editorials, columns and
+investing blogs. Commentary stays for a week, because a subtopic can set its own
+`max_age_hours` in `sections.yaml`.
 
 `Dockerfile` and `fly.toml` run the live `serve` mode on a server instead, if you
 ever need refreshes faster than this. Feeds can block data-center addresses that

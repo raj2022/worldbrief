@@ -7,6 +7,7 @@ Endpoints (what the iOS app calls):
     GET /sections/<id>.json    one section; each story lists at most 5 articles
     GET /sections/<id>.full.json      the same section, every article (also ?full=1)
     GET /morning.json          the latest brief, a new edition every 3 hours
+    GET /markets.json          market prices for the dashboard (see markets.yaml)
     GET /health                last refresh time and source health
 
 Every file carries an ETag, so when the app re-fetches on open and nothing
@@ -33,7 +34,7 @@ from urllib.parse import parse_qs, urlsplit
 from .pipeline import Refresher, health
 
 log = logging.getLogger(__name__)
-_ALLOWED = re.compile(r"^/(index\.json|health\.json|morning\.json|sections/[a-z0-9_]+(\.full)?\.json)$")
+_ALLOWED = re.compile(r"^/(index\.json|health\.json|morning\.json|markets\.json|sections/[a-z0-9_]+(\.full)?\.json)$")
 
 
 def accepts_gzip(header: str | None) -> bool:

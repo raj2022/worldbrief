@@ -37,6 +37,13 @@ class Section:
     def subtopic_ids(self) -> set[str]:
         return {t["id"] for t in self.subtopics}
 
+    def max_age(self, topic: str = "") -> float:
+        """A subtopic's own window if it sets one, otherwise the section's."""
+        for t in self.subtopics:
+            if t["id"] == topic and "max_age_hours" in t:
+                return float(t["max_age_hours"])
+        return self.max_age_hours
+
     def to_dict(self) -> dict:
         d = asdict(self)
         if self.by_region:
@@ -56,6 +63,15 @@ class Catalog:
     def from_file(cls, path: Path = DEFAULT_FILE) -> "Catalog":
         data = yaml.safe_load(Path(path).read_text()) or {}
         return cls([Section(**s) for s in data.get("sections", [])])
+
+    def max_age(self, category: str, topic: str = "", default: float = 36) -> float:
+        sec = self.by_id.get(category)
+        return sec.max_age(topic) if sec else default
+
+    def topic_ages(self) -> dict[str, float]:
+        """Subtopics with their own window, keyed "section/topic"."""
+        return {f"{s.id}/{t['id']}": float(t["max_age_hours"])
+                for s in self.sections for t in s.subtopics if "max_age_hours" in t}
 
     def check_source(self, name: str, category: str, topic: str, region: str) -> list[str]:
         """Return problems with a source's section/topic/region, if any."""

@@ -6,6 +6,7 @@
     python -m worldbrief run --only world,science     # just these sections
     python -m worldbrief run --single-file digest.json
     python -m worldbrief validate [--only sports]     # check sources respond
+    python -m worldbrief markets                      # check market symbols answer
     python -m worldbrief sections                     # list the section catalog
     python -m worldbrief plugins                      # list plugin types
 """
@@ -18,7 +19,7 @@ import os
 import sys
 from pathlib import Path
 
-from . import pipeline, plugin
+from . import markets, pipeline, plugin
 from .catalog import Catalog
 
 
@@ -77,6 +78,7 @@ def main(argv=None) -> int:
     v.add_argument("--only", help="comma-separated section ids")
 
     sub.add_parser("sections", help="list sections users can pick")
+    sub.add_parser("markets", help="fetch every symbol in markets.yaml once and report")
     sub.add_parser("plugins", help="list available plugin types")
 
     args = ap.parse_args(argv)
@@ -107,6 +109,23 @@ def main(argv=None) -> int:
         bad = [x for x in results if not x.ok or not x.count]
         print(f"\n{len(results) - len(bad)}/{len(results)} sources healthy")
         return 1 if bad else 0
+
+    if args.cmd == "markets":
+        cfg = markets.MarketsConfig.from_file()
+        raw = markets.fetch(cfg.group_symbols + cfg.mover_symbols, "1d")
+        missing = 0
+        for g in cfg.groups:
+            print(g.title)
+            for q in g.quotes:
+                got = markets.parse(raw[q.symbol], q.name, q.unit, q.decimals) if q.symbol in raw else None
+                missing += got is None
+                line = f"{got['price']:>14,.{got['decimals']}f} {got['change_pct'] or 0:+7.2f}%" if got else "   NO PRICE"
+                print(f"  {q.name:<32} {q.symbol:<22} {line}")
+        lost = [s for s in cfg.mover_symbols if s not in raw]
+        missing += len(lost)
+        print(f"\nmovers: {len(cfg.mover_symbols) - len(lost)}/{len(cfg.mover_symbols)} stocks priced"
+              + (f"; missing {', '.join(lost)}" if lost else ""))
+        return 1 if missing else 0
 
     if args.cmd == "serve":
         from .server import serve

@@ -1,0 +1,164 @@
+# The app's market dashboard: what it tracks and what each row is called.
+#
+# Prices come from Yahoo Finance's public chart data (no key, about 15 minutes
+# delayed for most exchanges) and are fetched on every refresh. If a symbol or
+# the whole request fails, the last good price stays, with its own timestamp,
+# so the app can say how old it is. Check symbols with
+#   python -m worldbrief markets
+#
+# groups: rows shown together in the app, in this order
+#   symbol    Yahoo Finance symbol
+#   name      what the app calls it
+#   unit      shown after the price ("%" for yields, "$/oz" for gold ...)
+#   decimals  digits after the point (default: Yahoo's own hint, else 2)
+#   keywords  extra words that find the instrument in headlines (lower case);
+#             its name, without the bracketed note, is always one
+# movers: lists of stocks; the app shows the biggest risers and fallers of each.
+#   The lists are fixed here, so review them when the indices rebalance.
+
+groups:
+  - id: india
+    title: India
+    quotes:
+      - {symbol: "^NSEI", name: "Nifty 50", keywords: ["nifty"]}
+      - {symbol: "^BSESN", name: "Sensex", keywords: ["sensex"]}
+      - {symbol: "^NSEBANK", name: "Nifty Bank", keywords: ["bank nifty"]}
+      - {symbol: "NIFTY_FIN_SERVICE.NS", name: "Nifty Financial Services"}
+      - {symbol: "^NSMIDCP", name: "Nifty Next 50"}
+      - {symbol: "^CRSLDX", name: "Nifty 500"}
+      - {symbol: "NIFTY_MIDCAP_100.NS", name: "Nifty Midcap 100"}
+      - {symbol: "^CNXSC", name: "Nifty Smallcap 100"}
+      - {symbol: "^INDIAVIX", name: "India VIX (volatility)"}
+      - {symbol: "^CNXIT", name: "Nifty IT"}
+      - {symbol: "^CNXPHARMA", name: "Nifty Pharma"}
+      - {symbol: "^CNXAUTO", name: "Nifty Auto"}
+      - {symbol: "^CNXFMCG", name: "Nifty FMCG"}
+      - {symbol: "^CNXMETAL", name: "Nifty Metal"}
+      - {symbol: "^CNXENERGY", name: "Nifty Energy"}
+      - {symbol: "^CNXREALTY", name: "Nifty Realty"}
+      - {symbol: "^CNXPSUBANK", name: "Nifty PSU Bank"}
+
+  - id: americas
+    title: Americas
+    quotes:
+      - {symbol: "^GSPC", name: "S&P 500", keywords: ["s&p", "wall street", "us stocks"]}
+      - {symbol: "^DJI", name: "Dow Jones", keywords: ["dow"]}
+      - {symbol: "^IXIC", name: "Nasdaq Composite", keywords: ["nasdaq"]}
+      - {symbol: "^RUT", name: "Russell 2000 (small caps)"}
+      - {symbol: "^VIX", name: "VIX (volatility)"}
+      - {symbol: "^GSPTSE", name: "S&P/TSX (Canada)"}
+      - {symbol: "^BVSP", name: "Bovespa (Brazil)"}
+      - {symbol: "^MXX", name: "IPC (Mexico)"}
+      - {symbol: "^MERV", name: "Merval (Argentina)"}
+
+  - id: europe
+    title: Europe
+    quotes:
+      - {symbol: "^STOXX50E", name: "Euro Stoxx 50", keywords: ["european shares", "european stocks", "stoxx"]}
+      - {symbol: "^FTSE", name: "FTSE 100 (UK)", keywords: ["ftse"]}
+      - {symbol: "^FTMC", name: "FTSE 250 (UK mid caps)"}
+      - {symbol: "^GDAXI", name: "DAX (Germany)", keywords: ["dax"]}
+      - {symbol: "^FCHI", name: "CAC 40 (France)"}
+      - {symbol: "FTSEMIB.MI", name: "FTSE MIB (Italy)"}
+      - {symbol: "^IBEX", name: "IBEX 35 (Spain)"}
+      - {symbol: "^AEX", name: "AEX (Netherlands)"}
+      - {symbol: "^SSMI", name: "SMI (Switzerland)"}
+      - {symbol: "^OMXS30", name: "OMX 30 (Sweden)"}
+      - {symbol: "^BFX", name: "BEL 20 (Belgium)"}
+      - {symbol: "WIG20.WA", name: "WIG 20 (Poland)"}
+      - {symbol: "XU100.IS", name: "BIST 100 (Turkey)"}
+
+  - id: asia
+    title: Asia-Pacific
+    quotes:
+      - {symbol: "^N225", name: "Nikkei 225 (Japan)", keywords: ["nikkei"]}
+      - {symbol: "^HSI", name: "Hang Seng (Hong Kong)", keywords: ["hang seng"]}
+      - {symbol: "^HSCE", name: "Hang Seng China Enterprises"}
+      - {symbol: "000001.SS", name: "Shanghai Composite", keywords: ["chinese stocks", "china stocks"]}
+      - {symbol: "399001.SZ", name: "Shenzhen Component"}
+      - {symbol: "^KS11", name: "KOSPI (South Korea)", keywords: ["kospi"]}
+      - {symbol: "^KQ11", name: "KOSDAQ (Korea small caps)"}
+      - {symbol: "^TWII", name: "TAIEX (Taiwan)"}
+      - {symbol: "^STI", name: "Straits Times (Singapore)"}
+      - {symbol: "^AXJO", name: "ASX 200 (Australia)"}
+      - {symbol: "^NZ50", name: "NZX 50 (New Zealand)"}
+      - {symbol: "^JKSE", name: "Jakarta Composite"}
+      - {symbol: "^KLSE", name: "KLCI (Malaysia)"}
+      - {symbol: "^SET.BK", name: "SET (Thailand)"}
+      - {symbol: "PSEI.PS", name: "PSEi (Philippines)"}
+      - {symbol: "^VNINDEX.VN", name: "VN-Index (Vietnam)"}
+
+  - id: mea
+    title: Middle East & Africa
+    quotes:
+      - {symbol: "^TASI.SR", name: "Tadawul (Saudi Arabia)"}
+      - {symbol: "DFMGI.AE", name: "DFM General (Dubai)"}
+      - {symbol: "^TA125.TA", name: "TA-125 (Israel)"}
+      - {symbol: "^J203.JO", name: "JSE All Share (South Africa)"}
+      - {symbol: "^CASE30", name: "EGX 30 (Egypt)"}
+
+  - id: currencies
+    title: Currencies
+    quotes:
+      - {symbol: "INR=X", name: "USD/INR", decimals: 3, keywords: ["rupee"]}
+      - {symbol: "EURINR=X", name: "EUR/INR", decimals: 3}
+      - {symbol: "GBPINR=X", name: "GBP/INR", decimals: 3}
+      - {symbol: "AEDINR=X", name: "AED/INR", decimals: 3}
+      - {symbol: "EURUSD=X", name: "EUR/USD", decimals: 4, keywords: ["euro"]}
+      - {symbol: "GBPUSD=X", name: "GBP/USD", decimals: 4, keywords: ["sterling", "pound"]}
+      - {symbol: "JPY=X", name: "USD/JPY", decimals: 3, keywords: ["yen"]}
+      - {symbol: "CNY=X", name: "USD/CNY", decimals: 4, keywords: ["yuan"]}
+      - {symbol: "AUDUSD=X", name: "AUD/USD", decimals: 4}
+      - {symbol: "CHF=X", name: "USD/CHF", decimals: 4}
+      - {symbol: "DX-Y.NYB", name: "US Dollar Index", keywords: ["dollar"]}
+
+  - id: commodities
+    title: Commodities
+    quotes:
+      - {symbol: "BZ=F", name: "Brent crude", unit: "$/bbl", keywords: ["brent", "oil price", "oil prices", "crude"]}
+      - {symbol: "CL=F", name: "WTI crude", unit: "$/bbl", keywords: ["oil price", "oil prices", "crude"]}
+      - {symbol: "NG=F", name: "Natural gas", unit: "$/MMBtu", decimals: 3, keywords: ["gas prices", "lng"]}
+      - {symbol: "GC=F", name: "Gold", unit: "$/oz", keywords: ["gold"]}
+      - {symbol: "SI=F", name: "Silver", unit: "$/oz", keywords: ["silver"]}
+      - {symbol: "PL=F", name: "Platinum", unit: "$/oz"}
+      - {symbol: "HG=F", name: "Copper", unit: "$/lb", decimals: 3, keywords: ["copper"]}
+      - {symbol: "ZW=F", name: "Wheat", unit: "¢/bu", keywords: ["wheat"]}
+      - {symbol: "ZC=F", name: "Corn", unit: "¢/bu"}
+      - {symbol: "KC=F", name: "Coffee", unit: "¢/lb", keywords: ["coffee"]}
+      - {symbol: "SB=F", name: "Sugar", unit: "¢/lb"}
+
+  - id: bonds
+    title: Bond yields
+    quotes:
+      - {symbol: "^IRX", name: "US 3-month T-bill", unit: "%", decimals: 3}
+      - {symbol: "^FVX", name: "US 5-year Treasury", unit: "%", decimals: 3}
+      - {symbol: "^TNX", name: "US 10-year Treasury", unit: "%", decimals: 3, keywords: ["treasury yields", "treasuries", "bond yields"]}
+      - {symbol: "^TYX", name: "US 30-year Treasury", unit: "%", decimals: 3}
+
+  - id: crypto
+    title: Crypto
+    quotes:
+      - {symbol: "BTC-USD", name: "Bitcoin", keywords: ["bitcoin", "btc"]}
+      - {symbol: "ETH-USD", name: "Ether", keywords: ["ether", "ethereum"]}
+      - {symbol: "SOL-USD", name: "Solana", keywords: ["solana"]}
+      - {symbol: "XRP-USD", name: "XRP", decimals: 4, keywords: ["xrp", "ripple"]}
+      - {symbol: "BNB-USD", name: "BNB"}
+      - {symbol: "DOGE-USD", name: "Dogecoin", decimals: 5, keywords: ["dogecoin"]}
+      - {symbol: "ADA-USD", name: "Cardano", decimals: 4}
+
+movers:
+  - id: india
+    title: India large caps
+    # Nifty 50 members as of Nov 2026.
+    symbols: [ADANIENT.NS, ADANIPORTS.NS, APOLLOHOSP.NS, ASIANPAINT.NS, AXISBANK.NS, BAJAJ-AUTO.NS,
+              BAJFINANCE.NS, BAJAJFINSV.NS, BEL.NS, BHARTIARTL.NS, CIPLA.NS, COALINDIA.NS, DRREDDY.NS,
+              EICHERMOT.NS, ETERNAL.NS, GRASIM.NS, HCLTECH.NS, HDFCBANK.NS, HDFCLIFE.NS, HINDALCO.NS,
+              HINDUNILVR.NS, ICICIBANK.NS, INDIGO.NS, INFY.NS, ITC.NS, JIOFIN.NS, JSWSTEEL.NS,
+              KOTAKBANK.NS, LT.NS, M&M.NS, MARUTI.NS, MAXHEALTH.NS, NESTLEIND.NS, NTPC.NS, ONGC.NS,
+              POWERGRID.NS, RELIANCE.NS, SBILIFE.NS, SBIN.NS, SHRIRAMFIN.NS, SUNPHARMA.NS,
+              TATACONSUM.NS, TMPV.NS, TATASTEEL.NS, TCS.NS, TECHM.NS, TITAN.NS, TRENT.NS,
+              ULTRACEMCO.NS, WIPRO.NS]
+  - id: us
+    title: US large caps
+    symbols: [AAPL, MSFT, NVDA, AMZN, GOOGL, META, TSLA, AVGO, BRK-B, JPM, V, LLY, UNH, XOM, WMT,
+              MA, JNJ, PG, HD, COST, ORCL, NFLX, BAC, KO, CVX, AMD, CRM, PLTR, IBM, DIS]

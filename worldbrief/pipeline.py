@@ -11,6 +11,7 @@ from pathlib import Path
 
 import yaml
 
+from . import markets
 from . import plugin as plugin_mod
 from .catalog import Catalog
 from .cluster import cluster
@@ -30,6 +31,7 @@ BREAKING_MIN_SOURCES = 3       # independent outlets needed to call it breaking
 BREAKING_WINDOW_HOURS = 3
 NO_BREAKING_SECTIONS = {"opinion", "science", "culture"}
 NO_MORNING_SECTIONS = {"opinion"}   # an argument isn't an event to explain
+NO_MORNING_TOPICS = {"business/commentary"}   # nor is a market column
 MORNING_MAX_STORIES = 15       # more than a screen, because the app filters by section
 MORNING_PER_SECTION = 8
 MORNING_MIN_STORIES = 3        # fewer than this waits for the next refresh
@@ -148,18 +150,17 @@ def build_digest(articles: list[Article], results: list[SourceResult],
     catalog = catalog or Catalog.from_file()
     now = now or datetime.now(timezone.utc)
 
-    def age_limit(section_id: str) -> float:
+    def age_limit(section_id: str, topic: str = "") -> float:
         if max_age_hours is not None:
             return max_age_hours
-        sec = catalog.by_id.get(section_id)
-        return sec.max_age_hours if sec else 36
+        return catalog.max_age(section_id, topic)
 
     total = len(articles)
     articles = dedupe(articles)
     articles, paywalled = paywall.apply(articles)
     articles, junk = drop_junk(articles)
     articles = [a for a in articles
-                if a.when is None or a.when >= now - timedelta(hours=age_limit(a.category))]
+                if a.when is None or a.when >= now - timedelta(hours=age_limit(a.category, a.topic))]
 
     stories = cluster(articles)
     decay = {s.id: max(24.0, age_limit(s.id) / 3) for s in catalog.sections}
@@ -295,6 +296,12 @@ def morning_due(last: datetime | None, now: datetime, hours: tuple[int, ...]) ->
     return last is None or last < latest_slot
 
 
+def _only_topics(story: dict, section: str, excluded: set[str]) -> bool:
+    """True if every topic of the story is in `excluded` ("section/topic" keys)."""
+    topics = story.get("topics") or []
+    return bool(topics) and all(f"{section}/{t}" in excluded for t in topics)
+
+
 def write_morning(digest: dict, out_dir: Path, state_dir: Path, hours: tuple[int, ...],
                   now: datetime) -> bool:
     """Publish the brief: the highest-ranked stories that have a brief.
@@ -314,7 +321,8 @@ def write_morning(digest: dict, out_dir: Path, state_dir: Path, hours: tuple[int
         stories = []
         for sid, sec in digest["sections"].items():
             if sid not in NO_MORNING_SECTIONS:
-                stories += [st for st in sec["top"] if st.get("brief")][:MORNING_PER_SECTION]
+                stories += [st for st in sec["top"] if st.get("brief")
+                            and not _only_topics(st, sid, NO_MORNING_TOPICS)][:MORNING_PER_SECTION]
         # Too few means a thin news hour, so try again next refresh.
         if len(stories) >= MORNING_MIN_STORIES:
             stories.sort(key=lambda st: st["score"], reverse=True)
@@ -339,7 +347,8 @@ class Refresher:
                  store_path: Path | None = None, paywall_path: Path | None = None,
                  only: set[str] | None = None, briefer=None,
                  morning_hours: tuple[int, ...] = DEFAULT_MORNING_HOURS,
-                 min_ok_fraction: float = MIN_SOURCES_OK_FRACTION):
+                 min_ok_fraction: float = MIN_SOURCES_OK_FRACTION,
+                 markets_path: Path | None = markets.DEFAULT_FILE):
         self.catalog = Catalog.from_file()
         self.plugins = load_sources(sources_path, self.catalog, only)
         self.paywall = PaywallFilter.from_file(paywall_path) if paywall_path else PaywallFilter.from_file()
@@ -348,18 +357,20 @@ class Refresher:
         self.briefer = briefer         # None uses only the free briefs; see briefs.py
         self.morning_hours = morning_hours
         self.min_ok_fraction = min_ok_fraction
+        # None turns the market dashboard off (tests, or a server without it).
+        self.markets = markets.MarketsConfig.from_file(markets_path) if markets_path else None
         self.last: dict | None = None
 
     def refresh(self, now: datetime | None = None) -> dict:
         now = now or datetime.now(timezone.utc)
         articles, results = fetch_all(self.plugins)
         windows = {s.id: s.max_age_hours for s in self.catalog.sections}
-        # Skip items already older than their section's window, so they don't
-        # get stored, pruned and counted as "new" again on every refresh.
+        # Skip items already older than their window, so they don't get
+        # stored, pruned and counted as "new" again on every refresh.
         fresh = [a for a in dedupe(articles)
-                 if a.when is None or a.when >= now - timedelta(hours=windows.get(a.category, 36))]
+                 if a.when is None or a.when >= now - timedelta(hours=self.catalog.max_age(a.category, a.topic))]
         new = self.store.merge(fresh, now)
-        self.store.prune(windows, now)
+        self.store.prune(windows, now, max_age_by_topic=self.catalog.topic_ages())
         self.store.save()
         digest = build_digest(self.store.all(), results, self.paywall, self.catalog, now=now)
         digest["stats"]["new_this_refresh"] = new
@@ -374,6 +385,12 @@ class Refresher:
         check_publishable(digest, self.min_ok_fraction)
         write_split(digest, self.out_dir)
         write_morning(digest, self.out_dir, self.store.path.parent, self.morning_hours, now)
+        if self.markets:
+            try:
+                digest["stats"]["market_quotes"] = markets.publish(
+                    self.markets, self.out_dir, self.store.path.parent, now)
+            except Exception:  # noqa: BLE001 — prices are extra; the news still goes out
+                log.exception("markets failed; publishing without new prices")
         self.last = digest
         return digest
 

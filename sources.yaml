@@ -290,20 +290,73 @@ sources:
   - {type: rss, name: Simon Willison,     url: "https://simonwillison.net/atom/everything/", category: opinion, topic: newsletters, note: "Practical AI and software."}
 
   # ═══════════════════════════ BUSINESS & ECONOMY ═══════════════════════════
-  - {type: rss, name: BBC Business,       url: "https://feeds.bbci.co.uk/news/business/rss.xml", category: business, ownership: public, limited_in: [US]}
-  - {type: rss, name: The Guardian Business, url: "https://www.theguardian.com/business/rss", category: business}
-  - {type: rss, name: NPR Business,       url: "https://feeds.npr.org/1006/rss.xml", category: business, ownership: public}
-  - {type: rss, name: DW Business,        url: "https://rss.dw.com/rdf/rss-en-bus", category: business, ownership: public}
-  - {type: rss, name: CNBC World,         url: "https://www.cnbc.com/id/100727362/device/rss/rss.html", category: business, note: "Some CNBC Pro articles are paid."}
-  - {type: rss, name: The Economic Times, url: "https://economictimes.indiatimes.com/rssfeedstopstories.cms", category: business, region: asia, note: "Bennett, Coleman & Co. (India). Most articles free; ET Prime stories are paid."}
-  - {type: rss, name: EconomyNext,        url: "https://economynext.com/feed/", category: business, region: asia}
-  - {type: rss, name: TechCabal,          url: "https://techcabal.com/feed/", category: business, region: africa, note: "Independent African tech and business publication (Big Cabal Media, Nigeria)."}
-  - {type: rss, name: Rest of World,      url: "https://restofworld.org/feed/latest", category: business, note: "Tech and business outside the West."}
-  - {type: rss, name: CBS MoneyWatch, url: "https://www.cbsnews.com/latest/rss/moneywatch", category: business}
-  - {type: rss, name: Sky News Business, url: "https://feeds.skynews.com/feeds/rss/business.xml", category: business}
-  - {type: rss, name: France 24 Business, url: "https://www.france24.com/en/business/rss", category: business, ownership: public}
-  - {type: rss, name: RTÉ Business, url: "https://www.rte.ie/feeds/rss/?index=/news/business/", category: business, ownership: public}
-  - {type: rss, name: ABC Australia Business, url: "https://www.abc.net.au/news/feed/51892/rss.xml", category: business, ownership: public}
+  # Prices for the app's market dashboard come from markets.yaml, not from here.
+  # ── Business news ──
+  - {type: rss, name: BBC Business,       url: "https://feeds.bbci.co.uk/news/business/rss.xml", category: business, topic: news, ownership: public, limited_in: [US]}
+  - {type: rss, name: The Guardian Business, url: "https://www.theguardian.com/business/rss", category: business, topic: news}
+  - {type: rss, name: NPR Business,       url: "https://feeds.npr.org/1006/rss.xml", category: business, topic: news, region: americas, ownership: public}
+  - {type: rss, name: DW Business,        url: "https://rss.dw.com/rdf/rss-en-bus", category: business, topic: news, ownership: public}
+  - {type: rss, name: CNBC World,         url: "https://www.cnbc.com/id/100727362/device/rss/rss.html", category: business, topic: news, note: "Some CNBC Pro articles are paid."}
+  - {type: rss, name: The Economic Times, url: "https://economictimes.indiatimes.com/rssfeedstopstories.cms", category: business, topic: news, region: asia, note: "Bennett, Coleman & Co. (India). Most articles free; ET Prime stories are paid."}
+  - {type: rss, name: EconomyNext,        url: "https://economynext.com/feed/", category: business, topic: news, region: asia}
+  - {type: rss, name: TechCabal,          url: "https://techcabal.com/feed/", category: business, topic: news, region: africa, note: "Independent African tech and business publication (Big Cabal Media, Nigeria)."}
+  - {type: rss, name: Rest of World,      url: "https://restofworld.org/feed/latest", category: business, topic: news, note: "Tech and business outside the West."}
+  - {type: rss, name: CBS MoneyWatch, url: "https://www.cbsnews.com/latest/rss/moneywatch", category: business, topic: news, region: americas}
+  - {type: rss, name: Sky News Business, url: "https://feeds.skynews.com/feeds/rss/business.xml", category: business, topic: news, region: europe}
+  - {type: rss, name: France 24 Business, url: "https://www.france24.com/en/business/rss", category: business, topic: news, ownership: public}
+  - {type: rss, name: RTÉ Business, url: "https://www.rte.ie/feeds/rss/?index=/news/business/", category: business, topic: news, region: europe, ownership: public}
+  - {type: rss, name: ABC Australia Business, url: "https://www.abc.net.au/news/feed/51892/rss.xml", category: business, topic: news, region: oceania, ownership: public}
+  - {type: rss, name: Al Jazeera Economy, url: "https://www.aljazeera.com/xml/rss/all.xml", category: business, topic: news, region: middle_east, ownership: state_linked, link_contains: ["/economy/"], note: "Economy stories from Al Jazeera's main feed. Funded by the State of Qatar."}
+  - {type: rss, name: Euronews Business, url: "https://www.euronews.com/rss?level=vertical&name=business", category: business, topic: news, region: europe}
+  - {type: rss, name: BusinessDay Nigeria, url: "https://businessday.ng/feed/", category: business, topic: news, region: africa, note: "Independent Nigerian business daily."}
+
+  # ── Markets & stocks ──
+  - {type: rss, name: CNBC Investing,     url: "https://www.cnbc.com/id/15839069/device/rss/rss.html", category: business, topic: markets, region: americas, note: "Some CNBC Pro articles are paid."}
+  - {type: rss, name: CNBC Finance,       url: "https://www.cnbc.com/id/10000664/device/rss/rss.html", category: business, topic: markets, region: americas, note: "Some CNBC Pro articles are paid."}
+  - {type: rss, name: Investing.com Stock Markets, url: "https://www.investing.com/rss/news_25.rss", category: business, topic: markets}
+  - {type: rss, name: The Guardian Markets, url: "https://www.theguardian.com/business/stock-markets/rss", category: business, topic: markets, region: europe}
+  - {type: rss, name: ET Markets,         url: "https://economictimes.indiatimes.com/markets/rssfeeds/1977021501.cms", category: business, topic: markets, region: asia, note: "The Economic Times (India). Most articles free; ET Prime stories are paid."}
+  - {type: rss, name: ET Stocks,          url: "https://economictimes.indiatimes.com/markets/stocks/rssfeeds/2146842.cms", category: business, topic: markets, region: asia, note: "Indian stock news from The Economic Times."}
+  - {type: rss, name: Mint Markets,       url: "https://www.livemint.com/rss/markets", category: business, topic: markets, region: asia, note: "HT Media (India). Most articles free; Mint Premium stories are paid."}
+  - {type: rss, name: BusinessLine Markets, url: "https://www.thehindubusinessline.com/markets/feeder/default.rss", category: business, topic: markets, region: asia, note: "The Hindu group (India). Some premium stories are paid."}
+  - {type: rss, name: NDTV Profit,        url: "https://feeds.feedburner.com/ndtvprofit-latest", category: business, topic: markets, region: asia, note: "Indian business and markets channel."}
+
+  # ── Economy & central banks ──
+  - {type: rss, name: CNBC Economy,       url: "https://www.cnbc.com/id/20910258/device/rss/rss.html", category: business, topic: economy, region: americas}
+  - {type: rss, name: The Guardian Economics, url: "https://www.theguardian.com/business/economics/rss", category: business, topic: economy}
+  - {type: rss, name: Investing.com Economy, url: "https://www.investing.com/rss/news_14.rss", category: business, topic: economy}
+  - {type: rss, name: Mint Economy,       url: "https://www.livemint.com/rss/economy", category: business, topic: economy, region: asia, note: "HT Media (India). Most articles free; Mint Premium stories are paid."}
+  - {type: rss, name: Federal Reserve,    url: "https://www.federalreserve.gov/feeds/press_all.xml", category: business, topic: economy, region: americas, ownership: public, note: "Press releases from the US central bank."}
+  - {type: rss, name: ECB Blog,           url: "https://www.ecb.europa.eu/rss/blog.html", category: business, topic: economy, region: europe, ownership: public, note: "The European Central Bank's blog."}
+  - {type: rss, name: Liberty Street Economics, url: "https://libertystreeteconomics.newyorkfed.org/feed/", category: business, topic: economy, region: americas, ownership: public, note: "Research blog of the Federal Reserve Bank of New York."}
+
+  # ── Commodities & currencies ──
+  - {type: rss, name: OilPrice.com,       url: "https://oilprice.com/rss/main", category: business, topic: commodities, note: "Independent energy and commodities news."}
+  - {type: rss, name: Investing.com Commodities, url: "https://www.investing.com/rss/news_11.rss", category: business, topic: commodities}
+  - {type: rss, name: Investing.com Forex, url: "https://www.investing.com/rss/news_1.rss", category: business, topic: commodities}
+  - {type: rss, name: FXStreet,           url: "https://www.fxstreet.com/rss/news", category: business, topic: commodities, note: "Currency market news."}
+  - {type: rss, name: investingLive,      url: "https://www.forexlive.com/feed/news", category: business, topic: commodities, note: "Formerly ForexLive; fast currency and rates news."}
+
+  # ── Crypto ──
+  - {type: rss, name: CoinDesk,           url: "https://www.coindesk.com/arc/outboundfeeds/rss/", category: business, topic: crypto}
+  - {type: rss, name: Cointelegraph,      url: "https://cointelegraph.com/rss", category: business, topic: crypto}
+  - {type: rss, name: Decrypt,            url: "https://decrypt.co/feed", category: business, topic: crypto}
+
+  # ── Market commentary: editorials, columns and investing blogs ──
+  - {type: rss, name: ET Editorial,       url: "https://economictimes.indiatimes.com/opinion/et-editorial/rssfeeds/3376910.cms", category: business, topic: commentary, region: asia, note: "The Economic Times' own editorials (India)."}
+  - {type: rss, name: ET Expert View,     url: "https://economictimes.indiatimes.com/markets/expert-view/rssfeeds/50649960.cms", category: business, topic: commentary, region: asia, note: "Fund managers and analysts on Indian markets."}
+  - {type: rss, name: Mint Opinion,       url: "https://www.livemint.com/rss/opinion", category: business, topic: commentary, region: asia, note: "HT Media (India). Columns on the economy and markets."}
+  - {type: rss, name: BusinessLine Opinion, url: "https://www.thehindubusinessline.com/opinion/feeder/default.rss", category: business, topic: commentary, region: asia, note: "The Hindu group (India). Editorials and columns."}
+  - {type: rss, name: A Wealth of Common Sense, url: "https://awealthofcommonsense.com/feed/", category: business, topic: commentary, region: americas, note: "Ben Carlson, Ritholtz Wealth Management. Long-term investing."}
+  - {type: rss, name: The Big Picture,    url: "https://ritholtz.com/feed/", category: business, topic: commentary, region: americas, note: "Barry Ritholtz on markets and investing."}
+  - {type: rss, name: Abnormal Returns,   url: "https://abnormalreturns.com/feed/", category: business, topic: commentary, note: "Daily curated links on markets and investing."}
+  - {type: rss, name: Econbrowser,        url: "https://econbrowser.com/feed", category: business, topic: commentary, note: "Economists Menzie Chinn and James Hamilton."}
+  - {type: rss, name: Marginal Revolution, url: "https://marginalrevolution.com/feed", category: business, topic: commentary, note: "Economists Tyler Cowen and Alex Tabarrok; libertarian-leaning."}
+  - {type: substack, name: Klement on Investing, site: "https://klementoninvesting.substack.com", category: business, topic: commentary, region: europe, note: "Joachim Klement, investment strategist."}
+  - {type: substack, name: Net Interest,  site: "https://www.netinterest.co", category: business, topic: commentary, note: "Marc Rubinstein on banks and financial markets. Free posts only."}
+  - {type: substack, name: Apricitas Economics, site: "https://www.apricitas.io", category: business, topic: commentary, note: "Joseph Politano; data-driven macro. Free posts only."}
+  - {type: substack, name: Kyla Scanlon,  site: "https://kyla.substack.com", category: business, topic: commentary, note: "Markets and the economy explained. Free posts only."}
+  - {type: substack, name: The Overshoot, site: "https://theovershoot.co", category: business, topic: commentary, note: "Matthew C. Klein on macro and markets. Free posts only."}
 
   # ═══════════════════════════ TECHNOLOGY ═══════════════════════════
   - {type: rss, name: BBC Technology,     url: "https://feeds.bbci.co.uk/news/technology/rss.xml", category: technology, ownership: public, limited_in: [US]}

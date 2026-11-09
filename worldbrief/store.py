@@ -50,12 +50,21 @@ class ArticleStore:
                     self._items[key] = a
         return new
 
-    def prune(self, max_age_by_section: dict[str, float], now: datetime, default_hours: float = 36) -> int:
+    def prune(self, max_age_by_section: dict[str, float], now: datetime, default_hours: float = 36,
+              max_age_by_topic: dict[str, float] | None = None) -> int:
+        """Drop items older than their window. `max_age_by_topic`, keyed
+        "section/topic", overrides the section's window for that subtopic."""
+        topics = max_age_by_topic or {}
+
+        def limit(a: Article) -> float:
+            return topics.get(f"{a.category}/{a.topic}",
+                              max_age_by_section.get(a.category, default_hours))
+
         with self._lock:
             before = len(self._items)
             self._items = {
                 k: a for k, a in self._items.items()
-                if (a.when or now) >= now - timedelta(hours=max_age_by_section.get(a.category, default_hours))
+                if (a.when or now) >= now - timedelta(hours=limit(a))
             }
             return before - len(self._items)
 
