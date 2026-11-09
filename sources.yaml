@@ -334,7 +334,7 @@ sources:
   - {type: rss, name: OilPrice.com,       url: "https://oilprice.com/rss/main", category: business, topic: commodities, note: "Independent energy and commodities news."}
   - {type: rss, name: Investing.com Commodities, url: "https://www.investing.com/rss/news_11.rss", category: business, topic: commodities}
   - {type: rss, name: Investing.com Forex, url: "https://www.investing.com/rss/news_1.rss", category: business, topic: commodities}
-  - {type: rss, name: FXStreet,           url: "https://www.fxstreet.com/rss/news", category: business, topic: commodities, note: "Currency market news."}
+  - {type: rss, name: FXStreet,           url: "https://www.fxstreet.com/rss/news", category: business, topic: commodities, note: "Currency market news. DISABLED: Returns errors to GitHub Actions addresses (Nov 2026).", enabled: false}
   - {type: rss, name: investingLive,      url: "https://www.forexlive.com/feed/news", category: business, topic: commodities, note: "Formerly ForexLive; fast currency and rates news."}
 
   # ── Crypto ──
@@ -352,10 +352,10 @@ sources:
   - {type: rss, name: Abnormal Returns,   url: "https://abnormalreturns.com/feed/", category: business, topic: commentary, note: "Daily curated links on markets and investing."}
   - {type: rss, name: Econbrowser,        url: "https://econbrowser.com/feed", category: business, topic: commentary, note: "Economists Menzie Chinn and James Hamilton."}
   - {type: rss, name: Marginal Revolution, url: "https://marginalrevolution.com/feed", category: business, topic: commentary, note: "Economists Tyler Cowen and Alex Tabarrok; libertarian-leaning."}
-  - {type: substack, name: Klement on Investing, site: "https://klementoninvesting.substack.com", category: business, topic: commentary, region: europe, note: "Joachim Klement, investment strategist."}
+  - {type: substack, name: Klement on Investing, site: "https://klementoninvesting.substack.com", category: business, topic: commentary, region: europe, note: "Joachim Klement, investment strategist. DISABLED: Returns errors to GitHub Actions addresses (Nov 2026).", enabled: false}
   - {type: substack, name: Net Interest,  site: "https://www.netinterest.co", category: business, topic: commentary, note: "Marc Rubinstein on banks and financial markets. Free posts only."}
   - {type: substack, name: Apricitas Economics, site: "https://www.apricitas.io", category: business, topic: commentary, note: "Joseph Politano; data-driven macro. Free posts only."}
-  - {type: substack, name: Kyla Scanlon,  site: "https://kyla.substack.com", category: business, topic: commentary, note: "Markets and the economy explained. Free posts only."}
+  - {type: substack, name: Kyla Scanlon,  site: "https://kyla.substack.com", category: business, topic: commentary, note: "Markets and the economy explained. Free posts only. DISABLED: Returns errors to GitHub Actions addresses (Nov 2026).", enabled: false}
   - {type: substack, name: The Overshoot, site: "https://theovershoot.co", category: business, topic: commentary, note: "Matthew C. Klein on macro and markets. Free posts only."}
 
   # ═══════════════════════════ TECHNOLOGY ═══════════════════════════
