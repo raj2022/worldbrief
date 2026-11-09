@@ -51,9 +51,11 @@ minutes is the default; `--every 5` is fine for the world section alone.
 
 The digest is hosted for free on GitHub Pages. `.github/workflows/refresh.yml`
 runs `python -m worldbrief run` and publishes `dist/`. GitHub's own cron rarely
-fires for this repo, so `ticker.yml` starts a refresh every 15 minutes. It runs
+fires for this repo, so `ticker.yml` starts a refresh every 5 minutes. It runs
 for 5.5 hours, then starts its own replacement. Its 2-hourly cron restarts it if
-that chain ever breaks. The app
+that chain ever breaks. Every run updates market prices, but `--min-source-minutes 14`
+skips a feed fetched in the last 14 minutes, so publishers are still polled about
+every 15 minutes. Skipped feeds' stories come from the store. The app
 reads it from `https://raj2022.github.io/worldbrief/`:
 
 | File | What it holds |
@@ -68,8 +70,8 @@ The rolling store sits in `.cache/`, outside the published files. Actions cache
 carries it between runs, and GitHub removes a cache after 7 days unused. If the
 workflow stays off longer than that, the store starts again from the current feeds.
 
-Scheduled runs can start late when GitHub is busy. Pages also caches files for up
-to 10 minutes, so the app can be about 25 minutes behind publishers.
+Scheduled runs can start late when GitHub is busy, so news can be about 20 minutes
+behind publishers, and prices about 5 minutes behind Yahoo.
 
 `keepalive.yml` stops GitHub disabling the schedules after 60 days without activity.
 

@@ -416,3 +416,46 @@ def test_server_serves_full_files_by_path(tmp_path):
     with running_server(tmp_path, {}) as base:
         with urllib.request.urlopen(base + "/sections/world.full.json") as r:
             assert r.status == 200
+
+
+def test_refresher_skips_sources_fetched_recently(tmp_path):
+    """Runs every 5 minutes refresh prices, but each feed is polled at most every 14."""
+    srcs = tmp_path / "s.yaml"
+    srcs.write_text("sources:\n  - {type: rss, name: BBC World, url: 'https://f', category: world}\n")
+    feed = (Path(__file__).parent / "fixtures" / "bbc.xml").read_bytes()
+    out = tmp_path / "dist"
+    with mock.patch.object(httpcache.SHARED, "get", return_value=httpcache.CachedResponse(feed, 200)) as g:
+        r = pipeline.Refresher(srcs, out, min_source_minutes=14)
+        r.refresh(now=NOW)
+        d = r.refresh(now=NOW + timedelta(minutes=5))       # too soon: not fetched
+        assert g.call_count == 1
+        assert d["source_health"][0]["skipped"] and d["stats"]["sources_failed"] == 0
+        assert d["stats"]["stories"] == 2                     # stories come from the store
+        # A new process (the next Actions run) reads the times from disk.
+        r2 = pipeline.Refresher(srcs, out, min_source_minutes=14)
+        r2.refresh(now=NOW + timedelta(minutes=10))
+        assert g.call_count == 1
+        r2.refresh(now=NOW + timedelta(minutes=15))
+        assert g.call_count == 2
+
+
+def test_failed_source_is_retried_on_the_next_run(tmp_path):
+    srcs = tmp_path / "s.yaml"
+    srcs.write_text("sources:\n"
+                    "  - {type: rss, name: A, url: 'https://a', category: world}\n"
+                    "  - {type: rss, name: B, url: 'https://b', category: world}\n")
+    feed = (Path(__file__).parent / "fixtures" / "bbc.xml").read_bytes()
+    calls = []
+
+    def get(url, *a, **k):
+        calls.append(url)
+        if url == "https://b" and len(calls) <= 2:
+            raise OSError("down")
+        return httpcache.CachedResponse(feed, 200)
+
+    with mock.patch.object(httpcache.SHARED, "get", side_effect=get):
+        r = pipeline.Refresher(srcs, tmp_path / "dist", min_source_minutes=14)
+        r.refresh(now=NOW)
+        calls.clear()
+        r.refresh(now=NOW + timedelta(minutes=5))
+    assert calls == ["https://b"]

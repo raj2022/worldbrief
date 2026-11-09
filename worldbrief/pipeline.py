@@ -68,6 +68,7 @@ class SourceResult:
     count: int
     seconds: float
     error: str = ""
+    skipped: bool = False   # fetched recently, so not asked again this run
 
 
 def load_sources(path: Path = DEFAULT_SOURCES, catalog: Catalog | None = None,
@@ -348,7 +349,8 @@ class Refresher:
                  only: set[str] | None = None, briefer=None,
                  morning_hours: tuple[int, ...] = DEFAULT_MORNING_HOURS,
                  min_ok_fraction: float = MIN_SOURCES_OK_FRACTION,
-                 markets_path: Path | None = markets.DEFAULT_FILE):
+                 markets_path: Path | None = markets.DEFAULT_FILE,
+                 min_source_minutes: float = 0):
         self.catalog = Catalog.from_file()
         self.plugins = load_sources(sources_path, self.catalog, only)
         self.paywall = PaywallFilter.from_file(paywall_path) if paywall_path else PaywallFilter.from_file()
@@ -359,11 +361,19 @@ class Refresher:
         self.min_ok_fraction = min_ok_fraction
         # None turns the market dashboard off (tests, or a server without it).
         self.markets = markets.MarketsConfig.from_file(markets_path) if markets_path else None
+        # Runs can come faster than feeds deserve (prices update every few
+        # minutes, feeds don't), so a source fetched this recently is skipped.
+        # Its articles are already in the store.
+        self.min_source_minutes = min_source_minutes
         self.last: dict | None = None
 
     def refresh(self, now: datetime | None = None) -> dict:
         now = now or datetime.now(timezone.utc)
-        articles, results = fetch_all(self.plugins)
+        due, skipped = self._due_sources(now)
+        articles, results = fetch_all(due)
+        results += [SourceResult(p.name, p.type_name, p.category, True, 0, 0.0, skipped=True)
+                    for p in skipped]
+        self._record_fetches(results, now)
         windows = {s.id: s.max_age_hours for s in self.catalog.sections}
         # Skip items already older than their window, so they don't get
         # stored, pruned and counted as "new" again on every refresh.
@@ -393,6 +403,36 @@ class Refresher:
                 log.exception("markets failed; publishing without new prices")
         self.last = digest
         return digest
+
+
+    @property
+    def _fetched_path(self) -> Path:
+        return self.store.path.parent / ".fetched.json"
+
+    def _due_sources(self, now: datetime):
+        """Sources to fetch this run, and the ones fetched too recently."""
+        if not self.min_source_minutes:
+            return self.plugins, []
+        last = _load_times(self._fetched_path)
+        gap = timedelta(minutes=self.min_source_minutes)
+        due = [p for p in self.plugins if p.name not in last or now - last[p.name] >= gap]
+        return due, [p for p in self.plugins if p not in due]
+
+    def _record_fetches(self, results: list[SourceResult], now: datetime) -> None:
+        """Remember when each source last answered. A failed one is tried again next run."""
+        if not self.min_source_minutes:
+            return
+        names = {p.name for p in self.plugins}
+        times = {k: v for k, v in _load_times(self._fetched_path).items() if k in names}
+        times.update({r.name: now for r in results if r.ok and not r.skipped})
+        self._fetched_path.parent.mkdir(parents=True, exist_ok=True)
+        _atomic_write(self._fetched_path, {k: v.isoformat() for k, v in times.items()})
+
+def _load_times(path: Path) -> dict[str, datetime]:
+    try:
+        return {k: datetime.fromisoformat(v) for k, v in json.loads(path.read_text()).items()}
+    except (OSError, ValueError, TypeError, AttributeError):
+        return {}
 
 
 def run(sources_path: Path = DEFAULT_SOURCES, paywall_path: Path | None = None,

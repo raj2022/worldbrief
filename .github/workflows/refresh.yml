@@ -2,7 +2,7 @@ name: Refresh news
 
 on:
   schedule:
-    - cron: "3,18,33,48 * * * *"   # off the busy :00 mark
+    - cron: "3,18,33,48 * * * *"   # off the busy :00 mark; ticker.yml adds runs every 5 min
   workflow_dispatch:
 
 concurrency:
@@ -38,7 +38,9 @@ jobs:
           key: store-${{ github.run_id }}
           restore-keys: store-
 
-      - run: python -m worldbrief run --out-dir dist --store .cache/store.json
+      # Runs come every 5 minutes so market prices stay current, but each feed
+      # is fetched at most every 14, to stay polite to publishers.
+      - run: python -m worldbrief run --out-dir dist --store .cache/store.json --min-source-minutes 14
         env:
           WORLDBRIEF_CONTACT: ${{ vars.WORLDBRIEF_CONTACT || format('https://github.com/{0}', github.repository) }}
 

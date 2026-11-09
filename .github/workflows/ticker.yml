@@ -1,7 +1,7 @@
 name: Refresh ticker
 
 # GitHub's cron barely fires for this repo (once in ~14 hours when tested), so
-# this job starts refresh.yml every 15 minutes itself. A job can run at most
+# this job starts refresh.yml every 5 minutes itself. A job can run at most
 # 6 hours, so before then it starts its own replacement. Dispatches made with
 # GITHUB_TOKEN do start new runs (workflow_dispatch is the exception to the
 # "no recursive runs" rule). The cron below restarts the chain if it ever breaks.
@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 355
     steps:
-      - name: Start a refresh every 15 minutes
+      - name: Start a refresh every 5 minutes
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
@@ -31,7 +31,7 @@ jobs:
           stop=$((SECONDS + 5*3600 + 30*60))   # 5h30m, then hand over
           while [ "$SECONDS" -lt "$stop" ]; do
             gh workflow run refresh.yml --repo "$REPO" || echo "::warning::refresh dispatch failed"
-            sleep 900
+            sleep 300
           done
 
       - name: Start the next ticker

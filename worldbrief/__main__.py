@@ -64,6 +64,9 @@ def main(argv=None) -> int:
                    help="write everything to one JSON file instead")
     r.add_argument("--only", help="comma-separated section ids, e.g. world,science")
     r.add_argument("--paywall", type=Path, default=None)
+    r.add_argument("--min-source-minutes", type=float, default=0,
+                   help="skip a source fetched less than this long ago (its articles are already "
+                        "stored), so frequent runs refresh prices without polling every feed")
     r.add_argument("--max-age-hours", type=float, default=None,
                    help="override every section's window (single-file mode only)")
 
@@ -147,7 +150,8 @@ def main(argv=None) -> int:
             digest = pipeline.Refresher(args.sources, args.out_dir, store_path=args.store,
                                         paywall_path=args.paywall, only=_only(args.only),
                                         briefer=_briefer(args.store.parent if args.store else args.out_dir),
-                                        morning_hours=_morning_hours()).refresh()
+                                        morning_hours=_morning_hours(),
+                                        min_source_minutes=args.min_source_minutes).refresh()
         except pipeline.ThinDigestError as e:
             # Non-zero exit stops the workflow before deploy, keeping the last good site.
             print(f"error: {e}", file=sys.stderr)
