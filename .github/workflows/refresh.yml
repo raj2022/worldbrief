@@ -60,5 +60,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # deploy-pages uses GITHUB_SHA as the Pages build version. Refreshes don't
+      # make commits, so every deploy reused one version and Pages eventually
+      # kept serving an old build while runs reported success (Nov 13, Nov 17).
+      # A per-run version makes each deploy distinct.
       - id: deployment
         uses: actions/deploy-pages@v5
+        env:
+          GITHUB_SHA: ${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
