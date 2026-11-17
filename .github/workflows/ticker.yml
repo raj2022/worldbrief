@@ -17,12 +17,30 @@ concurrency:
 
 permissions:
   actions: write
+  contents: write   # for the empty "new build version" commit below
 
 jobs:
   tick:
     runs-on: ubuntu-latest
     timeout-minutes: 355
     steps:
+      # deploy-pages uses the commit SHA as the Pages build version and it can't
+      # be overridden. With no new commits, every deploy reused one version and
+      # Pages got stuck serving an old build while runs stayed green (Nov 13,
+      # Nov 17). An empty commit per ticker cycle (~every 5.5h) keeps it moving.
+      - name: Make a new commit so Pages gets a new build version
+        continue-on-error: true   # never let this stop the refresh loop
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          head=$(gh api "repos/$REPO/git/ref/heads/main" --jq .object.sha)
+          tree=$(gh api "repos/$REPO/git/commits/$head" --jq .tree.sha)
+          new=$(gh api "repos/$REPO/git/commits" -f message="Refresh Pages build version [skip ci]" \
+                -f tree="$tree" -f "parents[]=$head" --jq .sha)
+          gh api -X PATCH "repos/$REPO/git/refs/heads/main" -f sha="$new" >/dev/null \
+            || echo "::warning::could not advance main (someone pushed?); next cycle will retry"
+
       - name: Start a refresh every 5 minutes
         env:
           GH_TOKEN: ${{ github.token }}
