@@ -31,6 +31,8 @@ sources:
   - {type: rss, name: UN News,            url: "https://news.un.org/feed/subscribe/en/news/all/rss.xml", category: world, ownership: public}
   - {type: rss, name: Global Voices,      url: "https://globalvoices.org/feed/", category: world, note: "Nonprofit citizen-media network."}
   - {type: rss, name: ICIJ,               url: "https://www.icij.org/feed/", category: world, note: "Nonprofit International Consortium of Investigative Journalists (Washington, DC); Panama and Pandora Papers."}
+  - {type: rss, name: Semafor,            url: "https://www.semafor.com/rss.xml", category: world, note: "Independent global news startup (New York); free to read."}
+  - {type: rss, name: The Independent World, url: "https://www.independent.co.uk/news/world/rss", category: world, note: "UK daily, online-only since 2016; free to read."}
 
   # ── Africa ──
   - {type: rss, name: BBC Africa,         url: "https://feeds.bbci.co.uk/news/world/africa/rss.xml", category: world, region: africa, ownership: public, limited_in: [US]}
@@ -77,7 +79,7 @@ sources:
   - {type: rss, name: Amwaj.media,        url: "https://amwaj.media/rss", category: world, region: middle_east, note: "Independent; Iran, Iraq and the Arabian Peninsula."}
   - {type: rss, name: The New Arab,       url: "https://www.newarab.com/rss", category: world, region: middle_east, note: "London-based; reported Qatari funding."}
   - {type: rss, name: Daraj,              url: "https://daraj.media/en/feed/", category: world, region: middle_east, note: "Independent digital outlet founded in Beirut in 2017 by Lebanese, Syrian and Iraqi journalists."}
-  - {type: rss, name: The Media Line,     url: "https://themedialine.org/feed/", category: world, region: middle_east, note: "US nonprofit news agency covering the Middle East from the region."}
+  - {type: rss, name: The Media Line,     url: "https://themedialine.org/feed/", category: world, region: middle_east, enabled: false, note: "DISABLED: returns 403 to GitHub Actions runners (Nov 17 2026). US nonprofit news agency covering the Middle East from the region."}
 
   # ── South Asia ──
   - {type: rss, name: Scroll.in,          url: "https://feeds.feedburner.com/ScrollinArticles.rss", category: world, region: asia, note: "Independent, reader-funded (India)."}
@@ -183,8 +185,8 @@ sources:
   - {type: rss, name: Yahoo News,         url: "https://news.yahoo.com/rss/", category: world, region: americas, ownership: aggregator, note: "Yahoo (Apollo Global Management); republishes AP, Reuters and others."}
   - {type: rss, name: CNN,                url: "http://rss.cnn.com/rss/cnn_topstories.rss", category: world, region: americas, enabled: false, note: "DISABLED: CNN stopped updating its RSS feeds in April 2023; no public feed since."}
   - {type: rss, name: The Hill,           url: "https://thehill.com/news/feed/", category: world, region: americas}
-  - {type: rss, name: CBC World,          url: "https://www.cbc.ca/webfeed/rss/rss-world", category: world, region: americas, ownership: public, enabled: false, note: "DISABLED: cbc.ca drops requests when USER_AGENT contains '+free news aggregator'; rss.cbc.ca/lineup feeds time out the same way (Nov 2026)."}
-  - {type: rss, name: CBC Canada,         url: "https://www.cbc.ca/webfeed/rss/rss-canada", category: world, region: americas, ownership: public, enabled: false, note: "DISABLED: cbc.ca drops requests when USER_AGENT contains '+free news aggregator'; rss.cbc.ca/lineup feeds time out the same way (Nov 2026)."}
+  - {type: rss, name: CBC World,          url: "https://www.cbc.ca/webfeed/rss/rss-world", category: world, region: americas, ownership: public, user_agent: "WorldBrief/0.1", note: "Canadian public broadcaster. cbc.ca resets connections when the User-Agent has a contact URL, so this source sends a plain one."}
+  - {type: rss, name: CBC Canada,         url: "https://www.cbc.ca/webfeed/rss/rss-canada", category: world, region: americas, ownership: public, user_agent: "WorldBrief/0.1", note: "Canadian public broadcaster. cbc.ca resets connections when the User-Agent has a contact URL, so this source sends a plain one."}
   - {type: rss, name: The Tyee,           url: "https://thetyee.ca/rss2.xml", category: world, region: americas, note: "Independent, progressive (Canada)."}
   - {type: rss, name: Global News Canada, url: "https://globalnews.ca/canada/feed/", category: world, region: americas, note: "Corus Entertainment (Canada)."}
   - {type: rss, name: Global News World,  url: "https://globalnews.ca/world/feed/", category: world, region: americas, note: "Corus Entertainment (Canada)."}
@@ -361,6 +363,7 @@ sources:
   # ═══════════════════════════ TECHNOLOGY ═══════════════════════════
   - {type: rss, name: BBC Technology,     url: "https://feeds.bbci.co.uk/news/technology/rss.xml", category: technology, ownership: public, limited_in: [US]}
   - {type: rss, name: Ars Technica,       url: "https://feeds.arstechnica.com/arstechnica/index", category: technology}
+  - {type: rss, name: The Verge,          url: "https://www.theverge.com/rss/index.xml", category: technology, note: "Vox Media. Most stories are free; some are for subscribers."}
   - {type: rss, name: TechCrunch,         url: "https://techcrunch.com/feed/", category: technology}
   - {type: rss, name: The Guardian Tech,  url: "https://www.theguardian.com/technology/rss", category: technology}
   - {type: hackernews, name: Hacker News, min_score: 200, category: technology}
@@ -413,8 +416,7 @@ sources:
   # Space & astronomy
   - {type: arxiv, name: arXiv Astrophysics, categories: [astro-ph.CO, astro-ph.HE, astro-ph.GA, astro-ph.EP], category: science, topic: space}
   - {type: rss,   name: NASA,             url: "https://www.nasa.gov/news-release/feed/", category: science, topic: space, ownership: public}
-  - {type: rss,   name: ESA Space News,   url: "https://www.esa.int/rssfeed/Our_Activities/Space_News", category: science, topic: space, ownership: public}
-  - {type: rss,   name: ESA Space Science, url: "https://www.esa.int/rssfeed/Our_Activities/Space_Science", category: science, topic: space, ownership: public}
+  - {type: rss,   name: ESA News,         url: "https://www.esa.int/rss/news.rss", category: science, topic: space, ownership: public}
   - {type: rss,   name: Space.com,        url: "https://www.space.com/feeds.xml", category: science, topic: space}
   # AI & machine learning
   - {type: hf_papers, name: Hugging Face Daily Papers, min_upvotes: 5, category: science, topic: ai, note: "Community-upvoted AI papers; links go to arXiv."}
@@ -432,7 +434,6 @@ sources:
   - {type: rss,   name: Phys.org Chemistry, url: "https://phys.org/rss-feed/chemistry-news/", category: science, topic: chemistry}
   # Earth science
   - {type: rss,   name: Phys.org Earth,   url: "https://phys.org/rss-feed/earth-news/", category: science, topic: earth}
-  - {type: rss,   name: ESA Observing the Earth, url: "https://www.esa.int/rssfeed/Our_Activities/Observing_the_Earth", category: science, topic: earth, ownership: public}
   - {type: rss,   name: Eos, url: "https://eos.org/feed", category: science, topic: earth, note: "News magazine of AGU, the nonprofit Earth and space science society."}
   # General science news
   - {type: rss,   name: Quanta Magazine,  url: "https://www.quantamagazine.org/feed/", category: science, topic: general, note: "Simons Foundation."}

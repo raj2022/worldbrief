@@ -79,7 +79,8 @@ class SourcePlugin(ABC):
                  topic: str = "", lang: str = "en", enabled: bool = True,
                  max_items: int = 30, timeout: float = 15.0,
                  ownership: str = "independent", note: str = "",
-                 limited_in: list[str] | None = None, **extra: Any):
+                 limited_in: list[str] | None = None, user_agent: str = "",
+                 **extra: Any):
         if ownership not in OWNERSHIP:
             raise ValueError(f"{name}: ownership must be one of {sorted(OWNERSHIP)}")
         self.name = name
@@ -95,6 +96,10 @@ class SourcePlugin(ABC):
         self.enabled = enabled
         self.max_items = max_items
         self.timeout = timeout
+        # A few publishers drop requests whose User-Agent has a contact URL or
+        # the word "aggregator" (cbc.ca resets the connection). Those sources set
+        # a plainer one; it still names WorldBrief, never a browser.
+        self.user_agent = user_agent or USER_AGENT
         self.extra = extra
 
     # Subclasses implement this. Raise on failure; the pipeline isolates errors.
@@ -105,7 +110,7 @@ class SourcePlugin(ABC):
     def http_get(self, url: str, params: dict | None = None):
         """GET with ETag/Last-Modified revalidation, so frequent polling
         costs publishers almost nothing when a feed hasn't changed."""
-        return httpcache.SHARED.get(url, params, {"User-Agent": USER_AGENT}, self.timeout)
+        return httpcache.SHARED.get(url, params, {"User-Agent": self.user_agent}, self.timeout)
 
     def make_article(self, **kw) -> Article:
         kw.setdefault("source", self.name)
